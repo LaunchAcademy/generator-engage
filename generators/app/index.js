@@ -2,38 +2,31 @@
 
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
-const yosay = require("yosay");
+const path = require("path");
 
 module.exports = class extends Generator {
-  prompting() {
-    // Have Yeoman greet the user.
-    this.log(
-      yosay(`Welcome to the gnarly ${chalk.red("generator-engage")} generator!`)
-    );
-
-    const prompts = [
-      {
-        type: "confirm",
-        name: "someAnswer",
-        message: "Would you like to enable this option?",
-        default: true
-      }
-    ];
-
-    return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-    });
-  }
-
-  writing() {
-    this.fs.copy(
-      this.templatePath("dummyfile.txt"),
-      this.destinationPath("dummyfile.txt")
-    );
+  sayHello() {
+    this.log(chalk.green("Engage!"));
   }
 
   install() {
-    this.installDependencies();
+    const fundamentalPackages = ["express", "body-parser", "morgan"];
+    this.yarnInstall(fundamentalPackages, { save: true });
+  }
+
+  writing() {
+    this.fs.copyTpl(
+      this.templatePath("package.json"),
+      this.destinationPath("package.json"),
+      { name: path.basename(this.destinationRoot()) }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath("app.js"),
+      this.destinationPath("app.js")
+    );
+
+    const publicDir = path.join(this.destinationPath("public"));
+    this.fs.write(path.join(publicDir, ".gitkeep"), "");
   }
 };
