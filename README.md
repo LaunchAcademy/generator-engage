@@ -1,4 +1,4 @@
-# generator-engage [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-engage [![NPM version][npm-image]][npm-url] [![Actions Status](https://github.com/LaunchAcademy/generator-engage/workflows/NodeJS%20CI/badge.svg)](https://github.com/LaunchAcademy/generator-engage/workflows/NodeJS%20CI/actions) [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
 > Launch Academy Node Template
 
 ## Installation
@@ -30,8 +30,6 @@ MIT © [Dan Pickett](https://launchacademy.com)
 
 [npm-image]: https://badge.fury.io/js/generator-engage.svg
 [npm-url]: https://npmjs.org/package/generator-engage
-[travis-image]: https://travis-ci.com/LaunchAcademy/generator-engage.svg?branch=master
-[travis-url]: https://travis-ci.com/LaunchAcademy/generator-engage
 [daviddm-image]: https://david-dm.org/LaunchAcademy/generator-engage.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/LaunchAcademy/generator-engage
 [coveralls-image]: https://coveralls.io/repos/LaunchAcademy/generator-engage/badge.svg
