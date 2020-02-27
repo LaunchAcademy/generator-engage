@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Dan Pickett",
+      "authorEmail": "dan.pickett@launchacademy.com",
+      "authorUrl": "https://launchacademy.com"
+    }
+  }
+}
