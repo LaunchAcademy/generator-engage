@@ -75,7 +75,8 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "ci": "jest --coverage"
   },
   "repository": "LaunchAcademy/generator-engage",
   "license": "MIT"
