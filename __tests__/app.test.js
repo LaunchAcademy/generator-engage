@@ -55,6 +55,10 @@ describe("generator-engage:app", () => {
       assert.file("public/.gitkeep");
     });
 
+    it("installs peer dependencies", () => {
+      expect(json.devDependencies["eslint-plugin-react"]).toBeDefined();
+    });
+
     it("adds a start script", () => {
       json = readPackageJson();
       expect(json.scripts.start).toEqual("node app.js");
@@ -91,6 +95,32 @@ describe("generator-engage:app", () => {
       it("creates a .gitignore", () => {
         assert.file(".gitignore");
       });
+    });
+  });
+
+  describe("handlebars", () => {
+    it("installs the handlebars middleware", () => {
+      expect(json.dependencies["express-handlebars"]).toBeDefined();
+    });
+
+    it("adds the handlebars middleware snippet", () => {
+      assert.fileContent("app.js", 'app.engine("hbs"');
+    });
+
+    it("adds the require of handlebars middleware", () => {
+      assert.fileContent("app.js", 'require("express-handlebars");');
+    });
+
+    it("adds a default layout", () => {
+      assert.file("views/layouts/default.hbs");
+    });
+
+    it("adds normalize css", () => {
+      assert.file("public/css/vendor/normalize.min.css");
+    });
+
+    it("adds a main.css", () => {
+      assert.file("public/css/main.css");
     });
   });
 });
