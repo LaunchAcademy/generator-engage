@@ -1,4 +1,3 @@
-"use strict";
 const path = require("path");
 const assert = require("yeoman-assert");
 const helpers = require("yeoman-test");
@@ -6,6 +5,12 @@ const fs = require("fs");
 
 describe("generator-engage:app", () => {
   let destinationRoot;
+
+  const readPackageJson = () => {
+    return JSON.parse(
+      fs.readFileSync(path.join(destinationRoot, "package.json"))
+    );
+  };
 
   beforeAll(() => {
     return helpers
@@ -21,9 +26,7 @@ describe("generator-engage:app", () => {
   });
 
   it("includes the express, morgan, and body-parser in deps", () => {
-    const json = JSON.parse(
-      fs.readFileSync(path.join(destinationRoot, "package.json"))
-    );
+    const json = readPackageJson();
     expect(json.dependencies).toBeDefined();
     expect(json.dependencies.express).toBeDefined();
     expect(json.dependencies.morgan).toBeDefined();
@@ -35,5 +38,23 @@ describe("generator-engage:app", () => {
 
   it("creates a public directory", () => {
     assert.file("public/.gitkeep");
+  });
+
+  it("adds a start script", () => {
+    const json = readPackageJson();
+    expect(json.scripts.start).toEqual("node app.js");
+  });
+
+  describe("nodemon", () => {
+    it("installs nodemon as a dev dependency", () => {
+      const json = readPackageJson();
+      expect(json.devDependencies.nodemon).toBeDefined();
+    });
+
+    it("adds a dev script with nodemon", () => {
+      const json = readPackageJson();
+      expect(json.scripts.dev).toBeDefined();
+      expect(json.scripts.dev).toEqual("nodemon app.js");
+    });
   });
 });
