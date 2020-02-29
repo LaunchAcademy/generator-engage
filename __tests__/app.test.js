@@ -24,6 +24,19 @@ describe("generator-engage:app", () => {
           assert.noFile("app.js");
         });
     });
+
+    it("errors if I specify an invalid test-framework", () => {
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .withOptions({ skipInstall: true, "test-framework": "badInput" })
+        .inTmpDir(dir => {
+          destinationRoot = dir;
+        })
+        .catch(err => {
+          expect(err.message).toMatch("Invalid view engine");
+          assert.noFile("app.js");
+        });
+    });
   });
 
   describe("happy path", () => {
@@ -104,7 +117,7 @@ describe("generator-engage:app", () => {
     });
 
     it("adds the handlebars middleware snippet", () => {
-      assert.fileContent("app.js", 'app.engine("hbs"');
+      assert.fileContent("app.js", '"hbs"');
     });
 
     it("adds the require of handlebars middleware", () => {
@@ -121,6 +134,35 @@ describe("generator-engage:app", () => {
 
     it("adds a main.css", () => {
       assert.file("public/css/main.css");
+    });
+  });
+
+  describe("jest", () => {
+    it("adds jest as a devDependency", () => {
+      expect(json.devDependencies.jest).toBeDefined();
+    });
+
+    it("adds a jest.config.js", () => {
+      assert.file("jest.config.js");
+    });
+
+    it("adds scripts for testing and CI", () => {
+      expect(json.scripts.test).toEqual("jest");
+      expect(json.scripts.ci).toEqual("jest --coverage");
+    });
+  });
+
+  describe("no view engine", () => {
+    it("does insert a view engine", () => {
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .withOptions({ skipInstall: true, "view-engine": "none" })
+        .inTmpDir(dir => {
+          destinationRoot = dir;
+        })
+        .then(() => {
+          assert.noFileContent("app.js", 'app.set("views")');
+        });
     });
   });
 });

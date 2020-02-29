@@ -4,7 +4,8 @@ const path = require("path");
 const insertAfter = require("../../lib/insertAfter");
 
 const serverFilePath = "app.js";
-const supportedViewEngines = ["handlebars"];
+const supportedViewEngines = ["handlebars", "none"];
+const supportedTestFrameworks = ["jest"];
 
 module.exports = class extends Generator {
   constructor(args, options) {
@@ -14,12 +15,31 @@ module.exports = class extends Generator {
     this.option("view-engine", {
       default: supportedViewEngines[0],
       type: String,
-      description: "What view engine to use (only handlebars is supported currently)"
+      description: `View engine to use (only handlebars is supported currently) valid values are: ${supportedViewEngines.join(
+        ","
+      )})`
     });
+
+    this.option("test-framework", {
+      default: supportedTestFrameworks[0],
+      type: String,
+      description: `Test framework to use (only jest is supported currently) valid values are: ${supportedTestFrameworks.join(
+        ","
+      )}`
+    });
+
+    this.errors = [];
   }
 
   initializing() {
     this._validateViewEngine();
+    this._validateTestFramework();
+
+    if (this.errors.length > 0) {
+      const done = this.async();
+      this.env.error(chalk.red(this.errors.join("\n")));
+      done();
+    }
   }
 
   sayHello() {
@@ -41,13 +61,14 @@ module.exports = class extends Generator {
   }
 
   nodemon() {
-    const packageJson = this.fs.readJSON("package.json");
-    if (!packageJson.scripts) {
-      packageJson.scripts = {};
-    }
+    this._modifyJson("package.json", json => {
+      if (!json.scripts) {
+        json.scripts = {};
+      }
 
-    packageJson.scripts.dev = `nodemon ${serverFilePath}`;
-    this.fs.writeJSON("package.json", packageJson);
+      json.scripts.dev = `nodemon ${serverFilePath}`;
+    });
+
     this._addDependencies("nodemon", { dev: true });
   }
 
@@ -68,33 +89,53 @@ module.exports = class extends Generator {
   }
 
   handlebars() {
-    this._addDependencies(["express-handlebars"]);
-    // eslint-disable-next-line no-unused-vars
-    insertAfter(this, "snippets/handlebars/middleware.js", serverFilePath, nodePath => {
-      return (
-        nodePath.type === "VariableDeclaration" &&
-        nodePath.node.declarations.length === 1 &&
-        nodePath.node.declarations[0].id.name === "app"
-      );
-    });
-
-    insertAfter(this, "snippets/handlebars/requires.js", serverFilePath, nodePath => {
-      return (
-        nodePath.type === "VariableDeclaration" &&
-        nodePath.node.declarations.length === 1 &&
-        nodePath.node.declarations[0].id.name === "bodyParser"
-      );
-    });
-
-    [
-      "public/css/vendor/normalize.min.css",
-      "public/css/main.css",
-      "views/layouts/default.hbs"
-    ].forEach(file => {
-      this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
-        name: path.basename(this.destinationRoot())
+    if (this.options["view-engine"] === "handlebars") {
+      this._addDependencies(["express-handlebars"]);
+      // eslint-disable-next-line no-unused-vars
+      insertAfter(this, "snippets/handlebars/middleware.js", serverFilePath, nodePath => {
+        return (
+          nodePath.type === "VariableDeclaration" &&
+          nodePath.node.declarations.length === 1 &&
+          nodePath.node.declarations[0].id.name === "app"
+        );
       });
-    });
+
+      insertAfter(this, "snippets/handlebars/requires.js", serverFilePath, nodePath => {
+        return (
+          nodePath.type === "VariableDeclaration" &&
+          nodePath.node.declarations.length === 1 &&
+          nodePath.node.declarations[0].id.name === "bodyParser"
+        );
+      });
+
+      [
+        "public/css/vendor/normalize.min.css",
+        "public/css/main.css",
+        "views/layouts/default.hbs"
+      ].forEach(file => {
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
+          name: path.basename(this.destinationRoot())
+        });
+      });
+    }
+  }
+
+  jest() {
+    if (this.options["test-framework"] === "jest") {
+      this._addDependencies("jest", { dev: true });
+      ["jest.config.js"].forEach(file => {
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)));
+      });
+
+      this._modifyJson("package.json", json => {
+        if (!json.scripts) {
+          json.scripts = {};
+        }
+
+        json.scripts.test = "jest";
+        json.scripts.ci = "jest --coverage";
+      });
+    }
   }
 
   install() {
@@ -116,14 +157,27 @@ module.exports = class extends Generator {
       this.options["view-engine"] &&
       !supportedViewEngines.includes(this.options["view-engine"])
     ) {
-      const done = this.async();
-      this.env.error(
-        chalk.red(
-          `Invalid view engine supplied. Valid options are: ${supportedViewEngines.join(",")}`
-        )
-      );
-      done();
+      this._validateWhitelistedOption("view-engine", supportedViewEngines, "view engine");
     }
+  }
+
+  _validateTestFramework() {
+    this._validateWhitelistedOption("jest", supportedTestFrameworks, "test framework");
+  }
+
+  _validateWhitelistedOption(optionName, validValues, humanName) {
+    if (this.options[optionName] && !validValues.includes(this.options[optionName])) {
+      const errorMessage = `Invalid ${humanName} supplied. Valid options are: ${validValues.join(
+        ","
+      )}`;
+      this.errors.push(errorMessage);
+    }
+  }
+
+  _modifyJson(jsonPath, jsonModifier) {
+    const json = this.fs.readJSON(this.destinationPath(jsonPath));
+    jsonModifier(json);
+    this.fs.writeJSON(jsonPath, json);
   }
 
   _addDependencies(packages, { dev = false } = {}) {
