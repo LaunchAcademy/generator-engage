@@ -5,11 +5,10 @@ const fs = require("fs");
 
 describe("generator-engage:app", () => {
   let destinationRoot;
+  let json;
 
   const readPackageJson = () => {
-    return JSON.parse(
-      fs.readFileSync(path.join(destinationRoot, "package.json"))
-    );
+    return JSON.parse(fs.readFileSync(path.join(destinationRoot, "package.json")));
   };
 
   beforeAll(() => {
@@ -26,7 +25,7 @@ describe("generator-engage:app", () => {
   });
 
   it("includes the express, morgan, and body-parser in deps", () => {
-    const json = readPackageJson();
+    json = readPackageJson();
     expect(json.dependencies).toBeDefined();
     expect(json.dependencies.express).toBeDefined();
     expect(json.dependencies.morgan).toBeDefined();
@@ -41,20 +40,40 @@ describe("generator-engage:app", () => {
   });
 
   it("adds a start script", () => {
-    const json = readPackageJson();
+    json = readPackageJson();
     expect(json.scripts.start).toEqual("node app.js");
   });
 
   describe("nodemon", () => {
     it("installs nodemon as a dev dependency", () => {
-      const json = readPackageJson();
       expect(json.devDependencies.nodemon).toBeDefined();
     });
 
     it("adds a dev script with nodemon", () => {
-      const json = readPackageJson();
       expect(json.scripts.dev).toBeDefined();
       expect(json.scripts.dev).toEqual("nodemon app.js");
+    });
+  });
+
+  describe("linters", () => {
+    it("uses airbnb", () => {
+      expect(json.devDependencies["eslint-config-airbnb"]).toBeDefined();
+    });
+
+    it("installs peerdependencies", () => {
+      expect(json.devDependencies["eslint-plugin-react"]).toBeDefined();
+    });
+
+    it("creates an .eslintrc", () => {
+      assert.file(".eslintrc");
+    });
+
+    it("creates a .prettierrc", () => {
+      assert.file(".prettierrc");
+    });
+
+    it("creates a .gitignore", () => {
+      assert.file(".gitignore");
     });
   });
 });
