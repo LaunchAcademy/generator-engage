@@ -123,4 +123,18 @@ describe("generator-engage:app", () => {
       assert.file("public/css/main.css");
     });
   });
+
+  describe("no view engine", () => {
+    it("does insert a view engine", () => {
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .withOptions({ skipInstall: true, "view-engine": "none" })
+        .inTmpDir(dir => {
+          destinationRoot = dir;
+        })
+        .then(() => {
+          assert.noFileContent("app.js", 'app.set("views")');
+        });
+    });
+  });
 });

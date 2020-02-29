@@ -4,7 +4,7 @@ const path = require("path");
 const insertAfter = require("../../lib/insertAfter");
 
 const serverFilePath = "app.js";
-const supportedViewEngines = ["handlebars"];
+const supportedViewEngines = ["handlebars", "none"];
 
 module.exports = class extends Generator {
   constructor(args, options) {
@@ -68,33 +68,35 @@ module.exports = class extends Generator {
   }
 
   handlebars() {
-    this._addDependencies(["express-handlebars"]);
-    // eslint-disable-next-line no-unused-vars
-    insertAfter(this, "snippets/handlebars/middleware.js", serverFilePath, nodePath => {
-      return (
-        nodePath.type === "VariableDeclaration" &&
-        nodePath.node.declarations.length === 1 &&
-        nodePath.node.declarations[0].id.name === "app"
-      );
-    });
-
-    insertAfter(this, "snippets/handlebars/requires.js", serverFilePath, nodePath => {
-      return (
-        nodePath.type === "VariableDeclaration" &&
-        nodePath.node.declarations.length === 1 &&
-        nodePath.node.declarations[0].id.name === "bodyParser"
-      );
-    });
-
-    [
-      "public/css/vendor/normalize.min.css",
-      "public/css/main.css",
-      "views/layouts/default.hbs"
-    ].forEach(file => {
-      this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
-        name: path.basename(this.destinationRoot())
+    if (this.options["view-engine"] === "handlebars") {
+      this._addDependencies(["express-handlebars"]);
+      // eslint-disable-next-line no-unused-vars
+      insertAfter(this, "snippets/handlebars/middleware.js", serverFilePath, nodePath => {
+        return (
+          nodePath.type === "VariableDeclaration" &&
+          nodePath.node.declarations.length === 1 &&
+          nodePath.node.declarations[0].id.name === "app"
+        );
       });
-    });
+
+      insertAfter(this, "snippets/handlebars/requires.js", serverFilePath, nodePath => {
+        return (
+          nodePath.type === "VariableDeclaration" &&
+          nodePath.node.declarations.length === 1 &&
+          nodePath.node.declarations[0].id.name === "bodyParser"
+        );
+      });
+
+      [
+        "public/css/vendor/normalize.min.css",
+        "public/css/main.css",
+        "views/layouts/default.hbs"
+      ].forEach(file => {
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
+          name: path.basename(this.destinationRoot())
+        });
+      });
+    }
   }
 
   install() {
