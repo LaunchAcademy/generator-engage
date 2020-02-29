@@ -2,5 +2,7 @@
   "scripts": {
     "start": "node <%= appPath %>"
   },
+  "license": "UNLICENSED",
+  "private": true,
   "name": "<%= name %>"
 }
