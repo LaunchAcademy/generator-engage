@@ -104,7 +104,7 @@ describe("generator-engage:app", () => {
     });
 
     it("adds the handlebars middleware snippet", () => {
-      assert.fileContent("app.js", 'app.engine("hbs"');
+      assert.fileContent("app.js", '"hbs"');
     });
 
     it("adds the require of handlebars middleware", () => {
