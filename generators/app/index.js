@@ -40,6 +40,10 @@ module.exports = class extends Generator {
     this.errors = [];
   }
 
+  get testFramework() {
+    return this.option["test-framework"];
+  }
+
   initializing() {
     this._validateViewEngine();
     this._validateTestFramework();
@@ -165,6 +169,22 @@ module.exports = class extends Generator {
     this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("Procfile"));
   }
 
+  dotEnv() {
+    this._addDependencies("dotenv", { dev: true });
+    [
+      ".env.example",
+      "src/boot/index.js",
+      "src/boot/environments/development.js",
+      "src/boot/environments/test.js"
+    ].forEach(filePath => {
+      this._copyTemplate(filePath);
+    });
+
+    if (this.testFramwork !== "none") {
+      this._copyTemplate("test/testHelper.js");
+    }
+  }
+
   install() {
     this.yarnInstall(this.devDependencies, { dev: true });
     this.yarnInstall(this.dependencies, { save: true });
@@ -224,5 +244,9 @@ module.exports = class extends Generator {
     } else {
       this.dependencies = [...this.dependencies, ...packageList];
     }
+  }
+
+  _copyTemplate(filePath, options = {}) {
+    return this.fs.copyTpl(this.templatePath(filePath), this.destinationPath(filePath), options);
   }
 };

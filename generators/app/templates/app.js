@@ -3,6 +3,8 @@ const path = require("path");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 
+require("./src/boot");
+
 const app = express();
 
 app.use(logger("dev"));
