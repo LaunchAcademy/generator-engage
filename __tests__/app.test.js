@@ -206,6 +206,12 @@ describe("generator-engage:app", () => {
     });
   });
 
+  describe("nvmrc", () => {
+    it("creates an nvmrc with the relevant version", () => {
+      assert.fileContent(".nvmrc", process.version);
+    });
+  });
+
   describe("no view engine", () => {
     it("does insert a view engine", () => {
       return helpers
