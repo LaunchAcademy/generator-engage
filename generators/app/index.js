@@ -185,6 +185,10 @@ module.exports = class extends Generator {
     }
   }
 
+  nvmrc() {
+    this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath(".nvmrc"));
+  }
+
   install() {
     this.yarnInstall(this.devDependencies, { dev: true });
     this.yarnInstall(this.dependencies, { save: true });
