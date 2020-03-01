@@ -12,7 +12,7 @@ describe("generator-engage:app", () => {
   };
 
   describe("running the generator improperly", () => {
-    it("errors if I specify an invalid view engine", () => {
+    it("errors if I specify an invalid view engine", done => {
       return helpers
         .run(path.join(__dirname, "../generators/app"))
         .withOptions({ skipInstall: true, "view-engine": "badInput" })
@@ -22,10 +22,11 @@ describe("generator-engage:app", () => {
         .catch(err => {
           expect(err.message).toMatch("Invalid view engine");
           assert.noFile("app.js");
+          done();
         });
     });
 
-    it("errors if I specify an invalid test-framework", () => {
+    it("errors if I specify an invalid test-framework", done => {
       return helpers
         .run(path.join(__dirname, "../generators/app"))
         .withOptions({ skipInstall: true, "test-framework": "badInput" })
@@ -33,8 +34,23 @@ describe("generator-engage:app", () => {
           destinationRoot = dir;
         })
         .catch(err => {
-          expect(err.message).toMatch("Invalid view engine");
+          expect(err.message).toMatch("Invalid test framework");
           assert.noFile("app.js");
+          done();
+        });
+    });
+
+    it("errors if I specify an invalid test-framework", done => {
+      return helpers
+        .run(path.join(__dirname, "../generators/app"))
+        .withOptions({ skipInstall: true, "db-client": "badInput" })
+        .inTmpDir(dir => {
+          destinationRoot = dir;
+        })
+        .catch(err => {
+          expect(err.message).toMatch("Invalid database client");
+          assert.noFile("app.js");
+          done();
         });
     });
   });
@@ -149,6 +165,38 @@ describe("generator-engage:app", () => {
     it("adds scripts for testing and CI", () => {
       expect(json.scripts.test).toEqual("jest");
       expect(json.scripts.ci).toEqual("jest --coverage");
+    });
+  });
+
+  describe("sequelize", () => {
+    it("adds a sequelizerrc", () => {
+      assert.file(".sequelizerc");
+    });
+
+    it("adds a database.js config file", () => {
+      assert.file("config/database.js");
+    });
+
+    it("adds a src/db/migrations folder", () => {
+      const filePath = path.join(destinationRoot, "src/db/migrations");
+      expect(fs.existsSync(filePath)).toBe(true);
+    });
+
+    it("adds a src/db/seeders file", () => {
+      const filePath = path.join(destinationRoot, "src/db/seeders");
+      expect(fs.existsSync(filePath)).toBe(true);
+    });
+
+    it("adds pg as a dependency", () => {
+      expect(json.dependencies.pg).toBeDefined();
+    });
+
+    it("adds sequelize as a dependency", () => {
+      expect(json.dependencies.sequelize).toBeDefined();
+    });
+
+    it("adds sequelize-cli as a dev dependency", () => {
+      expect(json.devDependencies["sequelize-cli"]).toBeDefined();
     });
   });
 
