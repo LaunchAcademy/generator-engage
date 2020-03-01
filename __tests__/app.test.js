@@ -56,12 +56,18 @@ describe("generator-engage:app", () => {
   });
 
   describe("happy path", () => {
-    beforeAll(() => {
+    beforeAll(done => {
       return helpers
         .run(path.join(__dirname, "../generators/app"), { skipInstall: false })
         .withOptions({ skipInstall: false })
         .inTmpDir(dir => {
           destinationRoot = dir;
+        })
+        .catch(() => {
+          return done.fail("command failed");
+        })
+        .then(() => {
+          done();
         });
     });
 
@@ -203,6 +209,28 @@ describe("generator-engage:app", () => {
   describe("procfile", () => {
     it("creates a procfile", () => {
       assert.file("Procfile");
+    });
+  });
+
+  describe("dotenv", () => {
+    it("adds dotenv as a dev dependency", () => {
+      expect(json.devDependencies.dotenv).toBeDefined();
+    });
+
+    it("creates a src/boot/index.js", () => {
+      assert.file("src/boot/index.js");
+    });
+
+    it("creates a src/boot/development.js", () => {
+      assert.file("src/boot/environments/development.js");
+    });
+
+    it("creates a src/boot/test.js", () => {
+      assert.file("src/boot/environments/test.js");
+    });
+
+    it("creates a test/testHelper.js", () => {
+      assert.file("test/testHelper.js");
     });
   });
 

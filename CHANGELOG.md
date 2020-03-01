@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Dotenv support for dev and test environments
 - Heroku Procfile
 - Initial sequelize support - generate a config, models folder, migrations folder and seeds folder
 - NormalizeCSS along with some modernized opinions
