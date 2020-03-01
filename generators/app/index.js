@@ -6,6 +6,7 @@ const insertAfter = require("../../lib/insertAfter");
 const serverFilePath = "app.js";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
+const supportedDbClients = ["sequelize"];
 
 module.exports = class extends Generator {
   constructor(args, options) {
@@ -28,12 +29,21 @@ module.exports = class extends Generator {
       )}`
     });
 
+    this.option("db-client", {
+      default: supportedDbClients[0],
+      type: String,
+      description: `Database "client"/ORM to use (only sequelize is supported currently) valid values are: ${supportedDbClients.join(
+        ","
+      )}`
+    });
+
     this.errors = [];
   }
 
   initializing() {
     this._validateViewEngine();
     this._validateTestFramework();
+    this._validateDbClient();
 
     if (this.errors.length > 0) {
       const done = this.async();
@@ -138,6 +148,19 @@ module.exports = class extends Generator {
     }
   }
 
+  sequelize() {
+    if (this.options["db-client"] === "sequelize") {
+      this._addDependencies(["sequelize", "pg"]);
+      this._addDependencies("sequelize-cli", { dev: true });
+
+      [".sequelizerc", "config/database.js"].forEach(file => {
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)), {
+          name: path.basename(this.destinationRoot())
+        });
+      });
+    }
+  }
+
   install() {
     this.yarnInstall(this.devDependencies, { dev: true });
     this.yarnInstall(this.dependencies, { save: true });
@@ -150,6 +173,12 @@ module.exports = class extends Generator {
         cwd: this.destinationRoot()
       });
     });
+
+    if (this.options["db-client"] === "sequelize") {
+      this.spawnCommandSync("yarn", ["run", "sequelize", "init:migrations"]);
+      this.spawnCommandSync("yarn", ["run", "sequelize", "init:seeders"]);
+      this.spawnCommandSync("yarn", ["sequelize", "init:models"]);
+    }
   }
 
   _validateViewEngine() {
@@ -162,7 +191,11 @@ module.exports = class extends Generator {
   }
 
   _validateTestFramework() {
-    this._validateWhitelistedOption("jest", supportedTestFrameworks, "test framework");
+    this._validateWhitelistedOption("test-framework", supportedTestFrameworks, "test framework");
+  }
+
+  _validateDbClient() {
+    this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
   }
 
   _validateWhitelistedOption(optionName, validValues, humanName) {
