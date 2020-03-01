@@ -161,6 +161,10 @@ module.exports = class extends Generator {
     }
   }
 
+  herokuProcfile() {
+    this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("Procfile"));
+  }
+
   install() {
     this.yarnInstall(this.devDependencies, { dev: true });
     this.yarnInstall(this.dependencies, { save: true });

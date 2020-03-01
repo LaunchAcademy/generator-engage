@@ -200,6 +200,12 @@ describe("generator-engage:app", () => {
     });
   });
 
+  describe("procfile", () => {
+    it("creates a procfile", () => {
+      assert.file("Procfile");
+    });
+  });
+
   describe("no view engine", () => {
     it("does insert a view engine", () => {
       return helpers
