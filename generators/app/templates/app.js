@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const addEnvironmentMiddlewares = require("./src/middlewares/addEnvironmentMiddlewares");
+const configuration = require("./config");
 
 require("./src/boot");
 
@@ -14,7 +16,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
+addEnvironmentMiddlewares(app);
+
+app.listen(configuration.web.port, configuration.web.host, () => {
   console.log("Server is listening...");
 });
 
