@@ -185,6 +185,18 @@ module.exports = class extends Generator {
     }
   }
 
+  config() {
+    this._addDependencies("errorhandler", { dev: true });
+    [
+      "src/middlewares/environments/addDevelopmentMiddlewares.js",
+      "src/middlewares/addEnvironmentMiddlewares.js",
+      "src/middlewares/errorHandler.js",
+      "config/index.js"
+    ].forEach(filePath => {
+      this._copyTemplate(filePath);
+    });
+  }
+
   nvmrc() {
     this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath(".nvmrc"));
   }

@@ -63,8 +63,8 @@ describe("generator-engage:app", () => {
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
-        .catch(() => {
-          return done.fail("command failed");
+        .catch(err => {
+          throw err;
         })
         .then(() => {
           done();
@@ -237,6 +237,23 @@ describe("generator-engage:app", () => {
   describe("nvmrc", () => {
     it("creates an nvmrc with the relevant version", () => {
       assert.fileContent(".nvmrc", process.version);
+    });
+  });
+
+  describe("error handler", () => {
+    it("includes errorhandler as a devDependency", () => {
+      expect(json.devDependencies.errorhandler).toBeDefined();
+    });
+
+    it("is found in the development middlewares", () => {
+      assert.fileContent(
+        "src/middlewares/environments/addDevelopmentMiddlewares.js",
+        "errorHandler"
+      );
+    });
+
+    it("creates an errorHandler file", () => {
+      assert.file("src/middlewares/errorHandler.js");
     });
   });
 
