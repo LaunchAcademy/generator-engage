@@ -1,1 +1,1 @@
-require("../src/boot");
+import("../src/boot");

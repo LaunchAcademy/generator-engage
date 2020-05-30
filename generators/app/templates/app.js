@@ -1,18 +1,18 @@
-const express = require("express");
-const path = require("path");
-const logger = require("morgan");
-const bodyParser = require("body-parser");
-const addEnvironmentMiddlewares = require("./src/middlewares/addEnvironmentMiddlewares");
-const configuration = require("./config");
+import express from "express";
+import path from "path";
+import logger from "morgan";
+import bodyParser from "body-parser";
+import addEnvironmentMiddlewares from "./src/middlewares/addEnvironmentMiddlewares.cjs";
+import configuration from "./config/index";
 
-require("./src/boot");
+import("./src/boot/index.cjs");
 
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(import.meta.url, "../public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -22,4 +22,4 @@ app.listen(configuration.web.port, configuration.web.host, () => {
   console.log("Server is listening...");
 });
 
-module.exports = app;
+export default app;

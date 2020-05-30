@@ -1,7 +1,7 @@
-import Generator from "yeoman-generator";
-import chalk from "chalk";
-import path from "path";
-import insertAfter from "../../lib/insertAfter";
+const Generator = require("yeoman-generator");
+const chalk = require("chalk");
+const path = require("path");
+const insertAfter = require("../../lib/insertAfter");
 
 const serverFilePath = "app.js";
 const supportedViewEngines = ["handlebars", "none"];
@@ -87,7 +87,7 @@ module.exports = class extends Generator {
   }
 
   linters() {
-    [".eslintrc", ".gitignore", ".prettierrc"].forEach(file => {
+    [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach(file => {
       this.fs.copyTpl(this.templatePath(file), this.destinationPath(file));
     });
 
@@ -118,7 +118,7 @@ module.exports = class extends Generator {
         return (
           nodePath.type === "VariableDeclaration" &&
           nodePath.node.declarations.length === 1 &&
-          nodePath.node.declarations[0].id.name === "bodyParser"
+          nodePath.node.declarations[0].id.name === "app"
         );
       });
 
@@ -136,8 +136,10 @@ module.exports = class extends Generator {
 
   jest() {
     if (this.options["test-framework"] === "jest") {
-      this._addDependencies("jest", { dev: true });
-      ["jest.config.js"].forEach(file => {
+      this._addDependencies(["jest", "babel-jest", "@babel/core", "@babel/preset-env"], {
+        dev: true
+      });
+      ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)));
       });
 
@@ -173,7 +175,7 @@ module.exports = class extends Generator {
     this._addDependencies("dotenv", { dev: true });
     [
       ".env.example",
-      "src/boot/index.js",
+      "src/boot/index.cjs",
       "src/boot/environments/development.js",
       "src/boot/environments/test.js"
     ].forEach(filePath => {
@@ -189,9 +191,9 @@ module.exports = class extends Generator {
     this._addDependencies("errorhandler", { dev: true });
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
-      "src/middlewares/addEnvironmentMiddlewares.js",
+      "src/middlewares/addEnvironmentMiddlewares.cjs",
       "src/middlewares/errorHandler.js",
-      "config/index.js"
+      "config.js"
     ].forEach(filePath => {
       this._copyTemplate(filePath);
     });
@@ -215,9 +217,16 @@ module.exports = class extends Generator {
     });
 
     if (this.options["db-client"] === "sequelize") {
-      this.spawnCommandSync("yarn", ["run", "sequelize", "init:migrations"]);
-      this.spawnCommandSync("yarn", ["run", "sequelize", "init:seeders"]);
-      this.spawnCommandSync("yarn", ["sequelize", "init:models"]);
+      const sequelizeCmd = `sequelize`;
+      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:migrations"], {
+        cwd: this.destinationRoot()
+      });
+      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:seeders"], {
+        cwd: this.destinationRoot()
+      });
+      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:models"], {
+        cwd: this.destinationRoot()
+      });
     }
   }
 

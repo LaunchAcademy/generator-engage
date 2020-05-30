@@ -1,3 +1,3 @@
-const errorHandler = require("errorhandler");
+import errorHandler from "errorhandler";
 
-module.exports = errorHandler;
+export default errorHandler;

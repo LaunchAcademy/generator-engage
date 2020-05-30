@@ -1,7 +1,7 @@
-const errorHandler = require("../errorHandler");
+import errorHandler from "../errorHandler";
 
 addDevelopmentMiddlewares = app => {
   app.use(errorHandler());
 };
 
-module.exports = addDevelopmentMiddlewares;
+export default addDevelopmentMiddlewares;
