@@ -1,7 +1,7 @@
-const Generator = require("yeoman-generator");
-const chalk = require("chalk");
-const path = require("path");
-const insertAfter = require("../../lib/insertAfter");
+import Generator from "yeoman-generator";
+import chalk from "chalk";
+import path from "path";
+import insertAfter from "../../lib/insertAfter";
 
 const serverFilePath = "app.js";
 const supportedViewEngines = ["handlebars", "none"];

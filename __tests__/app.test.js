@@ -1,7 +1,7 @@
-const path = require("path");
-const assert = require("yeoman-assert");
-const helpers = require("yeoman-test");
-const fs = require("fs");
+import path from "path";
+import assert from "yeoman-assert";
+import helpers from "yeoman-test";
+import fs from "fs";
 
 describe("generator-engage:app", () => {
   let destinationRoot;
