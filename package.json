@@ -1,6 +1,6 @@
 {
   "name": "generator-engage",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "Launch Academy Node Template",
   "homepage": "https://launchacademy.com",
   "author": {
@@ -19,23 +19,28 @@
     "yeoman-generator"
   ],
   "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/plugin-syntax-import-meta": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "babel-jest": "^26.0.1",
     "coveralls": "^3.0.7",
-    "eslint": "6.1.0",
-    "eslint-config-airbnb": "18.0.1",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb": "18.1.0",
     "eslint-config-prettier": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.0.9",
     "install-peerdeps": "^2.0.1",
-    "jest": "^24.8.0",
+    "jest": "^26",
     "lint-staged": "^9.4.3",
     "yeoman-assert": "^3.1.0",
     "yeoman-test": "^1.7.0"
   },
   "engines": {
+    "node": ">= 12",
     "npm": ">= 4.0.0"
   },
   "dependencies": {
@@ -43,6 +48,7 @@
     "@babel/parser": "^7.8.6",
     "@babel/traverse": "^7.8.6",
     "chalk": "^2.1.0",
+    "dotenv": "^8.2.0",
     "prettier": "^1.19.1",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
@@ -66,10 +72,11 @@
     }
   },
   "scripts": {
-    "pretest": "eslint .",
-    "test": "jest",
-    "ci": "jest --coverage"
+    "pretest": "./node_modules/.bin/eslint .",
+    "test": "./node_modules/.bin/jest",
+    "ci": "./node_modules/.bin/jest --coverage"
   },
+  "type": "module",
   "repository": "LaunchAcademy/generator-engage",
   "license": "MIT"
 }

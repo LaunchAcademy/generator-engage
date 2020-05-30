@@ -1,4 +1,4 @@
-const url = require("url");
+import url from "url";
 
 const urlParser = dbUrl => {
   if (!dbUrl) return null;
@@ -18,7 +18,7 @@ const urlParser = dbUrl => {
 
 const dbConfig = urlParser(process.env.DATABASE_URL);
 
-module.exports = {
+export default {
   development: {
     username: null,
     password: null,
