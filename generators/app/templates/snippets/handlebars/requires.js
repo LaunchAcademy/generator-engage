@@ -1,1 +1,1 @@
-const hbsMiddleware = require("express-handlebars");
+import hbsMiddleware from "express-handlebars";

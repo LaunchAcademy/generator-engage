@@ -1,7 +1,9 @@
-const path = require("path");
-const assert = require("yeoman-assert");
-const helpers = require("yeoman-test");
-const fs = require("fs");
+import path from "path";
+import assert from "yeoman-assert";
+import helpers from "yeoman-test";
+import fs from "fs";
+
+const generatorPath = path.join(__dirname, "../generators/app/index.cjs");
 
 describe("generator-engage:app", () => {
   let destinationRoot;
@@ -14,7 +16,7 @@ describe("generator-engage:app", () => {
   describe("running the generator improperly", () => {
     it("errors if I specify an invalid view engine", done => {
       return helpers
-        .run(path.join(__dirname, "../generators/app"))
+        .run(generatorPath)
         .withOptions({ skipInstall: true, "view-engine": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
@@ -28,7 +30,7 @@ describe("generator-engage:app", () => {
 
     it("errors if I specify an invalid test-framework", done => {
       return helpers
-        .run(path.join(__dirname, "../generators/app"))
+        .run(generatorPath)
         .withOptions({ skipInstall: true, "test-framework": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
@@ -42,7 +44,7 @@ describe("generator-engage:app", () => {
 
     it("errors if I specify an invalid test-framework", done => {
       return helpers
-        .run(path.join(__dirname, "../generators/app"))
+        .run(generatorPath)
         .withOptions({ skipInstall: true, "db-client": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
@@ -58,7 +60,7 @@ describe("generator-engage:app", () => {
   describe("happy path", () => {
     beforeAll(done => {
       return helpers
-        .run(path.join(__dirname, "../generators/app"), { skipInstall: false })
+        .run(generatorPath, { skipInstall: false })
         .withOptions({ skipInstall: false })
         .inTmpDir(dir => {
           destinationRoot = dir;
@@ -120,7 +122,7 @@ describe("generator-engage:app", () => {
       });
 
       it("creates an .eslintrc", () => {
-        assert.file(".eslintrc");
+        assert.file(".eslintrc.cjs");
       });
 
       it("creates a .prettierrc", () => {
@@ -143,7 +145,7 @@ describe("generator-engage:app", () => {
     });
 
     it("adds the require of handlebars middleware", () => {
-      assert.fileContent("app.js", 'require("express-handlebars");');
+      assert.fileContent("app.js", 'from "express-handlebars";');
     });
 
     it("adds a default layout", () => {
@@ -164,8 +166,12 @@ describe("generator-engage:app", () => {
       expect(json.devDependencies.jest).toBeDefined();
     });
 
-    it("adds a jest.config.js", () => {
-      assert.file("jest.config.js");
+    it("adds a jest.config.cjs", () => {
+      assert.file("jest.config.cjs");
+    });
+
+    it("adds a babel.config.cjs", () => {
+      assert.file("babel.config.cjs");
     });
 
     it("adds scripts for testing and CI", () => {
@@ -217,8 +223,8 @@ describe("generator-engage:app", () => {
       expect(json.devDependencies.dotenv).toBeDefined();
     });
 
-    it("creates a src/boot/index.js", () => {
-      assert.file("src/boot/index.js");
+    it("creates a src/boot/index.cjs", () => {
+      assert.file("src/boot/index.cjs");
     });
 
     it("creates a src/boot/development.js", () => {
@@ -260,7 +266,7 @@ describe("generator-engage:app", () => {
   describe("no view engine", () => {
     it("does insert a view engine", () => {
       return helpers
-        .run(path.join(__dirname, "../generators/app"))
+        .run(generatorPath)
         .withOptions({ skipInstall: true, "view-engine": "none" })
         .inTmpDir(dir => {
           destinationRoot = dir;
