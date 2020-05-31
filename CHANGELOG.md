@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- `express-session` support [#18](https://github.com/LaunchAcademy/generator-engage/issues/18)
+
+### Changed
+
+- Runtime on ESM with Jest tests remaining with the babel transpiler. Yeoman constrains us to commonJS for the library itself ([#29](https://github.com/LaunchAcademy/generator-engage/issues/29))
+
 ## [0.1.2](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.1.2)
 
 ### Added

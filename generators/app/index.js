@@ -1,6 +1,7 @@
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 const insertAfter = require("../../lib/insertAfter");
 
 const serverFilePath = "app.js";
@@ -8,7 +9,7 @@ const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
 const supportedDbClients = ["sequelize"];
 
-module.exports = class extends Generator {
+module.exports = class AppGenerator extends Generator {
   constructor(args, options) {
     super(args, options);
     this.dependencies = [];
@@ -37,11 +38,13 @@ module.exports = class extends Generator {
       )}`
     });
 
-    this.errors = [];
-  }
+    this.option("sessions-enabled", {
+      default: true,
+      type: Boolean,
+      description: "Whether express-session should be configured"
+    });
 
-  get testFramework() {
-    return this.option["test-framework"];
+    this.errors = [];
   }
 
   initializing() {
@@ -96,6 +99,7 @@ module.exports = class extends Generator {
       "eslint-config-airbnb",
       "eslint-plugin-import",
       "eslint-plugin-prettier",
+      "eslint-config-prettier",
       "install-peerdeps"
     ];
 
@@ -182,7 +186,7 @@ module.exports = class extends Generator {
       this._copyTemplate(filePath);
     });
 
-    if (this.testFramwork !== "none") {
+    if (this.options["test-framework"] !== "none") {
       this._copyTemplate("test/testHelper.js");
     }
   }
@@ -192,11 +196,33 @@ module.exports = class extends Generator {
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
       "src/middlewares/addEnvironmentMiddlewares.cjs",
+      "src/middlewares/addMiddlewares.js",
       "src/middlewares/errorHandler.js",
-      "config.js"
+      "config/index.js"
     ].forEach(filePath => {
-      this._copyTemplate(filePath);
+      this._copyTemplate(filePath, { options: this.options });
     });
+  }
+
+  secretsHandling() {
+    ["scripts/generate-secret.js"].forEach(script => {
+      this._copyTemplate(script);
+    });
+  }
+
+  expressSession() {
+    if (this.options["sessions-enabled"]) {
+      this._addDependencies("express-session");
+      this._copyTemplate("src/middlewares/addExpressSession.js");
+      this._modifyJson("package.json", json => {
+        if (!json.scripts) {
+          json.scripts = {};
+        }
+
+        json.scripts["generate-secret"] = `./scripts/generate-secret.js`;
+      });
+      this.fs.write(".env", `SESSION_SECRET="${uuidv4()}"\n`);
+    }
   }
 
   nvmrc() {

@@ -2,8 +2,8 @@ import express from "express";
 import path from "path";
 import logger from "morgan";
 import bodyParser from "body-parser";
-import addEnvironmentMiddlewares from "./src/middlewares/addEnvironmentMiddlewares.cjs";
-import configuration from "./config/index";
+import addMiddlewares from "./src/middlewares/addMiddlewares.js";
+import configuration from "./config/index.js";
 
 import("./src/boot/index.cjs");
 
@@ -16,7 +16,7 @@ app.use(express.static(path.join(import.meta.url, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-addEnvironmentMiddlewares(app);
+addMiddlewares(app);
 
 app.listen(configuration.web.port, configuration.web.host, () => {
   console.log("Server is listening...");
