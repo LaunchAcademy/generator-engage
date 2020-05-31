@@ -3,7 +3,7 @@ import assert from "yeoman-assert";
 import helpers from "yeoman-test";
 import fs from "fs";
 
-const generatorPath = path.join(__dirname, "../generators/app/index.cjs");
+const generatorPath = path.join(__dirname, "../generators/app");
 
 describe("generator-engage:app", () => {
   let destinationRoot;
@@ -260,6 +260,29 @@ describe("generator-engage:app", () => {
 
     it("creates an errorHandler file", () => {
       assert.file("src/middlewares/errorHandler.js");
+    });
+  });
+
+  describe("express-session", () => {
+    it("introduces the express-session middleware", () => {
+      assert.fileContent("src/middlewares/addExpressSession.js", "express-session");
+    });
+
+    it("creates a script for randomly generating a string", () => {
+      assert.file("scripts/generate-secret.js");
+    });
+
+    it("adds a script in package.json for generating a secret", () => {
+      expect(json.scripts["generate-secret"]).toBeDefined();
+    });
+
+    it("adds express-session as a dependency", () => {
+      expect(json.dependencies["express-session"]).toBeDefined();
+    });
+
+    it("generates a secret and puts it in the .env file", () => {
+      assert.file(".env");
+      assert.fileContent(".env", "SESSION_SECRET");
     });
   });
 
