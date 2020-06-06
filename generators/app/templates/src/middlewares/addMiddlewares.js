@@ -1,6 +1,6 @@
-import addEnvironmentMiddlewares from "./addEnvironmentMiddlewares.cjs";
+import addEnvironmentMiddlewares from "./addEnvironmentMiddlewares.js";
 <% if(options["sessions-enabled"]) { -%>
-import addExpressSession from "./addExpressSession";
+import addExpressSession from "./addExpressSession.js";
 <% } -%>
 
 const addMiddlewares = app => {

@@ -186,7 +186,7 @@ describe("generator-engage:app", () => {
     });
 
     it("adds a database.js config file", () => {
-      assert.file("config/database.js");
+      assert.file("src/config/database.js");
     });
 
     it("adds a src/db/migrations folder", () => {
@@ -223,8 +223,8 @@ describe("generator-engage:app", () => {
       expect(json.devDependencies.dotenv).toBeDefined();
     });
 
-    it("creates a src/boot/index.cjs", () => {
-      assert.file("src/boot/index.cjs");
+    it("creates a src/boot.js", () => {
+      assert.file("src/boot.js");
     });
 
     it("creates a src/boot/development.js", () => {

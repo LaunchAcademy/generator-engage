@@ -2,10 +2,9 @@ import express from "express";
 import path from "path";
 import logger from "morgan";
 import bodyParser from "body-parser";
+import "./src/boot.js";
+import configuration from "./src/config.js";
 import addMiddlewares from "./src/middlewares/addMiddlewares.js";
-import configuration from "./config/index.js";
-
-import("./src/boot/index.cjs");
 
 const app = express();
 
