@@ -166,6 +166,10 @@ describe("generator-engage:app", () => {
       expect(json.devDependencies.jest).toBeDefined();
     });
 
+    it("adds @types/jest as a devDependency", () => {
+      expect(json.devDependencies["@types/jest"]).toBeDefined();
+    });
+
     it("adds a jest.config.cjs", () => {
       assert.file("jest.config.cjs");
     });

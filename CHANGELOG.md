@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `express-session` support [#18](https://github.com/LaunchAcademy/generator-engage/issues/18)
+- `@types/jest` as a dev dependency
 
 ### Changed
 

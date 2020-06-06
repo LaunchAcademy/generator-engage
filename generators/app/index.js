@@ -140,9 +140,12 @@ module.exports = class AppGenerator extends Generator {
 
   jest() {
     if (this.options["test-framework"] === "jest") {
-      this._addDependencies(["jest", "babel-jest", "@babel/core", "@babel/preset-env"], {
-        dev: true
-      });
+      this._addDependencies(
+        ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
+        {
+          dev: true
+        }
+      );
       ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)));
       });
