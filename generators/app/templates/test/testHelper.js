@@ -1,1 +1,1 @@
-import("../src/boot");
+import("../src/boot.js");

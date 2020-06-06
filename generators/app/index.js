@@ -166,7 +166,7 @@ module.exports = class AppGenerator extends Generator {
       this._addDependencies(["sequelize", "pg"]);
       this._addDependencies("sequelize-cli", { dev: true });
 
-      [".sequelizerc", "config/database.js"].forEach(file => {
+      [".sequelizerc", "src/config/database.js"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)), {
           name: path.basename(this.destinationRoot())
         });
@@ -182,7 +182,7 @@ module.exports = class AppGenerator extends Generator {
     this._addDependencies("dotenv", { dev: true });
     [
       ".env.example",
-      "src/boot/index.cjs",
+      "src/boot.js",
       "src/boot/environments/development.js",
       "src/boot/environments/test.js"
     ].forEach(filePath => {
@@ -198,10 +198,11 @@ module.exports = class AppGenerator extends Generator {
     this._addDependencies("errorhandler", { dev: true });
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
-      "src/middlewares/addEnvironmentMiddlewares.cjs",
+      "src/middlewares/addEnvironmentMiddlewares.js",
       "src/middlewares/addMiddlewares.js",
       "src/middlewares/errorHandler.js",
-      "config/index.js"
+      "src/config/getNodeEnv.js",
+      "src/config.js"
     ].forEach(filePath => {
       this._copyTemplate(filePath, { options: this.options });
     });

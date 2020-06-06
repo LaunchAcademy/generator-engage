@@ -1,7 +1,10 @@
-import errorHandler from "../errorHandler";
+import errorHandler from "../errorHandler.js";
+import config from "../../config.js";
 
-addDevelopmentMiddlewares = app => {
-  app.use(errorHandler());
+const addDevelopmentMiddlewares = app => {
+  if (config.nodeEnv === "development") {
+    app.use(errorHandler());
+  }
 };
 
 export default addDevelopmentMiddlewares;

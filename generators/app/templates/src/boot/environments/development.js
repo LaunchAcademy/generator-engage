@@ -1,2 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config();
+import getNodeEnv from "../../config/getNodeEnv.js";
+
+if (getNodeEnv() === "development") {
+  // development specific middlewares here
+  dotenv.config();
+}
