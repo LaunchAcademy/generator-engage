@@ -3,14 +3,14 @@ import assert from "yeoman-assert";
 import helpers from "yeoman-test";
 import fs from "fs";
 
-const generatorPath = path.join(__dirname, "../generators/app");
+const generatorPath = path.join(__dirname, "../generators/server");
 
-describe("generator-engage:app", () => {
+describe("generator-engage:server", () => {
   let destinationRoot;
   let json;
 
   const readPackageJson = () => {
-    return JSON.parse(fs.readFileSync(path.join(destinationRoot, "package.json")));
+    return JSON.parse(fs.readFileSync(path.join(destinationRoot, "server/package.json")));
   };
 
   describe("running the generator improperly", () => {
@@ -23,7 +23,7 @@ describe("generator-engage:app", () => {
         })
         .catch(err => {
           expect(err.message).toMatch("Invalid view engine");
-          assert.noFile("app.js");
+          assert.noFile("server/app.js");
           done();
         });
     });
@@ -37,7 +37,7 @@ describe("generator-engage:app", () => {
         })
         .catch(err => {
           expect(err.message).toMatch("Invalid test framework");
-          assert.noFile("app.js");
+          assert.noFile("server/app.js");
           done();
         });
     });
@@ -51,7 +51,7 @@ describe("generator-engage:app", () => {
         })
         .catch(err => {
           expect(err.message).toMatch("Invalid database client");
-          assert.noFile("app.js");
+          assert.noFile("server/app.js");
           done();
         });
     });
@@ -74,7 +74,7 @@ describe("generator-engage:app", () => {
     });
 
     it("creates a package.json", () => {
-      assert.file("package.json");
+      assert.file("server/package.json");
     });
 
     it("includes the express, morgan, and body-parser in deps", () => {
@@ -85,11 +85,11 @@ describe("generator-engage:app", () => {
     });
 
     it("creates an app.js file", () => {
-      assert.file("app.js");
+      assert.file("server/app.js");
     });
 
     it("creates a public directory", () => {
-      assert.file("public/.gitkeep");
+      assert.file("server/public/.gitkeep");
     });
 
     it("installs peer dependencies", () => {
@@ -141,23 +141,23 @@ describe("generator-engage:app", () => {
     });
 
     it("adds the handlebars middleware snippet", () => {
-      assert.fileContent("app.js", '"hbs"');
+      assert.fileContent("server/app.js", '"hbs"');
     });
 
     it("adds the require of handlebars middleware", () => {
-      assert.fileContent("app.js", 'from "express-handlebars";');
+      assert.fileContent("server/app.js", 'from "express-handlebars";');
     });
 
     it("adds a default layout", () => {
-      assert.file("views/layouts/default.hbs");
+      assert.file("server/views/layouts/default.hbs");
     });
 
     it("adds normalize css", () => {
-      assert.file("public/css/vendor/normalize.min.css");
+      assert.file("server/public/css/vendor/normalize.min.css");
     });
 
     it("adds a main.css", () => {
-      assert.file("public/css/main.css");
+      assert.file("server/public/css/main.css");
     });
   });
 
@@ -167,11 +167,11 @@ describe("generator-engage:app", () => {
     });
 
     it("adds a jest.config.cjs", () => {
-      assert.file("jest.config.cjs");
+      assert.file("server/jest.config.cjs");
     });
 
     it("adds a babel.config.cjs", () => {
-      assert.file("babel.config.cjs");
+      assert.file("server/babel.config.cjs");
     });
 
     it("adds scripts for testing and CI", () => {
@@ -182,20 +182,20 @@ describe("generator-engage:app", () => {
 
   describe("sequelize", () => {
     it("adds a sequelizerrc", () => {
-      assert.file(".sequelizerc");
+      assert.file("server/.sequelizerc");
     });
 
     it("adds a database.js config file", () => {
-      assert.file("config/database.js");
+      assert.file("server/config/database.js");
     });
 
     it("adds a src/db/migrations folder", () => {
-      const filePath = path.join(destinationRoot, "src/db/migrations");
+      const filePath = path.join(destinationRoot, "server/src/db/migrations");
       expect(fs.existsSync(filePath)).toBe(true);
     });
 
     it("adds a src/db/seeders file", () => {
-      const filePath = path.join(destinationRoot, "src/db/seeders");
+      const filePath = path.join(destinationRoot, "server/src/db/seeders");
       expect(fs.existsSync(filePath)).toBe(true);
     });
 
@@ -224,19 +224,19 @@ describe("generator-engage:app", () => {
     });
 
     it("creates a src/boot/index.cjs", () => {
-      assert.file("src/boot/index.cjs");
+      assert.file("server/src/boot/index.cjs");
     });
 
     it("creates a src/boot/development.js", () => {
-      assert.file("src/boot/environments/development.js");
+      assert.file("server/src/boot/environments/development.js");
     });
 
     it("creates a src/boot/test.js", () => {
-      assert.file("src/boot/environments/test.js");
+      assert.file("server/src/boot/environments/test.js");
     });
 
     it("creates a test/testHelper.js", () => {
-      assert.file("test/testHelper.js");
+      assert.file("server/test/testHelper.js");
     });
   });
 
@@ -253,23 +253,23 @@ describe("generator-engage:app", () => {
 
     it("is found in the development middlewares", () => {
       assert.fileContent(
-        "src/middlewares/environments/addDevelopmentMiddlewares.js",
+        "server/src/middlewares/environments/addDevelopmentMiddlewares.js",
         "errorHandler"
       );
     });
 
     it("creates an errorHandler file", () => {
-      assert.file("src/middlewares/errorHandler.js");
+      assert.file("server/src/middlewares/errorHandler.js");
     });
   });
 
   describe("express-session", () => {
     it("introduces the express-session middleware", () => {
-      assert.fileContent("src/middlewares/addExpressSession.js", "express-session");
+      assert.fileContent("server/src/middlewares/addExpressSession.js", "express-session");
     });
 
     it("creates a script for randomly generating a string", () => {
-      assert.file("scripts/generate-secret.js");
+      assert.file("server/scripts/generate-secret.js");
     });
 
     it("adds a script in package.json for generating a secret", () => {
@@ -281,8 +281,8 @@ describe("generator-engage:app", () => {
     });
 
     it("generates a secret and puts it in the .env file", () => {
-      assert.file(".env");
-      assert.fileContent(".env", "SESSION_SECRET");
+      assert.file("server/.env");
+      assert.fileContent("server/.env", "SESSION_SECRET");
     });
   });
 
@@ -295,7 +295,7 @@ describe("generator-engage:app", () => {
           destinationRoot = dir;
         })
         .then(() => {
-          assert.noFileContent("app.js", 'app.set("views")');
+          assert.noFileContent("server/app.js", 'app.set("views")');
         });
     });
   });
