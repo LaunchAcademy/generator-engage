@@ -88,7 +88,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       json.scripts.dev = `nodemon ${serverFileName}`;
     });
 
-    this._addDependencies("nodemon", { dev: true });
+    this._addDependencies("nodemon", null, { dev: true });
   }
 
   linters() {
@@ -105,7 +105,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       "install-peerdeps"
     ];
 
-    this._addDependencies(lintPackages, { dev: true });
+    this._addDependencies(lintPackages, null, { dev: true });
   }
 
   handlebars() {
@@ -142,7 +142,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   jest() {
     if (this.options["test-framework"] === "jest") {
-      this._addDependencies(["jest", "babel-jest", "@babel/core", "@babel/preset-env"], {
+      this._addDependencies(["jest", "babel-jest", "@babel/core", "@babel/preset-env"], null, {
         dev: true
       });
       ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
@@ -163,7 +163,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   sequelize() {
     if (this.options["db-client"] === "sequelize") {
       this._addDependencies(["sequelize", "pg"]);
-      this._addDependencies("sequelize-cli", { dev: true });
+      this._addDependencies("sequelize-cli", null, { dev: true });
 
       [".sequelizerc", "config/database.js"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
@@ -178,7 +178,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   dotEnv() {
-    this._addDependencies("dotenv", { dev: true });
+    this._addDependencies("dotenv", null, { dev: true });
     [
       ".env.example",
       "src/boot/index.cjs",
@@ -194,7 +194,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   config() {
-    this._addDependencies("errorhandler", { dev: true });
+    this._addDependencies("errorhandler", null, { dev: true });
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
       "src/middlewares/addEnvironmentMiddlewares.cjs",
@@ -229,6 +229,10 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   nvmrc() {
     this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath("../.nvmrc"));
+  }
+
+  install() {
+    this._install();
   }
 
   end() {
