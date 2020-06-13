@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `express-session` support [#18](https://github.com/LaunchAcademy/generator-engage/issues/18)
 - react configuration and separate client namespace in the filesystem [#14](https://github.com/LaunchAcademy/generator-engage/issues/18)
+- upgrade ESM so that CJS modules are no longer used [#34](https://github.com/LaunchAcademy/generator-engage/issues/34)
+- `@types/jest` as a dev dependency
 
 ### Changed
 

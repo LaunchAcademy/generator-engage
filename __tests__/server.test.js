@@ -166,6 +166,10 @@ describe("generator-engage:server", () => {
       expect(json.devDependencies.jest).toBeDefined();
     });
 
+    it("adds @types/jest as a devDependency", () => {
+      expect(json.devDependencies["@types/jest"]).toBeDefined();
+    });
+
     it("adds a jest.config.cjs", () => {
       assert.file("server/jest.config.cjs");
     });
@@ -186,7 +190,7 @@ describe("generator-engage:server", () => {
     });
 
     it("adds a database.js config file", () => {
-      assert.file("server/config/database.js");
+      assert.file("server/src/config/database.js");
     });
 
     it("adds a src/db/migrations folder", () => {
@@ -223,8 +227,8 @@ describe("generator-engage:server", () => {
       expect(json.devDependencies.dotenv).toBeDefined();
     });
 
-    it("creates a src/boot/index.cjs", () => {
-      assert.file("server/src/boot/index.cjs");
+    it("creates a src/boot.js", () => {
+      assert.file("server/src/boot.js");
     });
 
     it("creates a src/boot/development.js", () => {

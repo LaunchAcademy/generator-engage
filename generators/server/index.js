@@ -142,9 +142,13 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   jest() {
     if (this.options["test-framework"] === "jest") {
-      this._addDependencies(["jest", "babel-jest", "@babel/core", "@babel/preset-env"], null, {
-        dev: true
-      });
+      this._addDependencies(
+        ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
+        null,
+        {
+          dev: true
+        }
+      );
       ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(file));
       });
@@ -165,7 +169,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       this._addDependencies(["sequelize", "pg"]);
       this._addDependencies("sequelize-cli", null, { dev: true });
 
-      [".sequelizerc", "config/database.js"].forEach(file => {
+      [".sequelizerc", "src/config/database.js"].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
           name: path.basename(this.destinationPath())
         });
@@ -181,7 +185,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
     this._addDependencies("dotenv", null, { dev: true });
     [
       ".env.example",
-      "src/boot/index.cjs",
+      "src/boot.js",
       "src/boot/environments/development.js",
       "src/boot/environments/test.js"
     ].forEach(filePath => {
@@ -197,10 +201,11 @@ module.exports = class ServerGenerator extends EngageGenerator {
     this._addDependencies("errorhandler", null, { dev: true });
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
-      "src/middlewares/addEnvironmentMiddlewares.cjs",
+      "src/middlewares/addEnvironmentMiddlewares.js",
       "src/middlewares/addMiddlewares.js",
       "src/middlewares/errorHandler.js",
-      "config/index.js"
+      "src/config/getNodeEnv.js",
+      "src/config.js"
     ].forEach(filePath => {
       this._copyTemplate(filePath, { options: this.options });
     });

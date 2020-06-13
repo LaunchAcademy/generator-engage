@@ -1,2 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config();
+import getNodeEnv from "../../config/getNodeEnv.js";
+
+if (getNodeEnv() === "test") {
+  // test specific middlewares here
+  dotenv.config();
+}

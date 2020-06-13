@@ -1,5 +1,7 @@
+import getNodeEnv from "./config/getNodeEnv.js";
+
 export default {
-  nodeEnv: process.env.NODE_ENV || "development",
+  nodeEnv: getNodeEnv(),
 <% if(options["sessions-enabled"]) { -%>
   session: { secret: process.env.SESSION_SECRET },
 <% } -%>
