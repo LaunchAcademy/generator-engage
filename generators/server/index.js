@@ -1,7 +1,8 @@
-const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+
+const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
 
 const serverFileName = "app.js";
@@ -10,11 +11,9 @@ const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
 const supportedDbClients = ["sequelize"];
 
-module.exports = class ServerGenerator extends Generator {
+module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.dependencies = [];
-    this.devDependencies = [];
     this.option("view-engine", {
       default: supportedViewEngines[0],
       type: String,
@@ -232,11 +231,6 @@ module.exports = class ServerGenerator extends Generator {
     this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath("../.nvmrc"));
   }
 
-  install() {
-    this.yarnInstall(this.devDependencies, { dev: true }, { cwd: this.destinationPath() });
-    this.yarnInstall(this.dependencies, { save: true, cwd: this.destinationPath() });
-  }
-
   end() {
     const peerDepPackages = ["eslint-config-airbnb"];
     peerDepPackages.forEach(pkg => {
@@ -276,33 +270,5 @@ module.exports = class ServerGenerator extends Generator {
 
   _validateDbClient() {
     this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
-  }
-
-  _validateWhitelistedOption(optionName, validValues, humanName) {
-    if (this.options[optionName] && !validValues.includes(this.options[optionName])) {
-      const errorMessage = `Invalid ${humanName} supplied. Valid options are: ${validValues.join(
-        ","
-      )}`;
-      this.errors.push(errorMessage);
-    }
-  }
-
-  _modifyJson(jsonPath, jsonModifier) {
-    const json = this.fs.readJSON(this.destinationPath(jsonPath));
-    jsonModifier(json);
-    this.fs.writeJSON(this.destinationPath(jsonPath), json);
-  }
-
-  _addDependencies(packages, { dev = false } = {}) {
-    const packageList = Array.isArray(packages) ? packages : [packages];
-    if (dev) {
-      this.devDependencies = [...this.devDependencies, ...packageList];
-    } else {
-      this.dependencies = [...this.dependencies, ...packageList];
-    }
-  }
-
-  _copyTemplate(filePath, options = {}) {
-    return this.fs.copyTpl(this.templatePath(filePath), this.destinationPath(filePath), options);
   }
 };
