@@ -1,0 +1,6 @@
+{
+  "scripts": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "name": "<%= name %>-client"
+}

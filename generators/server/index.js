@@ -1,19 +1,19 @@
-const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+
+const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
 
-const serverFilePath = "app.js";
+const serverFileName = "app.js";
+const pathPrefix = "server";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
 const supportedDbClients = ["sequelize"];
 
-module.exports = class AppGenerator extends Generator {
+module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.dependencies = [];
-    this.devDependencies = [];
     this.option("view-engine", {
       default: supportedViewEngines[0],
       type: String,
@@ -44,6 +44,9 @@ module.exports = class AppGenerator extends Generator {
       description: "Whether express-session should be configured"
     });
 
+    this.originalRoot = this.destinationPath();
+    this.destinationRoot(pathPrefix);
+
     this.errors = [];
   }
 
@@ -67,14 +70,13 @@ module.exports = class AppGenerator extends Generator {
     const fundamentalPackages = ["express", "body-parser", "morgan"];
     this._addDependencies(fundamentalPackages);
     this.fs.copyTpl(this.templatePath("package.json"), this.destinationPath("package.json"), {
-      name: path.basename(this.destinationRoot()),
-      appPath: serverFilePath
+      name: path.basename(this.destinationPath("../")),
+      appPath: serverFileName
     });
 
-    this.fs.copyTpl(this.templatePath("app.js"), this.destinationPath(serverFilePath));
+    this.fs.copyTpl(this.templatePath("app.js"), this.destinationPath(serverFileName));
 
-    const publicDir = path.join(this.destinationPath("public"));
-    this.fs.write(path.join(publicDir, ".gitkeep"), "");
+    this.fs.write(this.destinationPath("public", ".gitkeep"), "");
   }
 
   nodemon() {
@@ -83,15 +85,15 @@ module.exports = class AppGenerator extends Generator {
         json.scripts = {};
       }
 
-      json.scripts.dev = `nodemon ${serverFilePath}`;
+      json.scripts.dev = `nodemon ${serverFileName}`;
     });
 
-    this._addDependencies("nodemon", { dev: true });
+    this._addDependencies("nodemon", null, { dev: true });
   }
 
   linters() {
     [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach(file => {
-      this.fs.copyTpl(this.templatePath(file), this.destinationPath(file));
+      this.fs.copyTpl(this.templatePath(file), this.destinationPath("..", file));
     });
 
     const lintPackages = [
@@ -103,14 +105,14 @@ module.exports = class AppGenerator extends Generator {
       "install-peerdeps"
     ];
 
-    this._addDependencies(lintPackages, { dev: true });
+    this._addDependencies(lintPackages, null, { dev: true });
   }
 
   handlebars() {
     if (this.options["view-engine"] === "handlebars") {
       this._addDependencies(["express-handlebars"]);
       // eslint-disable-next-line no-unused-vars
-      insertAfter(this, "snippets/handlebars/middleware.js", serverFilePath, nodePath => {
+      insertAfter(this, "snippets/handlebars/middleware.js", serverFileName, nodePath => {
         return (
           nodePath.type === "VariableDeclaration" &&
           nodePath.node.declarations.length === 1 &&
@@ -118,7 +120,7 @@ module.exports = class AppGenerator extends Generator {
         );
       });
 
-      insertAfter(this, "snippets/handlebars/requires.js", serverFilePath, nodePath => {
+      insertAfter(this, "snippets/handlebars/requires.js", serverFileName, nodePath => {
         return (
           nodePath.type === "VariableDeclaration" &&
           nodePath.node.declarations.length === 1 &&
@@ -132,7 +134,7 @@ module.exports = class AppGenerator extends Generator {
         "views/layouts/default.hbs"
       ].forEach(file => {
         this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
-          name: path.basename(this.destinationRoot())
+          name: path.basename(this.destinationPath(".."))
         });
       });
     }
@@ -142,12 +144,13 @@ module.exports = class AppGenerator extends Generator {
     if (this.options["test-framework"] === "jest") {
       this._addDependencies(
         ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
+        null,
         {
           dev: true
         }
       );
       ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
-        this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)));
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file));
       });
 
       this._modifyJson("package.json", json => {
@@ -164,22 +167,22 @@ module.exports = class AppGenerator extends Generator {
   sequelize() {
     if (this.options["db-client"] === "sequelize") {
       this._addDependencies(["sequelize", "pg"]);
-      this._addDependencies("sequelize-cli", { dev: true });
+      this._addDependencies("sequelize-cli", null, { dev: true });
 
       [".sequelizerc", "src/config/database.js"].forEach(file => {
-        this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.destinationPath(file)), {
-          name: path.basename(this.destinationRoot())
+        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
+          name: path.basename(this.destinationPath())
         });
       });
     }
   }
 
   herokuProcfile() {
-    this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("Procfile"));
+    this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("../Procfile"));
   }
 
   dotEnv() {
-    this._addDependencies("dotenv", { dev: true });
+    this._addDependencies("dotenv", null, { dev: true });
     [
       ".env.example",
       "src/boot.js",
@@ -195,7 +198,7 @@ module.exports = class AppGenerator extends Generator {
   }
 
   config() {
-    this._addDependencies("errorhandler", { dev: true });
+    this._addDependencies("errorhandler", null, { dev: true });
     [
       "src/middlewares/environments/addDevelopmentMiddlewares.js",
       "src/middlewares/addEnvironmentMiddlewares.js",
@@ -225,39 +228,40 @@ module.exports = class AppGenerator extends Generator {
 
         json.scripts["generate-secret"] = `./scripts/generate-secret.js`;
       });
-      this.fs.write(".env", `SESSION_SECRET="${uuidv4()}"\n`);
+      this.fs.write(`.env`, `SESSION_SECRET="${uuidv4()}"\n`);
     }
   }
 
   nvmrc() {
-    this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath(".nvmrc"));
+    this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath("../.nvmrc"));
   }
 
   install() {
-    this.yarnInstall(this.devDependencies, { dev: true });
-    this.yarnInstall(this.dependencies, { save: true });
+    this._install();
   }
 
   end() {
     const peerDepPackages = ["eslint-config-airbnb"];
     peerDepPackages.forEach(pkg => {
       this.spawnCommandSync("yarn", ["run", "install-peerdeps", "--dev", "-Y", pkg], {
-        cwd: this.destinationRoot()
+        cwd: this.destinationPath()
       });
     });
 
     if (this.options["db-client"] === "sequelize") {
       const sequelizeCmd = `sequelize`;
       this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:migrations"], {
-        cwd: this.destinationRoot()
+        cwd: this.destinationPath()
       });
       this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:seeders"], {
-        cwd: this.destinationRoot()
+        cwd: this.destinationPath()
       });
       this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:models"], {
-        cwd: this.destinationRoot()
+        cwd: this.destinationPath()
       });
     }
+
+    this.destinationRoot(this.originalRoot);
   }
 
   _validateViewEngine() {
@@ -275,33 +279,5 @@ module.exports = class AppGenerator extends Generator {
 
   _validateDbClient() {
     this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
-  }
-
-  _validateWhitelistedOption(optionName, validValues, humanName) {
-    if (this.options[optionName] && !validValues.includes(this.options[optionName])) {
-      const errorMessage = `Invalid ${humanName} supplied. Valid options are: ${validValues.join(
-        ","
-      )}`;
-      this.errors.push(errorMessage);
-    }
-  }
-
-  _modifyJson(jsonPath, jsonModifier) {
-    const json = this.fs.readJSON(this.destinationPath(jsonPath));
-    jsonModifier(json);
-    this.fs.writeJSON(jsonPath, json);
-  }
-
-  _addDependencies(packages, { dev = false } = {}) {
-    const packageList = Array.isArray(packages) ? packages : [packages];
-    if (dev) {
-      this.devDependencies = [...this.devDependencies, ...packageList];
-    } else {
-      this.dependencies = [...this.dependencies, ...packageList];
-    }
-  }
-
-  _copyTemplate(filePath, options = {}) {
-    return this.fs.copyTpl(this.templatePath(filePath), this.destinationPath(filePath), options);
   }
 };
