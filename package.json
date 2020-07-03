@@ -9,7 +9,8 @@
     "url": "https://launchacademy.com"
   },
   "files": [
-    "generators"
+    "generators",
+    "lib"
   ],
   "main": "generators/app/index.js",
   "keywords": [
