@@ -42,19 +42,19 @@ describe("generator-engage:server", () => {
         });
     });
 
-    it.todo("errors if I specify an invalid test-framework", done => {
-      return helpers
-        .run(generatorPath)
-        .withOptions({ skipInstall: true, "db-client": "badInput" })
-        .inTmpDir(dir => {
-          destinationRoot = dir;
-        })
-        .catch(err => {
-          expect(err.message).toMatch("Invalid database client");
-          assert.noFile("server/app.js");
-          done();
-        });
-    });
+    // it.todo("errors if I specify an invalid test-framework", done => {
+    //   return helpers
+    //     .run(generatorPath)
+    //     .withOptions({ skipInstall: true, "db-client": "badInput" })
+    //     .inTmpDir(dir => {
+    //       destinationRoot = dir;
+    //     })
+    //     .catch(err => {
+    //       expect(err.message).toMatch("Invalid database client");
+    //       assert.noFile("server/app.js");
+    //       done();
+    //     });
+    // });
   });
 
   describe("happy path", () => {
