@@ -18,20 +18,20 @@ const reactDependencies = {
   react: "~16.13",
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
-  "react-router-dom": "~5.2"
+  "react-router-dom": "~5.2",
 };
 
 const reactDevDependencies = {
   webpack: "~4.0",
   "webpack-cli": "~3.3.11",
-  "webpack-dev-server": "~3.11"
+  "webpack-dev-server": "~3.11",
 };
 class ClientGenerator extends EngageGenerator {
   writeBase() {
     ["package.json", "webpack.config.js", "babel.config.js", "public/index.html"].forEach(
-      filePath => {
+      (filePath) => {
         this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
-          name: path.basename(this.generatedPath("../"))
+          name: path.basename(this.generatedPath("../")),
         });
       }
     );
@@ -42,15 +42,15 @@ class ClientGenerator extends EngageGenerator {
   }
 
   react() {
-    Object.keys(reactDependencies).forEach(dep => {
+    Object.keys(reactDependencies).forEach((dep) => {
       this._addDependencies(dep, reactDependencies[dep]);
     });
 
-    Object.keys(reactDevDependencies).forEach(dep => {
+    Object.keys(reactDevDependencies).forEach((dep) => {
       this._addDependencies(dep, reactDevDependencies[dep], { dev: true });
     });
 
-    ["src/components/App.jsx", "src/index.js", "src/config.js"].forEach(filePath => {
+    ["src/components/App.jsx", "src/index.js", "src/config.js"].forEach((filePath) => {
       this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
     });
   }

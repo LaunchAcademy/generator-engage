@@ -14,58 +14,44 @@ describe("generator-engage:server", () => {
   };
 
   describe("running the generator improperly", () => {
-    it("errors if I specify an invalid view engine", done => {
+    it("errors if I specify an invalid view engine", (done) => {
       return helpers
         .run(generatorPath)
         .withOptions({ skipInstall: true, generateInto: "server", "view-engine": "badInput" })
-        .inTmpDir(dir => {
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
-        .catch(err => {
+        .catch((err) => {
           expect(err.message).toMatch("Invalid view engine");
           assert.noFile("server/app.js");
           done();
         });
     });
 
-    it("errors if I specify an invalid test-framework", done => {
+    it("errors if I specify an invalid test-framework", (done) => {
       return helpers
         .run(generatorPath)
         .withOptions({ skipInstall: true, generateInto: "server", "test-framework": "badInput" })
-        .inTmpDir(dir => {
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
-        .catch(err => {
+        .catch((err) => {
           expect(err.message).toMatch("Invalid test framework");
           assert.noFile("server/app.js");
           done();
         });
     });
-
-    // it.todo("errors if I specify an invalid test-framework", done => {
-    //   return helpers
-    //     .run(generatorPath)
-    //     .withOptions({ skipInstall: true, "generateInto": "server", "db-client": "badInput" })
-    //     .inTmpDir(dir => {
-    //       destinationRoot = dir;
-    //     })
-    //     .catch(err => {
-    //       expect(err.message).toMatch("Invalid database client");
-    //       assert.noFile("server/app.js");
-    //       done();
-    //     });
-    // });
   });
 
   describe("happy path", () => {
-    beforeAll(done => {
+    beforeAll((done) => {
       return helpers
         .run(generatorPath, { skipInstall: false })
-        .withOptions({ skipInstall: false, generateInto: "server" })
-        .inTmpDir(dir => {
+        .withOptions({ skipInstall: false, generateInto: "server", "db-client": "pg" })
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         })
         .then(() => {
@@ -258,12 +244,28 @@ describe("generator-engage:server", () => {
     });
   });
 
+  describe("pg database option", () => {
+    it("installs pg as a dependency", () => {
+      expect(json.dependencies.pg).toBeDefined();
+    });
+    it("configures a database url", () => {
+      assert.fileContent("server/src/config.js", "databaseUrl:");
+    });
+    it("includes a getDatabaseUrl function", () => {
+      assert.file("server/src/config/getDatabaseUrl.js");
+    });
+    it("adds db middleware to app.js", () => {
+      assert.file("server/src/middlewares/addDbMiddleware.js");
+      assert.fileContent("server/src/middlewares/addMiddlewares.js", "addDbMiddleware(");
+    });
+  });
+
   describe("no view engine", () => {
     it("does insert a view engine", () => {
       return helpers
         .run(generatorPath)
         .withOptions({ skipInstall: true, "view-engine": "none", generateInto: "server" })
-        .inTmpDir(dir => {
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
         .then(() => {
