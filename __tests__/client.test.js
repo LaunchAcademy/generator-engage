@@ -14,14 +14,14 @@ describe("generator-engage:client", () => {
   };
 
   describe("happy path", () => {
-    beforeAll(done => {
+    beforeAll((done) => {
       return helpers
         .run(generatorPath, { skipInstall: false })
         .withOptions({ skipInstall: false, generateInto: "client" })
-        .inTmpDir(dir => {
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         })
         .then(() => {

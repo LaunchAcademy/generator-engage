@@ -8,8 +8,7 @@ const insertAfter = require("../../lib/insertAfter");
 const serverFileName = "app.js";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
-// eslint-disable-next-line no-unused-vars
-const supportedDbClients = [];
+const supportedDbClients = ["pg"];
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
@@ -19,7 +18,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       type: String,
       description: `View engine to use (only handlebars is supported currently) valid values are: ${supportedViewEngines.join(
         ","
-      )})`
+      )})`,
     });
 
     this.option("test-framework", {
@@ -27,21 +26,21 @@ module.exports = class ServerGenerator extends EngageGenerator {
       type: String,
       description: `Test framework to use (only jest is supported currently) valid values are: ${supportedTestFrameworks.join(
         ","
-      )}`
+      )}`,
     });
 
-    // this.option("db-client", {
-    //   default: supportedDbClients[0],
-    //   type: String,
-    //   description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
-    //     ","
-    //   )}`
-    // });
+    this.option("db-client", {
+      default: "",
+      type: String,
+      description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
+        ","
+      )}`,
+    });
 
     this.option("sessions-enabled", {
       default: true,
       type: Boolean,
-      description: "Whether express-session should be configured"
+      description: "Whether express-session should be configured",
     });
 
     this.errors = [];
@@ -67,8 +66,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
     const fundamentalPackages = ["express", "body-parser", "morgan"];
     this._addDependencies(fundamentalPackages);
     this.fs.copyTpl(this.templatePath("package.json"), this.generatedPath("package.json"), {
-      name: path.basename(this.generatedPath("../")),
-      appPath: serverFileName
+      name: this._getName(),
+      appPath: serverFileName,
     });
 
     this.fs.copyTpl(this.templatePath("app.js"), this.generatedPath(serverFileName));
@@ -77,7 +76,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   nodemon() {
-    this._modifyJson("package.json", json => {
+    this._modifyJson("package.json", (json) => {
       if (!json.scripts) {
         json.scripts = {};
       }
@@ -89,7 +88,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   linters() {
-    [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach(file => {
+    [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach((file) => {
       this.fs.copyTpl(this.templatePath(file), this.generatedPath("..", file));
     });
 
@@ -99,7 +98,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       "eslint-plugin-import",
       "eslint-plugin-prettier",
       "eslint-config-prettier",
-      "install-peerdeps"
+      "install-peerdeps",
     ];
 
     this._addDependencies(lintPackages, null, { dev: true });
@@ -113,7 +112,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         this,
         "snippets/handlebars/middleware.js",
         this.generatedPath(serverFileName),
-        nodePath => {
+        (nodePath) => {
           return (
             nodePath.type === "VariableDeclaration" &&
             nodePath.node.declarations.length === 1 &&
@@ -126,7 +125,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         this,
         "snippets/handlebars/requires.js",
         this.generatedPath(serverFileName),
-        nodePath => {
+        (nodePath) => {
           return (
             nodePath.type === "VariableDeclaration" &&
             nodePath.node.declarations.length === 1 &&
@@ -138,11 +137,27 @@ module.exports = class ServerGenerator extends EngageGenerator {
       [
         "public/css/vendor/normalize.min.css",
         "public/css/main.css",
-        "views/layouts/default.hbs"
-      ].forEach(file => {
+        "views/layouts/default.hbs",
+      ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file), {
-          name: path.basename(this.generatedPath(".."))
+          name: this._getName(),
         });
+      });
+    }
+  }
+
+  dbClient() {
+    if (this.options["db-client"] !== "") {
+      const databaseUrlFile = "src/config/getDatabaseUrl.js";
+      this.fs.copyTpl(this.templatePath(databaseUrlFile), this.generatedPath(databaseUrlFile), {
+        name: this._getName(),
+      });
+      this._addDependencies("pg");
+    }
+    if (this.options["db-client"] === "pg") {
+      const middlewareFile = "src/middlewares/addDbMiddleware.js";
+      this.fs.copyTpl(this.templatePath(middlewareFile), this.generatedPath(middlewareFile), {
+        name: this._getName(),
       });
     }
   }
@@ -153,14 +168,14 @@ module.exports = class ServerGenerator extends EngageGenerator {
         ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
         null,
         {
-          dev: true
+          dev: true,
         }
       );
-      ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
+      ["babel.config.cjs", "jest.config.cjs"].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
       });
 
-      this._modifyJson("package.json", json => {
+      this._modifyJson("package.json", (json) => {
         if (!json.scripts) {
           json.scripts = {};
         }
@@ -181,8 +196,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
       ".env.example",
       "src/boot.js",
       "src/boot/environments/development.js",
-      "src/boot/environments/test.js"
-    ].forEach(filePath => {
+      "src/boot/environments/test.js",
+    ].forEach((filePath) => {
       this._copyTemplate(filePath);
     });
 
@@ -199,14 +214,14 @@ module.exports = class ServerGenerator extends EngageGenerator {
       "src/middlewares/addMiddlewares.js",
       "src/middlewares/errorHandler.js",
       "src/config/getNodeEnv.js",
-      "src/config.js"
-    ].forEach(filePath => {
-      this._copyTemplate(filePath, { options: this.options });
+      "src/config.js",
+    ].forEach((filePath) => {
+      this._copyTemplate(filePath, { options: this.options, name: this._getName() });
     });
   }
 
   secretsHandling() {
-    ["scripts/generate-secret.js"].forEach(script => {
+    ["scripts/generate-secret.js"].forEach((script) => {
       this._copyTemplate(script);
     });
   }
@@ -215,7 +230,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
     if (this.options["sessions-enabled"]) {
       this._addDependencies("express-session");
       this._copyTemplate("src/middlewares/addExpressSession.js");
-      this._modifyJson("package.json", json => {
+      this._modifyJson("package.json", (json) => {
         if (!json.scripts) {
           json.scripts = {};
         }
@@ -236,9 +251,9 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   end() {
     const peerDepPackages = ["eslint-config-airbnb"];
-    peerDepPackages.forEach(pkg => {
+    peerDepPackages.forEach((pkg) => {
       this.spawnCommandSync("yarn", ["run", "install-peerdeps", "--dev", "-Y", pkg], {
-        cwd: this.generatedPath()
+        cwd: this.generatedPath(),
       });
     });
   }
@@ -259,5 +274,9 @@ module.exports = class ServerGenerator extends EngageGenerator {
   // eslint-disable-next-line class-methods-use-this
   _validateDbClient() {
     // this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
+  }
+
+  _getName() {
+    return path.basename(this.generatedPath(".."));
   }
 };

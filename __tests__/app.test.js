@@ -13,14 +13,14 @@ describe("app test", () => {
   };
 
   describe("happy path", () => {
-    beforeAll(done => {
+    beforeAll((done) => {
       return helpers
         .run(generatorPath, { skipInstall: false })
         .withOptions({ skipInstall: false })
-        .inTmpDir(dir => {
+        .inTmpDir((dir) => {
           destinationRoot = dir;
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         })
         .then(() => {
