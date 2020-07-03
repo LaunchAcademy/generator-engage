@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Runtime on ESM with Jest tests remaining with the babel transpiler. Yeoman constrains us to commonJS for the library itself ([#29](https://github.com/LaunchAcademy/generator-engage/issues/29))
 - Create a `Dependency` abstraction to encapsulate both npm package and correlating version
+- Consider `.cjs` files in babel-jest ([#45](https://github.com/LaunchAcademy/generator-engage/issues/45))
 
 ### Removed
 
