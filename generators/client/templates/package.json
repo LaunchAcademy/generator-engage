@@ -1,5 +1,8 @@
 {
-  "scripts": {},
+  "scripts": {
+    "build": "./node_modules/.bin/webpack",
+    "dev": "./node_modules/.bin/webpack-dev-server"
+  },
   "license": "UNLICENSED",
   "private": true,
   "name": "<%= name %>-client",
