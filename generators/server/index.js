@@ -9,7 +9,8 @@ const serverFileName = "app.js";
 const pathPrefix = "server";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
-const supportedDbClients = ["sequelize"];
+// eslint-disable-next-line no-unused-vars
+const supportedDbClients = [];
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
@@ -30,13 +31,13 @@ module.exports = class ServerGenerator extends EngageGenerator {
       )}`
     });
 
-    this.option("db-client", {
-      default: supportedDbClients[0],
-      type: String,
-      description: `Database "client"/ORM to use (only sequelize is supported currently) valid values are: ${supportedDbClients.join(
-        ","
-      )}`
-    });
+    // this.option("db-client", {
+    //   default: supportedDbClients[0],
+    //   type: String,
+    //   description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
+    //     ","
+    //   )}`
+    // });
 
     this.option("sessions-enabled", {
       default: true,
@@ -164,19 +165,6 @@ module.exports = class ServerGenerator extends EngageGenerator {
     }
   }
 
-  sequelize() {
-    if (this.options["db-client"] === "sequelize") {
-      this._addDependencies(["sequelize", "pg"]);
-      this._addDependencies("sequelize-cli", null, { dev: true });
-
-      [".sequelizerc", "src/config/database.js"].forEach(file => {
-        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
-          name: path.basename(this.destinationPath())
-        });
-      });
-    }
-  }
-
   herokuProcfile() {
     this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("../Procfile"));
   }
@@ -248,19 +236,6 @@ module.exports = class ServerGenerator extends EngageGenerator {
       });
     });
 
-    if (this.options["db-client"] === "sequelize") {
-      const sequelizeCmd = `sequelize`;
-      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:migrations"], {
-        cwd: this.destinationPath()
-      });
-      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:seeders"], {
-        cwd: this.destinationPath()
-      });
-      this.spawnCommandSync("yarn", ["run", sequelizeCmd, "init:models"], {
-        cwd: this.destinationPath()
-      });
-    }
-
     this.destinationRoot(this.originalRoot);
   }
 
@@ -277,7 +252,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
     this._validateWhitelistedOption("test-framework", supportedTestFrameworks, "test framework");
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _validateDbClient() {
-    this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
+    // this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
   }
 };
