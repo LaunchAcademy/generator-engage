@@ -17,7 +17,7 @@ describe("generator-engage:client", () => {
     beforeAll(done => {
       return helpers
         .run(generatorPath, { skipInstall: false })
-        .withOptions({ skipInstall: false })
+        .withOptions({ skipInstall: false, generateInto: "client" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })

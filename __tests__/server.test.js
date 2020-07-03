@@ -17,7 +17,7 @@ describe("generator-engage:server", () => {
     it("errors if I specify an invalid view engine", done => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, "view-engine": "badInput" })
+        .withOptions({ skipInstall: true, generateInto: "server", "view-engine": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
@@ -31,7 +31,7 @@ describe("generator-engage:server", () => {
     it("errors if I specify an invalid test-framework", done => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, "test-framework": "badInput" })
+        .withOptions({ skipInstall: true, generateInto: "server", "test-framework": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
@@ -45,7 +45,7 @@ describe("generator-engage:server", () => {
     it("errors if I specify an invalid test-framework", done => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, "db-client": "badInput" })
+        .withOptions({ skipInstall: true, generateInto: "server", "db-client": "badInput" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
@@ -61,7 +61,7 @@ describe("generator-engage:server", () => {
     beforeAll(done => {
       return helpers
         .run(generatorPath, { skipInstall: false })
-        .withOptions({ skipInstall: false })
+        .withOptions({ skipInstall: false, generateInto: "server" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
@@ -218,7 +218,7 @@ describe("generator-engage:server", () => {
 
   describe("procfile", () => {
     it("creates a procfile", () => {
-      assert.file("Procfile");
+      assert.file("server/Procfile");
     });
   });
 
@@ -246,7 +246,7 @@ describe("generator-engage:server", () => {
 
   describe("nvmrc", () => {
     it("creates an nvmrc with the relevant version", () => {
-      assert.fileContent(".nvmrc", process.version);
+      assert.fileContent("server/.nvmrc", process.version);
     });
   });
 
@@ -294,7 +294,7 @@ describe("generator-engage:server", () => {
     it("does insert a view engine", () => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, "view-engine": "none" })
+        .withOptions({ skipInstall: true, "view-engine": "none", generateInto: "server" })
         .inTmpDir(dir => {
           destinationRoot = dir;
         })
