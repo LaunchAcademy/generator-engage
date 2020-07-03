@@ -42,19 +42,19 @@ describe("generator-engage:server", () => {
         });
     });
 
-    it("errors if I specify an invalid test-framework", done => {
-      return helpers
-        .run(generatorPath)
-        .withOptions({ skipInstall: true, "db-client": "badInput" })
-        .inTmpDir(dir => {
-          destinationRoot = dir;
-        })
-        .catch(err => {
-          expect(err.message).toMatch("Invalid database client");
-          assert.noFile("server/app.js");
-          done();
-        });
-    });
+    // it.todo("errors if I specify an invalid test-framework", done => {
+    //   return helpers
+    //     .run(generatorPath)
+    //     .withOptions({ skipInstall: true, "db-client": "badInput" })
+    //     .inTmpDir(dir => {
+    //       destinationRoot = dir;
+    //     })
+    //     .catch(err => {
+    //       expect(err.message).toMatch("Invalid database client");
+    //       assert.noFile("server/app.js");
+    //       done();
+    //     });
+    // });
   });
 
   describe("happy path", () => {
@@ -181,38 +181,6 @@ describe("generator-engage:server", () => {
     it("adds scripts for testing and CI", () => {
       expect(json.scripts.test).toEqual("jest");
       expect(json.scripts.ci).toEqual("jest --coverage");
-    });
-  });
-
-  describe("sequelize", () => {
-    it("adds a sequelizerrc", () => {
-      assert.file("server/.sequelizerc");
-    });
-
-    it("adds a database.js config file", () => {
-      assert.file("server/src/config/database.js");
-    });
-
-    it("adds a src/db/migrations folder", () => {
-      const filePath = path.join(destinationRoot, "server/src/db/migrations");
-      expect(fs.existsSync(filePath)).toBe(true);
-    });
-
-    it("adds a src/db/seeders file", () => {
-      const filePath = path.join(destinationRoot, "server/src/db/seeders");
-      expect(fs.existsSync(filePath)).toBe(true);
-    });
-
-    it("adds pg as a dependency", () => {
-      expect(json.dependencies.pg).toBeDefined();
-    });
-
-    it("adds sequelize as a dependency", () => {
-      expect(json.dependencies.sequelize).toBeDefined();
-    });
-
-    it("adds sequelize-cli as a dev dependency", () => {
-      expect(json.devDependencies["sequelize-cli"]).toBeDefined();
     });
   });
 

@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create a `Dependency` abstraction to encapsulate both npm package and correlating version
 - Consider `.cjs` files in babel-jest ([#45](https://github.com/LaunchAcademy/generator-engage/issues/45))
 
+### Removed
+
+- Sequelize configuration is no longer an option ([#48](https://github.com/LaunchAcademy/generator-engage/issues/48))
+
 ## [0.1.2](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.1.2)
 
 ### Added
