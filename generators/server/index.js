@@ -6,7 +6,6 @@ const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
 
 const serverFileName = "app.js";
-const pathPrefix = "server";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
 // eslint-disable-next-line no-unused-vars
@@ -45,9 +44,6 @@ module.exports = class ServerGenerator extends EngageGenerator {
       description: "Whether express-session should be configured"
     });
 
-    this.originalRoot = this.destinationPath();
-    this.destinationRoot(pathPrefix);
-
     this.errors = [];
   }
 
@@ -70,14 +66,14 @@ module.exports = class ServerGenerator extends EngageGenerator {
   writingBase() {
     const fundamentalPackages = ["express", "body-parser", "morgan"];
     this._addDependencies(fundamentalPackages);
-    this.fs.copyTpl(this.templatePath("package.json"), this.destinationPath("package.json"), {
-      name: path.basename(this.destinationPath("../")),
+    this.fs.copyTpl(this.templatePath("package.json"), this.generatedPath("package.json"), {
+      name: path.basename(this.generatedPath("../")),
       appPath: serverFileName
     });
 
-    this.fs.copyTpl(this.templatePath("app.js"), this.destinationPath(serverFileName));
+    this.fs.copyTpl(this.templatePath("app.js"), this.generatedPath(serverFileName));
 
-    this.fs.write(this.destinationPath("public", ".gitkeep"), "");
+    this.fs.write(this.generatedPath("public", ".gitkeep"), "");
   }
 
   nodemon() {
@@ -94,7 +90,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   linters() {
     [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach(file => {
-      this.fs.copyTpl(this.templatePath(file), this.destinationPath("..", file));
+      this.fs.copyTpl(this.templatePath(file), this.generatedPath("..", file));
     });
 
     const lintPackages = [
@@ -113,29 +109,39 @@ module.exports = class ServerGenerator extends EngageGenerator {
     if (this.options["view-engine"] === "handlebars") {
       this._addDependencies(["express-handlebars"]);
       // eslint-disable-next-line no-unused-vars
-      insertAfter(this, "snippets/handlebars/middleware.js", serverFileName, nodePath => {
-        return (
-          nodePath.type === "VariableDeclaration" &&
-          nodePath.node.declarations.length === 1 &&
-          nodePath.node.declarations[0].id.name === "app"
-        );
-      });
+      insertAfter(
+        this,
+        "snippets/handlebars/middleware.js",
+        this.generatedPath(serverFileName),
+        nodePath => {
+          return (
+            nodePath.type === "VariableDeclaration" &&
+            nodePath.node.declarations.length === 1 &&
+            nodePath.node.declarations[0].id.name === "app"
+          );
+        }
+      );
 
-      insertAfter(this, "snippets/handlebars/requires.js", serverFileName, nodePath => {
-        return (
-          nodePath.type === "VariableDeclaration" &&
-          nodePath.node.declarations.length === 1 &&
-          nodePath.node.declarations[0].id.name === "app"
-        );
-      });
+      insertAfter(
+        this,
+        "snippets/handlebars/requires.js",
+        this.generatedPath(serverFileName),
+        nodePath => {
+          return (
+            nodePath.type === "VariableDeclaration" &&
+            nodePath.node.declarations.length === 1 &&
+            nodePath.node.declarations[0].id.name === "app"
+          );
+        }
+      );
 
       [
         "public/css/vendor/normalize.min.css",
         "public/css/main.css",
         "views/layouts/default.hbs"
       ].forEach(file => {
-        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file), {
-          name: path.basename(this.destinationPath(".."))
+        this.fs.copyTpl(this.templatePath(file), this.generatedPath(file), {
+          name: path.basename(this.generatedPath(".."))
         });
       });
     }
@@ -151,7 +157,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         }
       );
       ["babel.config.cjs", "jest.config.cjs"].forEach(file => {
-        this.fs.copyTpl(this.templatePath(file), this.destinationPath(file));
+        this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
       });
 
       this._modifyJson("package.json", json => {
@@ -166,7 +172,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   herokuProcfile() {
-    this.fs.copyTpl(this.templatePath("Procfile"), this.destinationPath("../Procfile"));
+    this.fs.copyTpl(this.templatePath("Procfile"), this.generatedPath("Procfile"));
   }
 
   dotEnv() {
@@ -216,12 +222,12 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
         json.scripts["generate-secret"] = `./scripts/generate-secret.js`;
       });
-      this.fs.write(`.env`, `SESSION_SECRET="${uuidv4()}"\n`);
+      this.fs.write(this.generatedPath(".env"), `SESSION_SECRET="${uuidv4()}"\n`);
     }
   }
 
   nvmrc() {
-    this.fs.copyTpl(this.templatePath(".nvmrc"), this.destinationPath("../.nvmrc"));
+    this.fs.copyTpl(this.templatePath(".nvmrc"), this.generatedPath(".nvmrc"));
   }
 
   install() {
@@ -232,11 +238,9 @@ module.exports = class ServerGenerator extends EngageGenerator {
     const peerDepPackages = ["eslint-config-airbnb"];
     peerDepPackages.forEach(pkg => {
       this.spawnCommandSync("yarn", ["run", "install-peerdeps", "--dev", "-Y", pkg], {
-        cwd: this.destinationPath()
+        cwd: this.generatedPath()
       });
     });
-
-    this.destinationRoot(this.originalRoot);
   }
 
   _validateViewEngine() {

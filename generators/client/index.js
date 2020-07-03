@@ -27,17 +27,11 @@ const reactDevDependencies = {
   "webpack-dev-server": "~3.11"
 };
 class ClientGenerator extends EngageGenerator {
-  constructor(args, options) {
-    super(args, options);
-    this.originalRoot = this.destinationPath();
-    this.destinationRoot("client");
-  }
-
   writeBase() {
     ["package.json", "webpack.config.js", "babel.config.js", "public/index.html"].forEach(
       filePath => {
-        this.fs.copyTpl(this.templatePath(filePath), this.destinationPath(filePath), {
-          name: path.basename(this.destinationPath("../"))
+        this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
+          name: path.basename(this.generatedPath("../"))
         });
       }
     );
@@ -57,12 +51,8 @@ class ClientGenerator extends EngageGenerator {
     });
 
     ["src/components/App.jsx", "src/index.js", "src/config.js"].forEach(filePath => {
-      this.fs.copy(this.templatePath(filePath), this.destinationPath(filePath));
+      this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
     });
-  }
-
-  end() {
-    this.destinationRoot(this.originalRoot);
   }
 }
 

@@ -12,7 +12,7 @@
     "generators",
     "lib"
   ],
-  "main": "generators/app.cjs",
+  "main": "generators/app/index.js",
   "keywords": [
     "node",
     "react",
