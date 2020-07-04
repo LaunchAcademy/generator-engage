@@ -43,6 +43,12 @@ module.exports = class ServerGenerator extends EngageGenerator {
       description: "Whether express-session should be configured",
     });
 
+    this.option("client-app-path", {
+      default: "",
+      type: String,
+      description: "where a correlating client app is installed",
+    });
+
     this.errors = [];
   }
 
@@ -143,6 +149,11 @@ module.exports = class ServerGenerator extends EngageGenerator {
           name: this._getName(),
         });
       });
+
+      if (this.options["client-app-path"] !== "") {
+        const clientLayoutPath = "views/layouts/client.hbs";
+        this.fs.copyTpl(this.templatePath(clientLayoutPath), this.generatedPath(clientLayoutPath));
+      }
     }
   }
 

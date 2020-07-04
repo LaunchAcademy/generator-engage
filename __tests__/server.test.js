@@ -47,7 +47,12 @@ describe("generator-engage:server", () => {
     beforeAll((done) => {
       return helpers
         .run(generatorPath, { skipInstall: false })
-        .withOptions({ skipInstall: false, generateInto: "server", "db-client": "pg" })
+        .withOptions({
+          skipInstall: false,
+          generateInto: "server",
+          "db-client": "pg",
+          "client-app-path": "client",
+        })
         .inTmpDir((dir) => {
           destinationRoot = dir;
         })
@@ -144,6 +149,10 @@ describe("generator-engage:server", () => {
 
     it("adds a main.css", () => {
       assert.file("server/public/css/main.css");
+    });
+
+    it("adds a layouts/client.hbs", () => {
+      assert.file("server/views/layouts/client.hbs");
     });
   });
 

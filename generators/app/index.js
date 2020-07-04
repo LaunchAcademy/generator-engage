@@ -12,6 +12,7 @@ module.exports = class AppGenerator extends EngageGenerator {
     this.composeWith(require.resolve("../server"), {
       ...this.options,
       generateInto: path.join(this.options.generateInto, "server"),
+      "client-app-path": this.destinationPath("client"),
     });
   }
 
