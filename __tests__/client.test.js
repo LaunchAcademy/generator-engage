@@ -73,5 +73,36 @@ describe("generator-engage:client", () => {
     it("creates a babel.config.js", () => {
       assert.file("client/babel.config.js");
     });
+
+    it("installs node-sass", () => {
+      expect(json.dependencies["node-sass"]).toBeDefined();
+    });
+    it("installs css loader", () => {
+      expect(json.dependencies["css-loader"]).toBeDefined();
+    });
+
+    it("installs style-loader", () => {
+      expect(json.dependencies["style-loader"]).toBeDefined();
+    });
+
+    it("installs sass-loader", () => {
+      expect(json.dependencies["sass-loader"]).toBeDefined();
+    });
+
+    it("installs file-loader", () => {
+      expect(json.dependencies["file-loader"]).toBeDefined();
+    });
+
+    it("installs mini-css-extract-plugin", () => {
+      expect(json.dependencies["mini-css-extract-plugin"]).toBeDefined();
+    });
+
+    it("creates a dev script", () => {
+      expect(json.scripts.dev).toBeDefined();
+    });
+
+    it("creates a build script", () => {
+      expect(json.scripts.build).toBeDefined();
+    });
   });
 });

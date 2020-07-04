@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - upgrade ESM so that CJS modules are no longer used [#34](https://github.com/LaunchAcademy/generator-engage/issues/34)
 - `@types/jest` as a dev dependency
 - `pg` db-client support and middleware ([#57](https://github.com/LaunchAcademy/generator-engage/issues/57))
+- Ability to proxy from client to server ([#51](https://github.com/LaunchAcademy/generator-engage/issues/51))
+- CSS, SASS, File loading support on the client ([#52](https://github.com/LaunchAcademy/generator-engage/issues/52))
 
 ### Changed
 

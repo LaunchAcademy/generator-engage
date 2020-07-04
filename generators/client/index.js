@@ -19,6 +19,12 @@ const reactDependencies = {
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
   "react-router-dom": "~5.2",
+  "file-loader": "^6.0.0",
+  "css-loader": "^3.6.0",
+  "mini-css-extract-plugin": "^0.9.0",
+  "node-sass": "^4.14.1",
+  "sass-loader": "^8.0.2",
+  "style-loader": "^1.2.1",
 };
 
 const reactDevDependencies = {
@@ -27,10 +33,20 @@ const reactDevDependencies = {
   "webpack-dev-server": "~3.11",
 };
 class ClientGenerator extends EngageGenerator {
+  constructor(args, options) {
+    super(args, options);
+    this.option("output-dir", {
+      type: String,
+      default: "dist",
+      description: "relative path to webpack output dir",
+    });
+  }
+
   writeBase() {
     ["package.json", "webpack.config.js", "babel.config.js", "public/index.html"].forEach(
       (filePath) => {
         this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
+          options: this.options,
           name: path.basename(this.generatedPath("../")),
         });
       }
