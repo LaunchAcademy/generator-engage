@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `pg` db-client support and middleware ([#57](https://github.com/LaunchAcademy/generator-engage/issues/57))
 - Ability to proxy from client to server ([#51](https://github.com/LaunchAcademy/generator-engage/issues/51))
 - CSS, SASS, File loading support on the client ([#52](https://github.com/LaunchAcademy/generator-engage/issues/52))
+- Add a handlebars template server side for rendering client application
 
 ### Changed
 
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create a `Dependency` abstraction to encapsulate both npm package and correlating version
 - Consider `.cjs` files in babel-jest ([#45](https://github.com/LaunchAcademy/generator-engage/issues/45))
 - Create a high level "app" generate that builds a workspace and is composed of `client` and `server`
+- Updated webpack to 4.43
 
 ### Removed
 
