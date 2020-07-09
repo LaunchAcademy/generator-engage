@@ -8,7 +8,7 @@ const insertAfter = require("../../lib/insertAfter");
 const serverFileName = "app.js";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
-const supportedDbClients = ["pg"];
+const supportedDbClients = ["objection", "pg"];
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
@@ -30,7 +30,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
     });
 
     this.option("db-client", {
-      default: "",
+      default: "objection",
       type: String,
       description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
         ","
@@ -166,9 +166,32 @@ module.exports = class ServerGenerator extends EngageGenerator {
       this._addDependencies("pg");
     }
     if (this.options["db-client"] === "pg") {
+      console.log("PG");
       const middlewareFile = "src/middlewares/addDbMiddleware.js";
       this.fs.copyTpl(this.templatePath(middlewareFile), this.generatedPath(middlewareFile), {
         name: this._getName(),
+      });
+    } else if (this.options["db-client"] === "objection") {
+      this._addDependencies("knex");
+      this._addDependencies("objection");
+      [
+        "knexfile.cjs",
+        "src/models/Model.js",
+        "src/models/package.json",
+        "src/boot/model.js",
+        "test/utils/truncateModel.js",
+      ].forEach((file) => {
+        this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
+      });
+      this.fs.write(this.generatedPath("src/db/migrations/.gitkeep"), "");
+      this._modifyJson("package.json", (json) => {
+        if (!json.scripts) {
+          json.scripts = {};
+        }
+
+        json.scripts["migrate:latest"] = "knex --knexfile ./knexFile.cjs migrate:latest";
+        json.scripts["migrate:rollback"] = "knex --knexfile ./knexFile.cjs migrate:rollback";
+        json.scripts["migrate:make"] = "knex --knexfile ./knexFile.cjs migrate:make";
       });
     }
   }
@@ -209,7 +232,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       "src/boot/environments/development.js",
       "src/boot/environments/test.js",
     ].forEach((filePath) => {
-      this._copyTemplate(filePath);
+      this._copyTemplate(filePath, { options: this.options });
     });
 
     if (this.options["test-framework"] !== "none") {
