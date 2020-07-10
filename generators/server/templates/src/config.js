@@ -1,6 +1,6 @@
 import getNodeEnv from "./config/getNodeEnv.js";
 <% if(options["db-client"] !== "") { -%>
-import getDatabaseUrl from "./config/getDatabaseUrl.js";
+import getDatabaseUrl from "./config/getDatabaseUrl.cjs";
 <% } -%>
 
 export default {

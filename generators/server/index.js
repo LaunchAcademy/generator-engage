@@ -159,14 +159,13 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   dbClient() {
     if (this.options["db-client"] !== "") {
-      const databaseUrlFile = "src/config/getDatabaseUrl.js";
+      const databaseUrlFile = "src/config/getDatabaseUrl.cjs";
       this.fs.copyTpl(this.templatePath(databaseUrlFile), this.generatedPath(databaseUrlFile), {
         name: this._getName(),
       });
       this._addDependencies("pg");
     }
     if (this.options["db-client"] === "pg") {
-      console.log("PG");
       const middlewareFile = "src/middlewares/addDbMiddleware.js";
       this.fs.copyTpl(this.templatePath(middlewareFile), this.generatedPath(middlewareFile), {
         name: this._getName(),
@@ -179,11 +178,11 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/models/Model.js",
         "src/models/package.json",
         "src/boot/model.js",
+        "src/db/migrations/migration.stub.cjs",
         "test/utils/truncateModel.js",
       ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
       });
-      this.fs.write(this.generatedPath("src/db/migrations/.gitkeep"), "");
       this._modifyJson("package.json", (json) => {
         if (!json.scripts) {
           json.scripts = {};

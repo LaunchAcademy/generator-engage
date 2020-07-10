@@ -260,7 +260,7 @@ describe("generator-engage:server", () => {
         assert.fileContent("server/src/config.js", "databaseUrl:");
       });
       it("includes a getDatabaseUrl function", () => {
-        assert.file("server/src/config/getDatabaseUrl.js");
+        assert.file("server/src/config/getDatabaseUrl.cjs");
       });
       it("adds db middleware to app.js", () => {
         assert.file("server/src/middlewares/addDbMiddleware.js");
@@ -312,7 +312,7 @@ describe("generator-engage:server", () => {
       assert.file("server/src/boot/model.js");
     });
     it("creates a server/src/db/migration directory", () => {
-      assert.file("server/src/db/migrations/.gitkeep");
+      assert.file("server/src/db/migrations/migration.stub.cjs");
     });
 
     it("creates a server/test/utils/truncateModel.js", () => {

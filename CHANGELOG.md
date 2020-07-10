@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to proxy from client to server ([#51](https://github.com/LaunchAcademy/generator-engage/issues/51))
 - CSS, SASS, File loading support on the client ([#52](https://github.com/LaunchAcademy/generator-engage/issues/52))
 - Add a handlebars template server side for rendering client application
+- `objection` db-client support ([#49](https://github.com/LaunchAcademy/generator-engage/issues/49))
 
 ### Changed
 

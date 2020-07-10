@@ -1,11 +1,14 @@
-const config = require("./src/config.js");
 const path = require("path");
+const getDatabaseUrl = require("./src/config/getDatabaseUrl.cjs");
+
+const migrationPath = "src/db/migrations";
 
 module.exports = {
-  connection: config.default.databaseUrl,
+  connection: getDatabaseUrl(process.env.NODE_ENV || "development"),
   client: "pg",
   migrations: {
-    directory: path.join(__dirname, "src/db/migrations"),
-    extension: "js",
+    directory: migrationPath,
+    extension: "cjs",
+    stub: path.join(migrationPath, "migration.stub.cjs"),
   },
 };
