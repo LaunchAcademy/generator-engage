@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": ["plugin:react/recommended", "airbnb"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "no-param-reassign": ["error", { "props": false }]
+  },
+  "settings": {
+    "import/resolver": "webpack"
+  }
+}
