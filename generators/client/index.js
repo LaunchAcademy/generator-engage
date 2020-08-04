@@ -43,13 +43,22 @@ class ClientGenerator extends EngageGenerator {
   }
 
   writeBase() {
-    ["package.json", "webpack.config.js", "babel.config.js", "public/index.html"].forEach(
-      (filePath) => {
-        this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
-          options: this.options,
-          name: path.basename(this.generatedPath("../")),
-        });
-      }
+    [
+      "package.json",
+      "webpack.config.js",
+      "babel.config.js",
+      "public/index.html",
+      ".prettierrc",
+    ].forEach((filePath) => {
+      this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
+        options: this.options,
+        name: path.basename(this.generatedPath("../")),
+      });
+    });
+
+    this.fs.copy(
+      this.templatePath(".eslintrc.json.template"),
+      this.generatedPath(".eslintrc.json")
     );
   }
 

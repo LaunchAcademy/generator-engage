@@ -104,5 +104,13 @@ describe("generator-engage:client", () => {
     it("creates a build script", () => {
       expect(json.scripts.build).toBeDefined();
     });
+
+    it("creates an eslintrc file", () => {
+      assert.file("client/.eslintrc.json");
+    });
+
+    it("creates a prettierrc", () => {
+      assert.file("client/.prettierrc");
+    });
   });
 });
