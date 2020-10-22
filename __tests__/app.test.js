@@ -51,5 +51,10 @@ describe("app test", () => {
       expect(workspaces).toBeDefined();
       expect(workspaces).toContain("client");
     });
+
+    it("defines a dev:server:debug script", () => {
+      const { scripts } = readPackageJson();
+      expect(scripts["dev:server:debug"]).toBeDefined();
+    });
   });
 });
