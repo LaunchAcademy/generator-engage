@@ -231,7 +231,7 @@ describe("generator-engage:server", () => {
 
     describe("express-session", () => {
       it("introduces the express-session middleware", () => {
-        assert.fileContent("server/src/middlewares/addExpressSession.js", "express-session");
+        assert.fileContent("server/src/middlewares/addExpressSession.js", "cookie-session");
       });
 
       it("creates a script for randomly generating a string", () => {
@@ -243,7 +243,7 @@ describe("generator-engage:server", () => {
       });
 
       it("adds express-session as a dependency", () => {
-        expect(json.dependencies["express-session"]).toBeDefined();
+        expect(json.dependencies["cookie-session"]).toBeDefined();
       });
 
       it("generates a secret and puts it in the .env file", () => {
