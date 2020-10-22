@@ -261,7 +261,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   expressSession() {
     if (this.options["sessions-enabled"]) {
-      this._addDependencies("express-session");
+      this._addDependencies("cookie-session");
       this._copyTemplate("src/middlewares/addExpressSession.js");
       this._modifyJson("package.json", (json) => {
         if (!json.scripts) {
