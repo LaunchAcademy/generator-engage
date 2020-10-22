@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- added console / repl when objection is supported [#31](https://github.com/LaunchAcademy/generator-engage/issues/40)
+
 - `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
 
 ## [0.2.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.0)

@@ -6,3 +6,5 @@ import knexConfig from "../../knexfile.cjs";
 const knexConnection = knex(knexConfig);
 
 objection.Model.knex(knexConnection);
+
+export default knexConnection;
