@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
 
+### Changed
+
+- use `cookie-session` instead of `express-session` [#66](https://github.com/LaunchAcademy/generator-engage/issues/66)
+
 ## [0.2.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.0)
 
 ### Added

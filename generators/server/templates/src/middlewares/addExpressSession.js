@@ -1,12 +1,13 @@
-import session from "express-session";
+import session from "cookie-session";
 import configuration from "../config.js";
 
-const addExpressSession = app => {
+const addExpressSession = (app) => {
   app.use(
     session({
-      secret: configuration.session.secret,
+      name: "session",
+      keys: [configuration.session.secret],
       resave: true,
-      saveUninitialized: true
+      maxAge: configuration.maxAge,
     })
   );
 };
