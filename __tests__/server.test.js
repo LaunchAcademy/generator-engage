@@ -329,6 +329,10 @@ describe("generator-engage:server", () => {
     it("adds a migrate:make script", () => {
       expect(json.scripts["migrate:make"]).toBeDefined();
     });
+
+    it("adds a console script", () => {
+      expect(json.scripts.console).toBeDefined();
+    });
   });
 
   describe("no view engine", () => {

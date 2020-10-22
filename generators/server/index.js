@@ -180,6 +180,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/boot/model.js",
         "src/db/migrations/migration.stub.cjs",
         "test/utils/truncateModel.js",
+        "src/console.js",
       ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
       });
@@ -187,7 +188,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         if (!json.scripts) {
           json.scripts = {};
         }
-
+        json.scripts.console = "node --experimental-repl-await ./src/console.js";
         json.scripts["migrate:latest"] = "knex --knexfile ./knexfile.cjs migrate:latest";
         json.scripts["migrate:rollback"] = "knex --knexfile ./knexfile.cjs migrate:rollback";
         json.scripts["migrate:make"] = "knex --knexfile ./knexfile.cjs migrate:make";
