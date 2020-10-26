@@ -10,7 +10,7 @@ npm install -g yo
 npm install -g generator-engage
 ```
 
-Then generate your new project:
+Then generate your new project. First, create the directory you would like your project to be created in. From within that directory:
 
 ```bash
 yo engage

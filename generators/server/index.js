@@ -94,9 +94,10 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   linters() {
-    [".eslintrc.cjs", ".gitignore", ".prettierrc"].forEach((file) => {
+    [".eslintrc.cjs", ".prettierrc"].forEach((file) => {
       this.fs.copyTpl(this.templatePath(file), this.generatedPath("..", file));
     });
+    this.fs.copyTpl(this.templatePath(".npmignore"), this.generatedPath("..", ".gitignore"));
 
     const lintPackages = [
       "eslint",
