@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
 
-const serverFileName = "app.js";
+const serverFileName = "src/app.js";
 const supportedViewEngines = ["handlebars", "none"];
 const supportedTestFrameworks = ["jest"];
 const supportedDbClients = ["objection", "pg"];
