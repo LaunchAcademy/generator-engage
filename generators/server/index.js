@@ -144,7 +144,6 @@ module.exports = class ServerGenerator extends EngageGenerator {
       [
         "public/css/vendor/normalize.min.css",
         "public/css/main.css",
-        "public/favicon.ico",
         "views/layouts/default.hbs",
       ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file), {
