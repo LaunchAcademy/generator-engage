@@ -1,4 +1,4 @@
-app.set("views", path.join(import.meta.url, "views"));
+app.set("views", path.join(__dirname, "views"));
 app.engine(
   "hbs",
   hbsMiddleware({
