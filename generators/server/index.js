@@ -76,7 +76,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       appPath: serverFileName,
     });
 
-    this.fs.copyTpl(this.templatePath("app.js"), this.generatedPath(serverFileName));
+    this.fs.copyTpl(this.templatePath("src/app.js"), this.generatedPath(serverFileName));
 
     this.fs.write(this.generatedPath("public", ".gitkeep"), "");
   }
