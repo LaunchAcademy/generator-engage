@@ -101,6 +101,10 @@ describe("generator-engage:server", () => {
         expect(json.scripts.dev).toBeDefined();
         expect(json.scripts.dev).toEqual("nodemon app.js");
       });
+
+      it("adds a dev:debug script", () => {
+        expect(json.scripts["dev:debug"]).toBeDefined();
+      });
     });
 
     describe("linters", () => {

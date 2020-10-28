@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added console / repl when objection is supported [#31](https://github.com/LaunchAcademy/generator-engage/issues/40)
 
 - `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
+- added `dev:debug` convenience script in server [#72](https://github.com/LaunchAcademy/generator-engage/issues/72)
 
 ### Changed
 
