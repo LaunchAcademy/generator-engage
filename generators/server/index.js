@@ -4,45 +4,15 @@ const { v4: uuidv4 } = require("uuid");
 
 const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
+const { supportedViewEngines, supportedTestFrameworks } = require("./constants");
+const initServerOptions = require("./initServerOptions");
 
 const serverFileName = "app.js";
-const supportedViewEngines = ["handlebars", "none"];
-const supportedTestFrameworks = ["jest"];
-const supportedDbClients = ["objection", "pg"];
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.option("view-engine", {
-      default: supportedViewEngines[0],
-      type: String,
-      description: `View engine to use (only handlebars is supported currently) valid values are: ${supportedViewEngines.join(
-        ","
-      )})`,
-    });
-
-    this.option("test-framework", {
-      default: supportedTestFrameworks[0],
-      type: String,
-      description: `Test framework to use (only jest is supported currently) valid values are: ${supportedTestFrameworks.join(
-        ","
-      )}`,
-    });
-
-    this.option("db-client", {
-      default: "objection",
-      type: String,
-      description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
-        ","
-      )}`,
-    });
-
-    this.option("sessions-enabled", {
-      default: true,
-      type: Boolean,
-      description: "Whether express-session should be configured",
-    });
-
+    initServerOptions(this);
     this.option("client-app-path", {
       default: "",
       type: String,
