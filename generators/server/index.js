@@ -4,46 +4,16 @@ const { v4: uuidv4 } = require("uuid");
 
 const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
+const { supportedViewEngines, supportedTestFrameworks } = require("./constants");
+const initServerOptions = require("./initServerOptions");
 
 const serverFileName = "app.js";
-const supportedViewEngines = ["handlebars", "none"];
-const supportedTestFrameworks = ["jest"];
-const supportedDbClients = ["objection", "pg"];
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.option("view-engine", {
-      default: supportedViewEngines[0],
-      type: String,
-      description: `View engine to use (only handlebars is supported currently) valid values are: ${supportedViewEngines.join(
-        ","
-      )})`,
-    });
-
-    this.option("test-framework", {
-      default: supportedTestFrameworks[0],
-      type: String,
-      description: `Test framework to use (only jest is supported currently) valid values are: ${supportedTestFrameworks.join(
-        ","
-      )}`,
-    });
-
-    this.option("db-client", {
-      default: "objection",
-      type: String,
-      description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(
-        ","
-      )}`,
-    });
-
-    this.option("sessions-enabled", {
-      default: true,
-      type: Boolean,
-      description: "Whether express-session should be configured",
-    });
-
-    this.option("client-app-path", {
+    initServerOptions(this);
+    this.option("clientAppPath", {
       default: "",
       type: String,
       description: "where a correlating client app is installed",
@@ -113,7 +83,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   handlebars() {
-    if (this.options["view-engine"] === "handlebars") {
+    if (this.options.viewEngine === "handlebars") {
       this._addDependencies(["express-handlebars"]);
       // eslint-disable-next-line no-unused-vars
       insertAfter(
@@ -153,7 +123,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         });
       });
 
-      if (this.options["client-app-path"] !== "") {
+      if (this.options.clientAppPath !== "") {
         const clientLayoutPath = "views/layouts/client.hbs";
         this.fs.copyTpl(this.templatePath(clientLayoutPath), this.generatedPath(clientLayoutPath));
       }
@@ -161,19 +131,19 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   dbClient() {
-    if (this.options["db-client"] !== "") {
+    if (this.options.dbClient !== "") {
       const databaseUrlFile = "src/config/getDatabaseUrl.cjs";
       this.fs.copyTpl(this.templatePath(databaseUrlFile), this.generatedPath(databaseUrlFile), {
         name: this._getName(),
       });
       this._addDependencies("pg");
     }
-    if (this.options["db-client"] === "pg") {
+    if (this.options.dbClient === "pg") {
       const middlewareFile = "src/middlewares/addDbMiddleware.js";
       this.fs.copyTpl(this.templatePath(middlewareFile), this.generatedPath(middlewareFile), {
         name: this._getName(),
       });
-    } else if (this.options["db-client"] === "objection") {
+    } else if (this.options.dbClient === "objection") {
       this._addDependencies("knex");
       this._addDependencies("objection");
       [
@@ -200,7 +170,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   jest() {
-    if (this.options["test-framework"] === "jest") {
+    if (this.options.testFramework === "jest") {
       this._addDependencies(
         ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
         null,
@@ -238,7 +208,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       this._copyTemplate(filePath, { options: this.options });
     });
 
-    if (this.options["test-framework"] !== "none") {
+    if (this.options.testFramework !== "none") {
       this._copyTemplate("test/testHelper.js");
     }
   }
@@ -264,7 +234,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   expressSession() {
-    if (this.options["sessions-enabled"]) {
+    if (this.options.sessionsEnabled) {
       this._addDependencies("cookie-session");
       this._copyTemplate("src/middlewares/addExpressSession.js");
       this._modifyJson("package.json", (json) => {
@@ -296,21 +266,18 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   _validateViewEngine() {
-    if (
-      this.options["view-engine"] &&
-      !supportedViewEngines.includes(this.options["view-engine"])
-    ) {
-      this._validateWhitelistedOption("view-engine", supportedViewEngines, "view engine");
+    if (this.options.viewEngine && !supportedViewEngines.includes(this.options.viewEngine)) {
+      this._validateWhitelistedOption("viewEngine", supportedViewEngines, "view engine");
     }
   }
 
   _validateTestFramework() {
-    this._validateWhitelistedOption("test-framework", supportedTestFrameworks, "test framework");
+    this._validateWhitelistedOption("testFramework", supportedTestFrameworks, "test framework");
   }
 
   // eslint-disable-next-line class-methods-use-this
   _validateDbClient() {
-    // this._validateWhitelistedOption("db-client", supportedDbClients, "database client / ORM");
+    // this._validateWhitelistedOption("dbClient", supportedDbClients, "database client / ORM");
   }
 
   _getName() {

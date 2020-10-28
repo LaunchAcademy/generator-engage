@@ -10,13 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - added console / repl when objection is supported [#31](https://github.com/LaunchAcademy/generator-engage/issues/40)
-
 - `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
 - added `dev:debug` convenience script in server [#72](https://github.com/LaunchAcademy/generator-engage/issues/72)
+- added `--help` documentation for the `app` generator [#71](https://github.com/LaunchAcademy/generator-engage/issues/71)
 
 ### Changed
 
 - use `cookie-session` instead of `express-session` [#66](https://github.com/LaunchAcademy/generator-engage/issues/66)
+- changed options to adhere to camelCase conventions consistently
 
 ## [0.2.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.0)
 

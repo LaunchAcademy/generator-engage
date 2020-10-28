@@ -17,7 +17,7 @@ describe("generator-engage:server", () => {
     it("errors if I specify an invalid view engine", (done) => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, generateInto: "server", "view-engine": "badInput" })
+        .withOptions({ skipInstall: true, generateInto: "server", viewEngine: "badInput" })
         .inTmpDir((dir) => {
           destinationRoot = dir;
         })
@@ -28,10 +28,10 @@ describe("generator-engage:server", () => {
         });
     });
 
-    it("errors if I specify an invalid test-framework", (done) => {
+    it("errors if I specify an invalid testFramework", (done) => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, generateInto: "server", "test-framework": "badInput" })
+        .withOptions({ skipInstall: true, generateInto: "server", testFramework: "badInput" })
         .inTmpDir((dir) => {
           destinationRoot = dir;
         })
@@ -50,7 +50,7 @@ describe("generator-engage:server", () => {
         .withOptions({
           skipInstall: false,
           generateInto: "server",
-          "db-client": "pg",
+          dbClient: "pg",
           "client-app-path": "client",
         })
         .inTmpDir((dir) => {
@@ -277,7 +277,7 @@ describe("generator-engage:server", () => {
     beforeAll((done) => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: false, "db-client": "objection", generateInto: "server" })
+        .withOptions({ skipInstall: false, dbClient: "objection", generateInto: "server" })
         .inTmpDir((dir) => {
           destinationRoot = dir;
         })
@@ -343,7 +343,7 @@ describe("generator-engage:server", () => {
     it("does insert a view engine", () => {
       return helpers
         .run(generatorPath)
-        .withOptions({ skipInstall: true, "view-engine": "none", generateInto: "server" })
+        .withOptions({ skipInstall: true, viewEngine: "none", generateInto: "server" })
         .inTmpDir((dir) => {
           destinationRoot = dir;
         })

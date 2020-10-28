@@ -35,7 +35,7 @@ const reactDevDependencies = {
 class ClientGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.option("output-dir", {
+    this.option("outputDir", {
       type: String,
       default: "dist",
       description: "relative path to webpack output dir",
