@@ -77,6 +77,7 @@ describe("generator-engage:client", () => {
     it("installs node-sass", () => {
       expect(json.dependencies["node-sass"]).toBeDefined();
     });
+
     it("installs css loader", () => {
       expect(json.dependencies["css-loader"]).toBeDefined();
     });
@@ -95,6 +96,10 @@ describe("generator-engage:client", () => {
 
     it("installs mini-css-extract-plugin", () => {
       expect(json.dependencies["mini-css-extract-plugin"]).toBeDefined();
+    });
+
+    it("places an src/assets/scss/main.scss file", () => {
+      assert.file("client/src/assets/scss/main.scss");
     });
 
     it("creates a dev script", () => {
