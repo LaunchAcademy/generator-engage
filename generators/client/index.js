@@ -48,6 +48,7 @@ class ClientGenerator extends EngageGenerator {
       "webpack.config.js",
       "babel.config.js",
       "public/index.html",
+      "public/favicon.ico",
       ".prettierrc",
     ].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
