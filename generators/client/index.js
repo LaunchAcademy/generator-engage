@@ -76,7 +76,12 @@ class ClientGenerator extends EngageGenerator {
       this._addDependencies(dep, reactDevDependencies[dep], { dev: true });
     });
 
-    ["src/components/App.jsx", "src/index.js", "src/config.js"].forEach((filePath) => {
+    [
+      "src/components/App.jsx",
+      "src/index.js",
+      "src/config.js",
+      "src/assets/scss/main.scss",
+    ].forEach((filePath) => {
       this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
     });
   }
