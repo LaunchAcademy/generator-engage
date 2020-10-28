@@ -5,7 +5,7 @@ const {
 } = require("./constants");
 
 const initServerOptions = (generator) => {
-  generator.option("view-engine", {
+  generator.option("viewEngine", {
     default: supportedViewEngines[0],
     type: String,
     description: `View engine to use (only handlebars is supported currently) valid values are: ${supportedViewEngines.join(
@@ -13,7 +13,7 @@ const initServerOptions = (generator) => {
     )})`,
   });
 
-  generator.option("test-framework", {
+  generator.option("testFramework", {
     default: supportedTestFrameworks[0],
     type: String,
     description: `Test framework to use (only jest is supported currently) valid values are: ${supportedTestFrameworks.join(
@@ -21,13 +21,13 @@ const initServerOptions = (generator) => {
     )}`,
   });
 
-  generator.option("db-client", {
+  generator.option("dbClient", {
     default: "objection",
     type: String,
     description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(",")}`,
   });
 
-  generator.option("sessions-enabled", {
+  generator.option("sessionsEnabled", {
     default: true,
     type: Boolean,
     description: "Whether express-session should be configured",

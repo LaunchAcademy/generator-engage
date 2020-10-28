@@ -1,16 +1,16 @@
 import addEnvironmentMiddlewares from "./addEnvironmentMiddlewares.js";
-<% if(options["sessions-enabled"]) { -%>
+<% if(options["sessionsEnabled"]) { -%>
 import addExpressSession from "./addExpressSession.js";
 <% } -%>
-<% if(options["db-client"] === "pg") { -%>
+<% if(options["dbClient"] === "pg") { -%>
 import addDbMiddleware from "./addDbMiddleware.js";
 <% } -%>
 
 const addMiddlewares = app => {
-<% if(options["sessions-enabled"]) { -%>
+<% if(options["sessionsEnabled"]) { -%>
   addExpressSession(app);
 <% } -%>
-<% if(options["db-client"] === "pg") { -%>
+<% if(options["dbClient"] === "pg") { -%>
   addDbMiddleware(app);
 <% } -%>
   addEnvironmentMiddlewares(app);
