@@ -35,7 +35,7 @@ const reactDevDependencies = {
 class ClientGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.option("output-dir", {
+    this.option("outputDir", {
       type: String,
       default: "dist",
       description: "relative path to webpack output dir",
@@ -48,6 +48,7 @@ class ClientGenerator extends EngageGenerator {
       "webpack.config.js",
       "babel.config.js",
       "public/index.html",
+      "public/favicon.ico",
       ".prettierrc",
     ].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
@@ -75,7 +76,12 @@ class ClientGenerator extends EngageGenerator {
       this._addDependencies(dep, reactDevDependencies[dep], { dev: true });
     });
 
-    ["src/components/App.jsx", "src/index.js", "src/config.js"].forEach((filePath) => {
+    [
+      "src/components/App.jsx",
+      "src/index.js",
+      "src/config.js",
+      "src/assets/scss/main.scss",
+    ].forEach((filePath) => {
       this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
     });
   }
