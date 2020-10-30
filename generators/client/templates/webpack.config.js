@@ -18,7 +18,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: { presets: ["@babel/env"] },
@@ -73,7 +73,7 @@ module.exports = {
       "@Components": path.resolve(__dirname, "src/components/"),
       "@Providers": path.resolve(__dirname, "src/providers/"),
     },
-    extensions: ["*", ".js", ".jsx", ".scss"],
+    extensions: ["*", ".js", ".scss"],
   },
   output: {
     path: path.resolve(__dirname, "<%= options["outputDir"] %>"),
