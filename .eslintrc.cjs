@@ -7,7 +7,8 @@ module.exports = {
   rules: {
     "prettier/prettier": "error",
     "no-underscore-dangle": "off",
-    "no-param-reassign": ["error", { props: false }]
+    "no-param-reassign": ["error", { props: false }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
   },
   plugins: ["prettier"]
 };
