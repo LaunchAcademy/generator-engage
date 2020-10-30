@@ -6,6 +6,7 @@
     "client"
   ],
   "scripts": {
+    "dev:server:debug": "PORT=4000 yarn workspace <%= name %>-server dev:debug",
     "dev:server": "PORT=4000 yarn workspace <%= name %>-server dev",
     "dev:client": "yarn workspace <%= name %>-client dev",
     "heroku-postbuild": "yarn workspace <%= name %>-client build",

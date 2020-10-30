@@ -76,7 +76,7 @@ module.exports = {
     extensions: ["*", ".js", ".scss"],
   },
   output: {
-    path: path.resolve(__dirname, "<%= options["output-dir"] %>"),
+    path: path.resolve(__dirname, "<%= options["outputDir"] %>"),
     publicPath: "/dist/",
     filename: "bundle.js",
   },
