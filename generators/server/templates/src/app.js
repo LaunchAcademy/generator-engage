@@ -2,16 +2,20 @@ import express from "express";
 import path from "path";
 import logger from "morgan";
 import bodyParser from "body-parser";
-import "./src/boot.js";
-import configuration from "./src/config.js";
-import addMiddlewares from "./src/middlewares/addMiddlewares.js";
+import { fileURLToPath } from "url";
+import "./boot.js";
+import configuration from "./config.js";
+import addMiddlewares from "./middlewares/addMiddlewares.js";
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
 
-app.use(express.static(path.join(import.meta.url, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

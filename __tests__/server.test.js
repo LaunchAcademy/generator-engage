@@ -23,7 +23,7 @@ describe("generator-engage:server", () => {
         })
         .catch((err) => {
           expect(err.message).toMatch("Invalid view engine");
-          assert.noFile("server/app.js");
+          assert.noFile("server/src/app.js");
           done();
         });
     });
@@ -37,7 +37,7 @@ describe("generator-engage:server", () => {
         })
         .catch((err) => {
           expect(err.message).toMatch("Invalid test framework");
-          assert.noFile("server/app.js");
+          assert.noFile("server/src/app.js");
           done();
         });
     });
@@ -75,8 +75,8 @@ describe("generator-engage:server", () => {
       expect(json.dependencies.morgan).toBeDefined();
     });
 
-    it("creates an app.js file", () => {
-      assert.file("server/app.js");
+    it("creates an app.js file in src directory", () => {
+      assert.file("server/src/app.js");
     });
 
     it("creates a public directory", () => {
@@ -89,7 +89,7 @@ describe("generator-engage:server", () => {
 
     it("adds a start script", () => {
       json = readPackageJson();
-      expect(json.scripts.start).toEqual("node app.js");
+      expect(json.scripts.start).toEqual("node src/app.js");
     });
 
     describe("nodemon", () => {
@@ -99,7 +99,7 @@ describe("generator-engage:server", () => {
 
       it("adds a dev script with nodemon", () => {
         expect(json.scripts.dev).toBeDefined();
-        expect(json.scripts.dev).toEqual("nodemon app.js");
+        expect(json.scripts.dev).toEqual("nodemon src/app.js");
       });
 
       it("adds a dev:debug script", () => {
@@ -135,11 +135,11 @@ describe("generator-engage:server", () => {
       });
 
       it("adds the handlebars middleware snippet", () => {
-        assert.fileContent("server/app.js", '"hbs"');
+        assert.fileContent("server/src/app.js", '"hbs"');
       });
 
       it("adds the require of handlebars middleware", () => {
-        assert.fileContent("server/app.js", 'from "express-handlebars";');
+        assert.fileContent("server/src/app.js", 'from "express-handlebars";');
       });
 
       it("adds a default layout", () => {
@@ -348,7 +348,7 @@ describe("generator-engage:server", () => {
           destinationRoot = dir;
         })
         .then(() => {
-          assert.noFileContent("server/app.js", 'app.set("views")');
+          assert.noFileContent("server/src/app.js", 'app.set("views")');
         });
     });
   });

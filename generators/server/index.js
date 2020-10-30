@@ -7,7 +7,7 @@ const insertAfter = require("../../lib/insertAfter");
 const { supportedViewEngines, supportedTestFrameworks } = require("./constants");
 const initServerOptions = require("./initServerOptions");
 
-const serverFileName = "app.js";
+const serverFileName = "src/app.js";
 
 module.exports = class ServerGenerator extends EngageGenerator {
   constructor(args, options) {
@@ -46,7 +46,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       appPath: serverFileName,
     });
 
-    this.fs.copyTpl(this.templatePath("app.js"), this.generatedPath(serverFileName));
+    this.fs.copyTpl(this.templatePath("src/app.js"), this.generatedPath(serverFileName));
 
     this.fs.write(this.generatedPath("public", ".gitkeep"), "");
   }
