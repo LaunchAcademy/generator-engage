@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isDevelopment = (process.env.NODE_ENV || "development") === "development";
 
 module.exports = {
-  entry: ["./src/index.js"],
+  entry: ["./src/main.js"],
   mode: isDevelopment ? "development" : "production",
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
