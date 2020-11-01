@@ -1,18 +1,27 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const isDevelopment = (process.env.NODE_ENV || "development") === "development";
 
+const initialEntryPoints = isDevelopment ? ["webpack-hot-middleware/client?reload=true"] : [];
+
 module.exports = {
-  entry: ["./src/main.js"],
+  entry: [...initialEntryPoints, path.join(__dirname, "./src/main.js")],
+  context: path.resolve(__dirname),
+  devtool: isDevelopment ? "source-map" : false,
   mode: isDevelopment ? "development" : "production",
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? "[name].css" : "[name].[hash].css",
       chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
+    }),
+    new HtmlWebpackPlugin({
+      title: "Engage",
+      template: path.join(__dirname, "public/index.template.html"),
     }),
   ],
   module: {
@@ -21,19 +30,15 @@ module.exports = {
         test: /\.(js)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env"] },
+        options: { presets: ["@babel/env"], cwd: path.resolve(__dirname) },
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: "file-loader",
-          },
-        ],
+        loader: "file-loader",
       },
       {
         test: /\.module\.s(a|c)ss$/,
-        loader: [
+        use: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
@@ -55,7 +60,7 @@ module.exports = {
       {
         test: /\.s(a|c)ss$/,
         exclude: /\.module.(s(a|c)ss)$/,
-        loader: [
+        use: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           {
@@ -76,7 +81,7 @@ module.exports = {
     extensions: ["*", ".js", ".scss"],
   },
   output: {
-    path: path.resolve(__dirname, "<%= options["outputDir"] %>"),
+    path: path.resolve(__dirname, "../server/public/dist"),
     publicPath: "/dist/",
     filename: "bundle.js",
   },

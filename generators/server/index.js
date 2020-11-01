@@ -4,6 +4,8 @@ const { v4: uuidv4 } = require("uuid");
 
 const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
+const insertBefore = require("../../lib/insertBefore.js");
+
 const { supportedViewEngines, supportedTestFrameworks } = require("./constants");
 const initServerOptions = require("./initServerOptions");
 
@@ -47,6 +49,10 @@ module.exports = class ServerGenerator extends EngageGenerator {
     });
 
     this.fs.copyTpl(this.templatePath("src/app.js"), this.generatedPath(serverFileName));
+    this.fs.copyTpl(
+      this.templatePath("src/routes/rootRouter.js"),
+      this.generatedPath("src/routes/rootRouter.js")
+    );
 
     this.fs.write(this.generatedPath("public", ".gitkeep"), "");
   }
@@ -126,6 +132,44 @@ module.exports = class ServerGenerator extends EngageGenerator {
       if (this.options.clientAppPath !== "") {
         const clientLayoutPath = "views/layouts/client.hbs";
         this.fs.copyTpl(this.templatePath(clientLayoutPath), this.generatedPath(clientLayoutPath));
+
+        this._addDependencies("webpack", "^5.3.2", { dev: true });
+        this._addDependencies("webpack-dev-middleware", "^4.0.0", { dev: true });
+        this._addDependencies("webpack-hot-middleware", null, { dev: true });
+
+        [
+          "src/routes/clientRouter.js",
+          "src/middlewares/clientMiddlewares.js",
+          "src/middlewares/webpackMiddlewares.js",
+        ].forEach((file) => {
+          this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
+        });
+
+        insertBefore(
+          this,
+          "snippets/client/requires.js",
+          this.generatedPath("src/routes/rootRouter.js"),
+          (nodePath) => {
+            return (
+              nodePath.type === "VariableDeclaration" &&
+              nodePath.node.declarations.length === 1 &&
+              nodePath.node.declarations[0].id.name === "rootRouter"
+            );
+          }
+        );
+
+        insertAfter(
+          this,
+          "snippets/client/use.js",
+          this.generatedPath("src/routes/rootRouter.js"),
+          (nodePath) => {
+            return (
+              nodePath.type === "VariableDeclaration" &&
+              nodePath.node.declarations.length === 1 &&
+              nodePath.node.declarations[0].id.name === "rootRouter"
+            );
+          }
+        );
       }
     }
   }
@@ -172,7 +216,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   jest() {
     if (this.options.testFramework === "jest") {
       this._addDependencies(
-        ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest"],
+        ["jest", "babel-jest", "@babel/core", "@babel/preset-env", "@types/jest", "@types/express"],
         null,
         {
           dev: true,
