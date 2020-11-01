@@ -106,6 +106,11 @@ class ClientGenerator extends EngageGenerator {
       this.fs.write(mainCssPath, `${imports}${existingContents}`);
     }
   }
+
+  vsCodeWorkspace() {
+    const filePath = ".vscode/settings.json";
+    this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
+  }
 }
 
 module.exports = ClientGenerator;
