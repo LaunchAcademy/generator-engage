@@ -294,6 +294,11 @@ module.exports = class ServerGenerator extends EngageGenerator {
     }
   }
 
+  vsCodeWorkspace() {
+    const filePath = ".vscode/settings.json";
+    this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
+  }
+
   nvmrc() {
     this.fs.copyTpl(this.templatePath(".nvmrc"), this.generatedPath(".nvmrc"));
   }

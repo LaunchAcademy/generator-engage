@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - support running webpack bidirectionally, handle for an allow list of client-side routes [#68](https://github.com/LaunchAcademy/generator-engage/issues/68)
 - change `index.js` to `main.js` client-side
 - specify node engine directives in all package.jsons on the basis of the generator runtime
+- generate vscode workspace settings file for color differentiation [#89](https://github.com/LaunchAcademy/generator-engage/issues/89)
 
 ### Changed
 
