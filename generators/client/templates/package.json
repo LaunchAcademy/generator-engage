@@ -6,5 +6,8 @@
   "license": "UNLICENSED",
   "private": true,
   "name": "<%= name %>-client",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "engines": {
+    "node": "~<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
+  }
 }

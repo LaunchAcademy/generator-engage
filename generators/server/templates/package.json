@@ -6,5 +6,8 @@
   "private": true,
   "type": "module",
   "version": "0.0.1",
-  "name": "<%= name %>-server"
+  "name": "<%= name %>-server",
+  "engines": {
+    "node": "~<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
+  }
 }

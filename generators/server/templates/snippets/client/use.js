@@ -1,0 +1,1 @@
+rootRouter.use("/", clientRouter);

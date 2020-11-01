@@ -6,10 +6,16 @@
     "client"
   ],
   "scripts": {
+    "build:client": "yarn workspace run-from-server-client build",
+    "dev": "yarn workspace <%= name %>-server dev",
+    "dev:debug": "yarn workspace <%= name %>-server dev:debug",
     "dev:server:debug": "PORT=4000 yarn workspace <%= name %>-server dev:debug",
     "dev:server": "PORT=4000 yarn workspace <%= name %>-server dev",
     "dev:client": "yarn workspace <%= name %>-client dev",
     "heroku-postbuild": "yarn workspace <%= name %>-client build",
     "start": "yarn workspace <%= name %>-server start"
+  },
+  "engines": {
+    "node": "~<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
   }
 }
