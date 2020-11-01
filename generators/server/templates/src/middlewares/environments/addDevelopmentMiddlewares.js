@@ -1,8 +1,8 @@
-import errorHandler from "../errorHandler.js";
 import config from "../../config.js";
 
-const addDevelopmentMiddlewares = app => {
+const addDevelopmentMiddlewares = async (app) => {
   if (config.nodeEnv === "development") {
+    const { default: errorHandler } = await import("../errorHandler.js");
     app.use(errorHandler());
   }
 };

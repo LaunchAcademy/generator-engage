@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
 import getNodeEnv from "../../config/getNodeEnv.js";
 
 if (getNodeEnv() === "test") {
-  // test specific middlewares here
-  dotenv.config();
+  // development specific middlewares here
+  const { default: dotenv } = await import("dotenv");
+  await dotenv.config();
 }

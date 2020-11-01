@@ -6,14 +6,14 @@ import addExpressSession from "./addExpressSession.js";
 import addDbMiddleware from "./addDbMiddleware.js";
 <% } -%>
 
-const addMiddlewares = app => {
+const addMiddlewares = async app => {
 <% if(options["sessionsEnabled"]) { -%>
   addExpressSession(app);
 <% } -%>
 <% if(options["dbClient"] === "pg") { -%>
   addDbMiddleware(app);
 <% } -%>
-  addEnvironmentMiddlewares(app);
+  await addEnvironmentMiddlewares(app);
 };
 
 export default addMiddlewares;
