@@ -92,6 +92,11 @@ describe("generator-engage:server", () => {
       expect(json.scripts.start).toEqual("node src/app.js");
     });
 
+    it("specifies a node engine", () => {
+      json = readPackageJson();
+      expect(json.engines.node).toBeDefined();
+    });
+
     describe("nodemon", () => {
       it("installs nodemon as a dev dependency", () => {
         expect(json.devDependencies.nodemon).toBeDefined();

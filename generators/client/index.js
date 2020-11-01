@@ -1,5 +1,6 @@
 const path = require("path");
 const EngageGenerator = require("../../lib/EngageGenerator");
+const getNodeVersion = require("../../lib/getNodeVersion");
 
 const reactDependencies = {
   "@babel/core": "7.10.2",
@@ -19,17 +20,19 @@ const reactDependencies = {
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
   "react-router-dom": "~5.2",
-  "file-loader": "^6.0.0",
-  "css-loader": "^3.6.0",
+  "file-loader": "^6.2.0",
+  "html-webpack-plugin": "^4.5.0",
+  "css-loader": "^5.0.0",
   "mini-css-extract-plugin": "^0.9.0",
   "node-sass": "^4.14.1",
   "sass-loader": "^8.0.2",
   "style-loader": "^1.2.1",
+  webpack: "^5.3.2",
+  "webpack-cli": "^4.1.0",
+  "webpack-hot-middleware": "^2.25.0",
 };
 
 const reactDevDependencies = {
-  webpack: "^4.43.0",
-  "webpack-cli": "~3.3.11",
   "webpack-dev-server": "~3.11",
 };
 class ClientGenerator extends EngageGenerator {
@@ -53,12 +56,14 @@ class ClientGenerator extends EngageGenerator {
       "webpack.config.js",
       "babel.config.js",
       "public/index.html",
+      "public/index.template.html",
       "public/favicon.ico",
       ".prettierrc",
     ].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
         options: this.options,
         name: path.basename(this.generatedPath("../")),
+        nodeVersion: getNodeVersion(),
       });
     });
 

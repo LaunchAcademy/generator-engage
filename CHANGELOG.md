@@ -5,21 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.1](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.1)
+## [Unreleased]
 
-### Added
+## Added
 
 - added console / repl when objection is supported [#31](https://github.com/LaunchAcademy/generator-engage/issues/40)
-- `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
 - added `dev:debug` convenience script in server [#72](https://github.com/LaunchAcademy/generator-engage/issues/72)
 - added `--help` documentation for the `app` generator [#71](https://github.com/LaunchAcademy/generator-engage/issues/71)
 - include a global `main.scss` for global styling [#73](https://github.com/LaunchAcademy/generator-engage/issues/73)
 - support foundation on the front-end [#74](https://github.com/LaunchAcademy/generator-engage/issues/73)
+- support running webpack bidirectionally, handle for an allow list of client-side routes [#68](https://github.com/LaunchAcademy/generator-engage/issues/68)
+- change `index.js` to `main.js` client-side
+- specify node engine directives in all package.jsons on the basis of the generator runtime
 
 ### Changed
 
 - use `cookie-session` instead of `express-session` [#66](https://github.com/LaunchAcademy/generator-engage/issues/66)
 - changed options to adhere to camelCase conventions consistently
+- development boot and middleware configuration now takes advantage of top-level await, allowing `dotenv` and `errorhandler` to be true `devDependencies`
+
+
+## [0.2.1](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.1)
+
+### Added
+
+- `.eslintrc.json` and `.prettierrc` files for client [#40](https://github.com/LaunchAcademy/generator-engage/issues/40)
+
+
 
 ## [0.2.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.2.0)
 

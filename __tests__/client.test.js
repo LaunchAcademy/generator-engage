@@ -59,7 +59,7 @@ describe("generator-engage:client", () => {
 
     it("installs webpack-cli as a dev dependency", () => {
       json = readPackageJson();
-      expect(json.devDependencies["webpack-cli"]).toBeDefined();
+      expect(json.dependencies["webpack-cli"]).toBeDefined();
     });
 
     it("creates a public/index.html", () => {
