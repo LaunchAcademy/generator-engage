@@ -43,6 +43,11 @@ class ClientGenerator extends EngageGenerator {
       default: "dist",
       description: "relative path to webpack output dir",
     });
+    this.option("cssFramework", {
+      type: String,
+      default: "foundation",
+      description: "css framework (foundation)",
+    });
   }
 
   writeBase() {
@@ -86,6 +91,20 @@ class ClientGenerator extends EngageGenerator {
         this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
       }
     );
+  }
+
+  foundation() {
+    if (this.options.cssFramework === "foundation") {
+      this._addDependencies("foundation-sites");
+
+      const settingsPath = "src/assets/scss/foundation/_settings.scss";
+      this.fs.copy(this.templatePath(settingsPath), this.generatedPath(settingsPath));
+
+      const mainCssPath = this.generatedPath("src/assets/scss/main.scss");
+      const existingContents = this.fs.read(mainCssPath);
+      const imports = this.fs.read(this.templatePath("snippets/foundation.scss"));
+      this.fs.write(mainCssPath, `${imports}${existingContents}`);
+    }
   }
 }
 
