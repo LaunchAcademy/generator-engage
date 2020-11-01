@@ -14,5 +14,8 @@
     "dev:client": "yarn workspace <%= name %>-client dev",
     "heroku-postbuild": "yarn workspace <%= name %>-client build",
     "start": "yarn workspace <%= name %>-server start"
+  },
+  "engines": {
+    "node": "~<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
   }
 }

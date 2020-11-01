@@ -42,7 +42,7 @@
     "yeoman-test": "^1.7.0"
   },
   "engines": {
-    "node": ">= 12",
+    "node": ">= 14",
     "npm": ">= 4.0.0"
   },
   "dependencies": {
@@ -53,6 +53,7 @@
     "dotenv": "^8.2.0",
     "generator-engage": "/Users/dpickett/work/generator-engage",
     "prettier": "^2.0.5",
+    "semver": "^7.3.2",
     "uuid": "^8.1.0",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"

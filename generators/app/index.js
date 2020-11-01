@@ -1,6 +1,7 @@
 const path = require("path");
 
 const EngageGenerator = require("../../lib/EngageGenerator");
+const getNodeVersion = require("../../lib/getNodeVersion");
 const initServerOptions = require("../server/initServerOptions");
 
 module.exports = class AppGenerator extends EngageGenerator {
@@ -26,6 +27,7 @@ module.exports = class AppGenerator extends EngageGenerator {
     ["package.json", "Procfile"].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
         name: path.basename(this.generatedPath()),
+        nodeVersion: getNodeVersion(),
       });
     });
   }

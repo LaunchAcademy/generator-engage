@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const EngageGenerator = require("../../lib/EngageGenerator");
 const insertAfter = require("../../lib/insertAfter");
 const insertBefore = require("../../lib/insertBefore.js");
+const getNodeVersion = require("../../lib/getNodeVersion");
 
 const { supportedViewEngines, supportedTestFrameworks } = require("./constants");
 const initServerOptions = require("./initServerOptions");
@@ -46,6 +47,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
     this.fs.copyTpl(this.templatePath("package.json"), this.generatedPath("package.json"), {
       name: this._getName(),
       appPath: serverFileName,
+      nodeVersion: getNodeVersion(),
     });
 
     this.fs.copyTpl(this.templatePath("src/app.js"), this.generatedPath(serverFileName));

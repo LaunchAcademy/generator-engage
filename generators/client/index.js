@@ -1,5 +1,6 @@
 const path = require("path");
 const EngageGenerator = require("../../lib/EngageGenerator");
+const getNodeVersion = require("../../lib/getNodeVersion");
 
 const reactDependencies = {
   "@babel/core": "7.10.2",
@@ -57,6 +58,7 @@ class ClientGenerator extends EngageGenerator {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
         options: this.options,
         name: path.basename(this.generatedPath("../")),
+        nodeVersion: getNodeVersion(),
       });
     });
 
