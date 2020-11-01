@@ -51,7 +51,6 @@
     "@babel/traverse": "^7.8.6",
     "chalk": "^2.1.0",
     "dotenv": "^8.2.0",
-    "generator-engage": "/Users/dpickett/work/generator-engage",
     "prettier": "^2.0.5",
     "semver": "^7.3.2",
     "uuid": "^8.1.0",
