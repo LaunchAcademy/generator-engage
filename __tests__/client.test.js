@@ -117,5 +117,15 @@ describe("generator-engage:client", () => {
     it("creates a prettierrc", () => {
       assert.file("client/.prettierrc");
     });
+
+    describe("foundation", () => {
+      it("adds foundation-sites as a dependency", () => {
+        expect(json.dependencies["foundation-sites"]).toBeDefined();
+      });
+
+      it("adds a foundation/settings.scss file", () => {
+        assert.file("client/src/assets/scss/foundation/_settings.scss");
+      });
+    });
   });
 });

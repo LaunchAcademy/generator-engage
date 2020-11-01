@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added `dev:debug` convenience script in server [#72](https://github.com/LaunchAcademy/generator-engage/issues/72)
 - added `--help` documentation for the `app` generator [#71](https://github.com/LaunchAcademy/generator-engage/issues/71)
 - include a global `main.scss` for global styling [#73](https://github.com/LaunchAcademy/generator-engage/issues/73)
+- support foundation on the front-end [#74](https://github.com/LaunchAcademy/generator-engage/issues/73)
 
 ### Changed
 
