@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added `dev:debug` convenience script in server [#72](https://github.com/LaunchAcademy/generator-engage/issues/72)
 - added `--help` documentation for the `app` generator [#71](https://github.com/LaunchAcademy/generator-engage/issues/71)
 - include a global `main.scss` for global styling [#73](https://github.com/LaunchAcademy/generator-engage/issues/73)
+- added Favicon to avoid unnecessary console errors [#82](https://github.com/LaunchAcademy/generator-engage/issues/82)
 - support foundation on the front-end [#74](https://github.com/LaunchAcademy/generator-engage/issues/73)
 - support running webpack bidirectionally, handle for an allow list of client-side routes [#68](https://github.com/LaunchAcademy/generator-engage/issues/68)
 - specify node engine directives in all package.jsons on the basis of the generator runtime
@@ -22,7 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - use `cookie-session` instead of `express-session` [#66](https://github.com/LaunchAcademy/generator-engage/issues/66)
 - changed options to adhere to camelCase conventions consistently
-- changed file structure to be consistent with patterns in instruction: server's `app.js` within `src` directory and now creates/uses `__dirname` variable, React entrypoint in `main.js` (from `index.js`)
+- updated `.gitignore` template on server side to avoid `.npmignore` renaming bug [#78] (https://github.com/LaunchAcademy/generator-engage/issues/78)
+- changed file structure to be consistent with patterns in instruction: server's `app.js` within `src` directory and now creates/uses `__dirname` variable, React entrypoint in `main.js` (from `index.js`) [#80](https://github.com/LaunchAcademy/generator-engage/issues/80) [#84](https://github.com/LaunchAcademy/generator-engage/issues/84)
 - updated React to use `.js` files for JSX code
 - development boot and middleware configuration now takes advantage of top-level await, allowing `dotenv` and `errorhandler` to be true `devDependencies`
 
