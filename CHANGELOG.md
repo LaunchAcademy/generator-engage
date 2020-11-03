@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - include a global `main.scss` for global styling [#73](https://github.com/LaunchAcademy/generator-engage/issues/73)
 - support foundation on the front-end [#74](https://github.com/LaunchAcademy/generator-engage/issues/73)
 - support running webpack bidirectionally, handle for an allow list of client-side routes [#68](https://github.com/LaunchAcademy/generator-engage/issues/68)
-- change `index.js` to `main.js` client-side
 - specify node engine directives in all package.jsons on the basis of the generator runtime
 - generate vscode workspace settings file for color differentiation [#89](https://github.com/LaunchAcademy/generator-engage/issues/89)
 
@@ -23,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - use `cookie-session` instead of `express-session` [#66](https://github.com/LaunchAcademy/generator-engage/issues/66)
 - changed options to adhere to camelCase conventions consistently
+- changed file structure to be consistent with patterns in instruction: server's `app.js` within `src` directory and now creates/uses `__dirname` variable, React entrypoint in `main.js` (from `index.js`)
+- updated React to use `.js` files for JSX code
 - development boot and middleware configuration now takes advantage of top-level await, allowing `dotenv` and `errorhandler` to be true `devDependencies`
 
 
