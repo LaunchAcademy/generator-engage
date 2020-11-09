@@ -52,9 +52,9 @@ describe("app test", () => {
       expect(workspaces).toContain("client");
     });
 
-    it("defines a dev:server:debug script", () => {
+    it("defines a dev:debug script", () => {
       const { scripts } = readPackageJson();
-      expect(scripts["dev:server:debug"]).toBeDefined();
+      expect(scripts["dev:debug"]).toBeDefined();
     });
   });
 });
