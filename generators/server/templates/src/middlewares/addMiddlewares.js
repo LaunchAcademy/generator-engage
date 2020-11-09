@@ -13,6 +13,9 @@ const addMiddlewares = async app => {
 <% if(options["dbClient"] === "pg") { -%>
   addDbMiddleware(app);
 <% } -%>
+<% if(options["clientAppPath"]) { -%>
+  await addClientMiddlewares(app);
+<% } -%>
   await addEnvironmentMiddlewares(app);
 };
 

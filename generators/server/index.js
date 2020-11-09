@@ -141,7 +141,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
         [
           "src/routes/clientRouter.js",
-          "src/middlewares/clientMiddlewares.js",
+          "src/middlewares/addClientMiddlewares.js",
+          "src/config/getClientIndexPath.js",
           "src/middlewares/webpackMiddlewares.js",
         ].forEach((file) => {
           this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
