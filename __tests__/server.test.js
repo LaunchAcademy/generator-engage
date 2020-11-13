@@ -317,6 +317,10 @@ describe("generator-engage:server", () => {
       assert.file("server/src/models/package.json");
     });
 
+    it("creates a src/models/index.js", () => {
+      assert.file("server/src/models/index.js");
+    });
+
     it("creates a boot/model.js", () => {
       assert.file("server/src/boot/model.js");
     });
