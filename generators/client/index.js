@@ -1,6 +1,7 @@
 const path = require("path");
 const EngageGenerator = require("../../lib/EngageGenerator");
 const getNodeVersion = require("../../lib/getNodeVersion");
+const initClientOptions = require("./initClientOptions");
 
 const reactDependencies = {
   "@babel/core": "7.10.2",
@@ -38,16 +39,7 @@ const reactDevDependencies = {
 class ClientGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
-    this.option("outputDir", {
-      type: String,
-      default: "dist",
-      description: "relative path to webpack output dir",
-    });
-    this.option("cssFramework", {
-      type: String,
-      default: "foundation",
-      description: "css framework (foundation)",
-    });
+    initClientOptions(this);
   }
 
   writeBase() {

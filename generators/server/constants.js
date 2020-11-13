@@ -1,6 +1,6 @@
 const supportedViewEngines = ["handlebars", "none"];
-const supportedTestFrameworks = ["jest"];
-const supportedDbClients = ["objection", "pg"];
+const supportedTestFrameworks = ["jest", "none"];
+const supportedDbClients = ["objection", "pg", "none"];
 
 module.exports = {
   supportedViewEngines,
