@@ -197,6 +197,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "knexfile.cjs",
         "src/models/Model.js",
         "src/models/package.json",
+        "src/models/index.js",
         "src/boot/model.js",
         "src/db/migrations/migration.stub.cjs",
         "test/utils/truncateModel.js",
