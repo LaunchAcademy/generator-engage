@@ -2,12 +2,14 @@ const path = require("path");
 
 const EngageGenerator = require("../../lib/EngageGenerator");
 const getNodeVersion = require("../../lib/getNodeVersion");
+const initClientOptions = require("../client/initClientOptions");
 const initServerOptions = require("../server/initServerOptions");
 
 module.exports = class AppGenerator extends EngageGenerator {
   constructor(args, options) {
     super(args, options);
     initServerOptions(this);
+    initClientOptions(this);
   }
 
   initializing() {
