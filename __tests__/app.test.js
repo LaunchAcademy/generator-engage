@@ -56,5 +56,16 @@ describe("app test", () => {
       const { scripts } = readPackageJson();
       expect(scripts["dev:debug"]).toBeDefined();
     });
+
+    it("adds a prod script", () => {
+      const { scripts } = readPackageJson();
+      expect(scripts.prod).toBeDefined();
+    });
+
+    describe("procfile", () => {
+      it("creates a procfile", () => {
+        assert.file("server/Procfile");
+      });
+    });
   });
 });

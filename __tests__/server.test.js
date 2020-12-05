@@ -87,9 +87,9 @@ describe("generator-engage:server", () => {
       expect(json.devDependencies["eslint-plugin-react"]).toBeDefined();
     });
 
-    it("adds a start script", () => {
+    it("adds a prod script", () => {
       json = readPackageJson();
-      expect(json.scripts.start).toEqual("node src/app.js");
+      expect(json.scripts.prod).toEqual("node src/app.js");
     });
 
     it("specifies a node engine", () => {

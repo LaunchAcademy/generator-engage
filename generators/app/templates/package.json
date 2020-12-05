@@ -10,7 +10,7 @@
     "dev": "yarn workspace <%= name %>-server dev",
     "dev:debug": "yarn workspace <%= name %>-server dev:debug",
     "heroku-postbuild": "yarn workspace <%= name %>-client build",
-    "start": "yarn workspace <%= name %>-server start"
+    "prod": "yarn workspace <%= name %>-server prod"
   },
   "engines": {
     "node": "^<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
