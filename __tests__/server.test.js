@@ -261,6 +261,17 @@ describe("generator-engage:server", () => {
       });
     });
 
+    describe("client middlewares", () => {
+      it("adds client middleware to app.js", () => {
+        assert.file("server/src/middlewares/addClientMiddlewares.js");
+        assert.fileContent(
+          "server/src/middlewares/addMiddlewares.js",
+          "import addClientMiddlewares"
+        );
+        assert.fileContent("server/src/middlewares/addMiddlewares.js", "addClientMiddlewares(");
+      });
+    });
+
     describe("pg database option", () => {
       it("installs pg as a dependency", () => {
         expect(json.dependencies.pg).toBeDefined();
@@ -273,6 +284,7 @@ describe("generator-engage:server", () => {
       });
       it("adds db middleware to app.js", () => {
         assert.file("server/src/middlewares/addDbMiddleware.js");
+        assert.fileContent("server/src/middlewares/addMiddlewares.js", "import addDbMiddleware");
         assert.fileContent("server/src/middlewares/addMiddlewares.js", "addDbMiddleware(");
       });
     });
