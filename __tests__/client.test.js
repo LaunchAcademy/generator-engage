@@ -64,7 +64,7 @@ describe("generator-engage:client", () => {
 
     it("aliases react-dom as @hot-loader/react-dom in dev dependencies", () => {
       json = readPackageJson();
-      expect(json.devDependencies["react-dom"]).toEqual("npm:@hot-loader/react-dom");
+      expect(json.devDependencies["@hot-loader/react-dom"]).toEqual("~16.13");
     });
 
     it("creates a public/index.html", () => {
