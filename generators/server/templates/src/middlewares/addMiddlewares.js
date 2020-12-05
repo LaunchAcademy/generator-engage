@@ -6,8 +6,8 @@ import addExpressSession from "./addExpressSession.js";
 import addDbMiddleware from "./addDbMiddleware.js";
 <% } -%>
 <% if(options["clientAppPath"]) { -%>
-  import addClientMiddlewares from "./addClientMiddlewares.js";
-  <% } -%>
+import addClientMiddlewares from "./addClientMiddlewares.js";
+<% } -%>
 
 const addMiddlewares = async app => {
 <% if(options["sessionsEnabled"]) { -%>
