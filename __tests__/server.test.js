@@ -92,6 +92,11 @@ describe("generator-engage:server", () => {
       expect(json.scripts.prod).toEqual("node src/app.js");
     });
 
+    it("adds a clean script", () => {
+      json = readPackageJson();
+      expect(json.scripts.clean).toEqual("rm -rf ./public/dist");
+    });
+
     it("specifies a node engine", () => {
       json = readPackageJson();
       expect(json.engines.node).toBeDefined();
@@ -102,9 +107,9 @@ describe("generator-engage:server", () => {
         expect(json.devDependencies.nodemon).toBeDefined();
       });
 
-      it("adds a dev script with nodemon", () => {
+      it("adds a dev script with nodemon and clean script", () => {
         expect(json.scripts.dev).toBeDefined();
-        expect(json.scripts.dev).toEqual("nodemon src/app.js");
+        expect(json.scripts.dev).toEqual("yarn run clean && nodemon src/app.js");
       });
 
       it("adds a dev:debug script", () => {
