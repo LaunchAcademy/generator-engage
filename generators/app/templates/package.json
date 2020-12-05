@@ -13,6 +13,6 @@
     "start": "yarn workspace <%= name %>-server start"
   },
   "engines": {
-    "node": "~<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
+    "node": "^<%= nodeVersion.major %>.<%= nodeVersion.minor %>"
   }
 }
