@@ -34,6 +34,7 @@ const reactDependencies = {
 };
 
 const reactDevDependencies = {
+  "react-dom": "npm:@hot-loader/react-dom",
   "webpack-dev-server": "~3.11",
 };
 class ClientGenerator extends EngageGenerator {
