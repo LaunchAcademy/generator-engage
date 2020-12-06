@@ -65,7 +65,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
         json.scripts = {};
       }
 
-      json.scripts.dev = `nodemon ${serverFileName}`;
+      json.scripts.clean = `rm -rf ./public/dist`;
+      json.scripts.dev = `yarn run clean && nodemon ${serverFileName}`;
       json.scripts["dev:debug"] = "nodemon  -- --inspect app.js";
     });
 

@@ -62,6 +62,11 @@ describe("generator-engage:client", () => {
       expect(json.dependencies["webpack-cli"]).toBeDefined();
     });
 
+    it("aliases react-dom as @hot-loader/react-dom in dev dependencies", () => {
+      json = readPackageJson();
+      expect(json.devDependencies["@hot-loader/react-dom"]).toEqual("~16.13");
+    });
+
     it("creates a public/index.html", () => {
       assert.file("client/public/index.html");
     });

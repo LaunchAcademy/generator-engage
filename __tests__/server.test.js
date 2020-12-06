@@ -87,9 +87,14 @@ describe("generator-engage:server", () => {
       expect(json.devDependencies["eslint-plugin-react"]).toBeDefined();
     });
 
-    it("adds a start script", () => {
+    it("adds a prod script", () => {
       json = readPackageJson();
-      expect(json.scripts.start).toEqual("node src/app.js");
+      expect(json.scripts.prod).toEqual("node src/app.js");
+    });
+
+    it("adds a clean script", () => {
+      json = readPackageJson();
+      expect(json.scripts.clean).toEqual("rm -rf ./public/dist");
     });
 
     it("specifies a node engine", () => {
@@ -102,9 +107,9 @@ describe("generator-engage:server", () => {
         expect(json.devDependencies.nodemon).toBeDefined();
       });
 
-      it("adds a dev script with nodemon", () => {
+      it("adds a dev script with nodemon and clean script", () => {
         expect(json.scripts.dev).toBeDefined();
-        expect(json.scripts.dev).toEqual("nodemon src/app.js");
+        expect(json.scripts.dev).toEqual("yarn run clean && nodemon src/app.js");
       });
 
       it("adds a dev:debug script", () => {
@@ -261,6 +266,17 @@ describe("generator-engage:server", () => {
       });
     });
 
+    describe("client middlewares", () => {
+      it("adds client middleware to app.js", () => {
+        assert.file("server/src/middlewares/addClientMiddlewares.js");
+        assert.fileContent(
+          "server/src/middlewares/addMiddlewares.js",
+          "import addClientMiddlewares"
+        );
+        assert.fileContent("server/src/middlewares/addMiddlewares.js", "addClientMiddlewares(");
+      });
+    });
+
     describe("pg database option", () => {
       it("installs pg as a dependency", () => {
         expect(json.dependencies.pg).toBeDefined();
@@ -273,6 +289,7 @@ describe("generator-engage:server", () => {
       });
       it("adds db middleware to app.js", () => {
         assert.file("server/src/middlewares/addDbMiddleware.js");
+        assert.fileContent("server/src/middlewares/addMiddlewares.js", "import addDbMiddleware");
         assert.fileContent("server/src/middlewares/addMiddlewares.js", "addDbMiddleware(");
       });
     });

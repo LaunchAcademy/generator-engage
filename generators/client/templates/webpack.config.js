@@ -8,6 +8,12 @@ const isDevelopment = (process.env.NODE_ENV || "development") === "development";
 
 const initialEntryPoints = isDevelopment ? ["webpack-hot-middleware/client?reload=true"] : [];
 
+let reactDomAlias = {};
+if (isDevelopment) {
+  reactDomAlias = {
+    "react-dom": "@hot-loader/react-dom",
+  };
+}
 module.exports = {
   entry: [...initialEntryPoints, path.join(__dirname, "./src/main.js")],
   context: path.resolve(__dirname),
@@ -75,6 +81,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      ...reactDomAlias,
       "@Components": path.resolve(__dirname, "src/components/"),
       "@Providers": path.resolve(__dirname, "src/providers/"),
     },
@@ -87,6 +94,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
+    historyApiFallback: true,
     port: 3000,
     publicPath: "http://localhost:3000/dist/",
     hotOnly: true,
