@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "prod": "node <%= appPath %>"
+    "start": "node <%= appPath %>"
   },
   "license": "UNLICENSED",
   "private": true,
