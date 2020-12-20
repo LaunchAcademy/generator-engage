@@ -198,6 +198,12 @@ describe("generator-engage:server", () => {
       });
     });
 
+    describe("e2e", () => {
+      it("creates an e2e env file", () => {
+        assert.file("server/src/boot/environments/e2e.js");
+      });
+    });
+
     describe("dotenv", () => {
       it("adds dotenv as a dev dependency", () => {
         expect(json.devDependencies.dotenv).toBeDefined();
@@ -338,15 +344,15 @@ describe("generator-engage:server", () => {
       assert.file("server/src/models/index.js");
     });
 
-    it("creates a boot/model.js", () => {
-      assert.file("server/src/boot/model.js");
+    it("creates a boot/model.cjs", () => {
+      assert.file("server/src/boot/model.cjs");
     });
     it("creates a server/src/db/migration directory", () => {
       assert.file("server/src/db/migrations/migration.stub.cjs");
     });
 
-    it("creates a server/test/utils/truncateModel.js", () => {
-      assert.file("server/test/utils/truncateModel.js");
+    it("creates a server/test/utils/truncateModel.cjs", () => {
+      assert.file("server/test/utils/truncateModel.cjs");
     });
 
     it("adds a migrate:latest script", () => {

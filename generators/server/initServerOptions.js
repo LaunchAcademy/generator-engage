@@ -32,6 +32,12 @@ const initServerOptions = (generator) => {
     type: Boolean,
     description: "Whether express-session should be configured",
   });
+
+  generator.option("e2e", {
+    default: "cypress",
+    type: String,
+    description: `E2E framework to use (only cypress is supported currently) valid values are: cypress`,
+  });
 };
 
 module.exports = initServerOptions;

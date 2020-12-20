@@ -23,6 +23,13 @@ module.exports = class AppGenerator extends EngageGenerator {
       generateInto: path.join(this.options.generateInto, "server"),
       clientAppPath: this.destinationPath("client"),
     });
+
+    if (this.options.e2e && this.options.e2e !== "none") {
+      this.composeWith(require.resolve("../e2e"), {
+        ...this.options,
+        generateInto: path.join(this.options.generateInto, "e2e"),
+      });
+    }
   }
 
   writeBase() {

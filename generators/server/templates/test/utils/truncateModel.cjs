@@ -1,5 +1,3 @@
-import config from "../../src/config.js";
-
 /**
  *
  * @typedef {typeof import("../../src/models/Model.js")} ModelClass
@@ -7,8 +5,8 @@ import config from "../../src/config.js";
  * @param {ModelClass} modelClass
  * @returns
  */
-export default async function truncateModel(modelClass) {
-  if (config.nodeEnv !== "test") {
+module.exports = async function truncateModel(modelClass) {
+  if (process.env.NODE_ENV !== "test" && process.env.NODE_ENV !== "e2e") {
     throw Error(
       "don't use table truncation test utility script outside of the 'test' node environment"
     );
@@ -17,6 +15,6 @@ export default async function truncateModel(modelClass) {
   if (modelClass) {
     await modelClass
       .knex()
-      .raw(`TRUNCATE TABLE :tableName: CASCADE`, { tableName: modelClass.tableName() });
+      .raw(`TRUNCATE TABLE :tableName: CASCADE`, { tableName: modelClass.tableName });
   }
-}
+};

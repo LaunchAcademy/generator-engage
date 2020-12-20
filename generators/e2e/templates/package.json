@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "<%= name %>-e2e",
+  "scripts": {
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress:run": "./node_modules/.bin/cypress run"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.3",
+    "cypress": "^6.1.0"
+  }
+}

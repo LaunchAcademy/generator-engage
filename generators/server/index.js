@@ -199,9 +199,9 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/models/Model.js",
         "src/models/package.json",
         "src/models/index.js",
-        "src/boot/model.js",
+        "src/boot/model.cjs",
         "src/db/migrations/migration.stub.cjs",
-        "test/utils/truncateModel.js",
+        "test/utils/truncateModel.cjs",
         "src/console.js",
       ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
@@ -308,6 +308,16 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   install() {
     this._install();
+  }
+
+  e2eSupport() {
+    if (this.options.e2e === "cypress") {
+      this._modifyJson("package.json", (json) => {
+        json.scripts["dev:e2e"] = "NODE_ENV=e2e PORT=8765 nodemon src/app.js";
+      });
+      const envPath = "src/boot/environments/e2e.js";
+      this.fs.copyTpl(this.templatePath(envPath), this.generatedPath(envPath));
+    }
   }
 
   end() {
