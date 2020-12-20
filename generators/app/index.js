@@ -40,4 +40,19 @@ module.exports = class AppGenerator extends EngageGenerator {
       });
     });
   }
+
+  e2eSupport() {
+    if (this.options.e2e === "cypress") {
+      this._modifyJson("package.json", (json) => {
+        const name = path.basename(this.generatedPath());
+        json.scripts = {
+          ...json.scripts,
+          "dev:cypress": `yarn workspace ${name}-server dev:e2e`,
+          "e2e:open": `yarn workspace ${name}-e2e e2e:open`,
+          "e2e:run": `yarn workspace ${name}-e2e e2e:run`,
+        };
+        json.workspaces.push("e2e");
+      });
+    }
+  }
 };

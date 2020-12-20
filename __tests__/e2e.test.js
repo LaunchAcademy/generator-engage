@@ -46,5 +46,13 @@ describe("e2e", () => {
     it("creates hello.js", () => {
       assert.file("e2e/cypress/integration/hello.js");
     });
+
+    it("creates a cypress/plugins/index.js", () => {
+      assert.file("e2e/cypress/plugins/index.js");
+    });
+
+    it("creates a cypress/plugins/db.js", () => {
+      assert.file("e2e/cypress/plugins/db.js");
+    });
   });
 });
