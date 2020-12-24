@@ -214,6 +214,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
         json.scripts["migrate:latest"] = "knex --knexfile ./knexfile.cjs migrate:latest";
         json.scripts["migrate:rollback"] = "knex --knexfile ./knexfile.cjs migrate:rollback";
         json.scripts["migrate:make"] = "knex --knexfile ./knexfile.cjs migrate:make";
+        json.scripts["db:test:migrate"] = "NODE_ENV='test' yarn run migrate:latest";
+        json.scripts["db:e2e:migrate"] = "NODE_ENV='e2e' yarn run migrate:latest";
       });
     }
   }

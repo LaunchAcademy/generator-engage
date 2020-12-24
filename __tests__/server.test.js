@@ -366,6 +366,14 @@ describe("generator-engage:server", () => {
       expect(json.scripts["migrate:make"]).toBeDefined();
     });
 
+    it("adds a db:test:migrate script", () => {
+      expect(json.scripts["db:test:migrate"]).toBeDefined();
+    });
+
+    it("adds a db:e2e:migrate script", () => {
+      expect(json.scripts["db:e2e:migrate"]).toBeDefined();
+    });
+
     it("adds a console script", () => {
       expect(json.scripts.console).toBeDefined();
     });
