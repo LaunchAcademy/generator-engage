@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "<%= name %>-e2e",
+  "version": "0.0.1",
+  "scripts": {
+    "e2e:open": "NODE_ENV=e2e ./node_modules/.bin/cypress open",
+    "e2e:run": "NODE_ENV=e2e ./node_modules/.bin/cypress run"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.3",
+    "cypress": "^6.1.0"
+  }
+}

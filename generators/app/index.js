@@ -23,6 +23,13 @@ module.exports = class AppGenerator extends EngageGenerator {
       generateInto: path.join(this.options.generateInto, "server"),
       clientAppPath: this.destinationPath("client"),
     });
+
+    if (this.options.e2e && this.options.e2e !== "none") {
+      this.composeWith(require.resolve("../e2e"), {
+        ...this.options,
+        generateInto: path.join(this.options.generateInto, "e2e"),
+      });
+    }
   }
 
   writeBase() {
@@ -32,5 +39,20 @@ module.exports = class AppGenerator extends EngageGenerator {
         nodeVersion: getNodeVersion(),
       });
     });
+  }
+
+  e2eSupport() {
+    if (this.options.e2e === "cypress") {
+      this._modifyJson("package.json", (json) => {
+        const name = path.basename(this.generatedPath());
+        json.scripts = {
+          ...json.scripts,
+          "dev:cypress": `yarn workspace ${name}-server dev:e2e`,
+          "e2e:open": `yarn workspace ${name}-e2e e2e:open`,
+          "e2e:run": `yarn workspace ${name}-e2e e2e:run`,
+        };
+        json.workspaces.push("e2e");
+      });
+    }
   }
 };
