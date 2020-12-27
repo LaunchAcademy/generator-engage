@@ -44,6 +44,10 @@ class ClientGenerator extends EngageGenerator {
   }
 
   writeBase() {
+    let outputPath = "./public/dist";
+    if (path.basename(this.generatedPath) === "client") {
+      outputPath = "../server/public/dist";
+    }
     [
       "package.json",
       "webpack.config.js",
@@ -55,6 +59,7 @@ class ClientGenerator extends EngageGenerator {
     ].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
         options: this.options,
+        outputPath,
         name: path.basename(this.generatedPath("../")),
         nodeVersion: getNodeVersion(),
       });
