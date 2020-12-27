@@ -16,5 +16,6 @@
     "titleBar.inactiveBackground": "#00b3e699",
     "titleBar.inactiveForeground": "#15202b99"
   },
+  "window.title": "${activeEditorShort}${separator}<%= name %>${separator}${rootName}",
   "peacock.color": "#00b3e6"
 }
