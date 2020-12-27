@@ -44,6 +44,10 @@ class ClientGenerator extends EngageGenerator {
   }
 
   writeBase() {
+    let outputPath = "./public/dist";
+    if (path.basename(this.generatedPath()) === "client") {
+      outputPath = "../server/public/dist";
+    }
     [
       "package.json",
       "webpack.config.js",
@@ -55,7 +59,8 @@ class ClientGenerator extends EngageGenerator {
     ].forEach((filePath) => {
       this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
         options: this.options,
-        name: path.basename(this.generatedPath("../")),
+        outputPath,
+        name: this._getName(),
         nodeVersion: getNodeVersion(),
       });
     });
@@ -64,6 +69,8 @@ class ClientGenerator extends EngageGenerator {
       this.templatePath(".eslintrc.json.template"),
       this.generatedPath(".eslintrc.json")
     );
+
+    this.fs.copy(this.templatePath(".npmignore"), this.generatedPath(".gitignore"));
   }
 
   install() {
@@ -102,7 +109,13 @@ class ClientGenerator extends EngageGenerator {
 
   vsCodeWorkspace() {
     const filePath = ".vscode/settings.json";
-    this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
+    this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath), {
+      name: this._getName(),
+    });
+  }
+
+  _getName() {
+    return path.basename(this.generatedPath("../"));
   }
 }
 
