@@ -69,6 +69,8 @@ class ClientGenerator extends EngageGenerator {
       this.templatePath(".eslintrc.json.template"),
       this.generatedPath(".eslintrc.json")
     );
+
+    this.fs.copy(this.templatePath(".npmignore"), this.generatedPath(".gitignore"));
   }
 
   install() {
