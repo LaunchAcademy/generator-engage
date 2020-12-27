@@ -51,10 +51,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
     });
 
     this.fs.copyTpl(this.templatePath("src/app.js"), this.generatedPath(serverFileName));
-    this.fs.copyTpl(
-      this.templatePath("src/routes/rootRouter.js"),
-      this.generatedPath("src/routes/rootRouter.js")
-    );
+    this._copyTemplate("src/routes/rootRouter.js", { options: this.options });
 
     this.fs.write(this.generatedPath("public", ".gitkeep"), "");
   }
@@ -204,7 +201,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "test/utils/truncateModel.cjs",
         "src/console.js",
       ].forEach((file) => {
-        this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
+        this._copyTemplate(file, { options: this.options });
       });
       this._modifyJson("package.json", (json) => {
         if (!json.scripts) {
@@ -296,6 +293,28 @@ module.exports = class ServerGenerator extends EngageGenerator {
         json.scripts["generate-secret"] = `./scripts/generate-secret.js`;
       });
       this.fs.write(this.generatedPath(".env"), `SESSION_SECRET="${uuidv4()}"\n`);
+    }
+  }
+
+  passport() {
+    if (this.options.authentication === "passport") {
+      if (this.options.dbClient !== "objection") {
+        throw new Error("Only the objection database client is supported with passport");
+      }
+
+      this._addDependencies(["passport", "passport-local", "bcrypt"]);
+
+      [
+        "src/authentication/deserializeUser.js",
+        "src/authentication/passportStrategy.js",
+        "src/middlewares/addPassport.js",
+        "src/models/User.js",
+        "src/routes/apiRouter.js",
+        "src/routes/api/v1Router.js",
+        "src/routes/api/v1/userSessionsRouter.js",
+      ].forEach((filePath) => {
+        this._copyTemplate(filePath, { options: this.options });
+      });
     }
   }
 

@@ -50,6 +50,7 @@ describe("generator-engage:server", () => {
         .withOptions({
           skipInstall: false,
           generateInto: "server",
+          authentication: "none",
           dbClient: "pg",
           "client-app-path": "client",
         })
@@ -298,6 +299,52 @@ describe("generator-engage:server", () => {
         assert.fileContent("server/src/middlewares/addMiddlewares.js", "import addDbMiddleware");
         assert.fileContent("server/src/middlewares/addMiddlewares.js", "addDbMiddleware(");
       });
+    });
+  });
+
+  describe("passport", () => {
+    beforeAll((done) => {
+      return helpers
+        .run(generatorPath)
+        .withOptions({
+          skipInstall: false,
+          authentication: "passport",
+          dbClient: "objection",
+          generateInto: "server",
+        })
+        .inTmpDir((dir) => {
+          destinationRoot = dir;
+        })
+        .then(() => {
+          done();
+        });
+    });
+
+    it("installs passport", () => {
+      json = readPackageJson();
+      expect(json.dependencies.passport).toBeDefined();
+    });
+
+    it("installs passport-local", () => {
+      json = readPackageJson();
+      expect(json.dependencies["passport-local"]).toBeDefined();
+    });
+    it("installs bcrypt", () => {
+      json = readPackageJson();
+      expect(json.dependencies.bcrypt).toBeDefined();
+    });
+
+    it("adds a passport strategy file", () => {
+      assert.file("server/src/authentication/passportStrategy.js");
+    });
+    it("adds a deserializeUser file", () => {
+      assert.file("server/src/authentication/deserializeUser.js");
+    });
+    it("adds a passport middleware file", () => {
+      assert.file("server/src/middlewares/addPassport.js");
+    });
+    it("adds a user model", () => {
+      assert.file("server/src/models/User.js");
     });
   });
 

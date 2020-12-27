@@ -8,6 +8,9 @@ import addDbMiddleware from "./addDbMiddleware.js";
 <% if(options["clientAppPath"]) { -%>
 import addClientMiddlewares from "./addClientMiddlewares.js";
 <% } -%>
+<% if(options["authentication"] === "passport") { -%>
+import addPassport from "./addPassport.js";
+<% } -%>
 
 const addMiddlewares = async app => {
 <% if(options["sessionsEnabled"]) { -%>
@@ -16,10 +19,15 @@ const addMiddlewares = async app => {
 <% if(options["dbClient"] === "pg") { -%>
   addDbMiddleware(app);
 <% } -%>
+<% if(options["authentication"] === "passport") { -%>
+  addPassport(app);
+<% } -%>
 <% if(options["clientAppPath"]) { -%>
   await addClientMiddlewares(app);
 <% } -%>
   await addEnvironmentMiddlewares(app);
 };
+
+
 
 export default addMiddlewares;
