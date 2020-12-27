@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - specify node engine directives in all package.jsons on the basis of the generator runtime
 - generate vscode workspace settings file for color differentiation [#89](https://github.com/LaunchAcademy/generator-engage/issues/89)
 - generate e2e folder with cypress [#28](https://github.com/LaunchAcademy/generator-engage/issues/28)
+- create a `gitignore` in client directory
+- update client `outputdir` to consider a standalone client installation
+- set `window.title` in vscode settings [#109](https://github.com/LaunchAcademy/generator-engage/issues/109)
 
 ### Changed
 
