@@ -346,6 +346,10 @@ describe("generator-engage:server", () => {
     it("adds a user model", () => {
       assert.file("server/src/models/User.js");
     });
+
+    it("adds the user migration", () => {
+      assert.file("server/src/db/migrations/20210101210207_createUsers.cjs");
+    });
   });
 
   describe("objectionJS", () => {

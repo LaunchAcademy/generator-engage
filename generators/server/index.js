@@ -308,6 +308,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/authentication/deserializeUser.js",
         "src/authentication/passportStrategy.js",
         "src/middlewares/addPassport.js",
+        "src/db/migrations/20210101210207_createUsers.cjs",
         "src/models/User.js",
         "src/routes/apiRouter.js",
         "src/routes/api/v1Router.js",
