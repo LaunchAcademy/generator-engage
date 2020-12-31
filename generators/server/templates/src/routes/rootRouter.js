@@ -1,6 +1,6 @@
 import express from "express";
 <% if(options["authentication"] === "passport") { -%>
-import api from "./api.js";
+import apiRouter from "./apiRouter.js";
 <% } -%>
 
 const rootRouter = new express.Router();
