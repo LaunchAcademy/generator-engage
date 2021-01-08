@@ -6,7 +6,7 @@ import apiRouter from "./apiRouter.js";
 const rootRouter = new express.Router();
 
 <% if(options["authentication"] === "passport") { -%>
-rootRouter.use(apiRouter)
+rootRouter.use("/api", apiRouter)
 <% } -%>
 
 //place your server-side routes here

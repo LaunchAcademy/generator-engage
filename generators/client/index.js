@@ -93,6 +93,10 @@ class ClientGenerator extends EngageGenerator {
     );
   }
 
+  reactRouter() {
+    this._addDependencies(["react-router-dom", "@types/react-router-dom"]);
+  }
+
   foundation() {
     if (this.options.cssFramework === "foundation") {
       this._addDependencies("foundation-sites");

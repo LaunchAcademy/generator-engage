@@ -9,6 +9,11 @@ const initClientOptions = (generator) => {
     default: "foundation",
     description: "css framework (foundation,none)",
   });
+  generator.option("router", {
+    type: Boolean,
+    default: true,
+    description: "Configures react router",
+  });
 };
 
 module.exports = initClientOptions;
