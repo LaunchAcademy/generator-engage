@@ -350,6 +350,10 @@ describe("generator-engage:server", () => {
     it("adds the user migration", () => {
       assert.file("server/src/db/migrations/20210101210207_createUsers.cjs");
     });
+
+    it("adds a user router", () => {
+      assert.file("server/src/routes/api/v1/usersRouter.js");
+    });
   });
 
   describe("objectionJS", () => {

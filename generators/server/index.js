@@ -312,6 +312,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/models/User.js",
         "src/routes/apiRouter.js",
         "src/routes/api/v1Router.js",
+        "src/routes/api/v1/usersRouter.js",
         "src/routes/api/v1/userSessionsRouter.js",
       ].forEach((filePath) => {
         this._copyTemplate(filePath, { options: this.options });
