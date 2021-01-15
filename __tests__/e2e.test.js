@@ -54,5 +54,15 @@ describe("e2e", () => {
     it("creates a cypress/plugins/db.js", () => {
       assert.file("e2e/cypress/plugins/db.js");
     });
+
+    describe("authentication", () => {
+      it("creates a userSignsIn test file", () => {
+        assert.file("e2e/cypress/integration/userSignsIn.js");
+      });
+
+      it("creates a userRegisters test file", () => {
+        assert.file("e2e/cypress/integration/userRegisters.js");
+      });
+    });
   });
 });

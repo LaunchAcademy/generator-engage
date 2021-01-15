@@ -40,6 +40,16 @@ module.exports = class AppGenerator extends EngageGenerator {
     }
   }
 
+  passport() {
+    if (this.options.authentication === "passport") {
+      ["cypress/integration/userRegisters.js", "cypress/integration/userSignsIn.js"].forEach(
+        (filePath) => {
+          this._copyTemplate(filePath);
+        }
+      );
+    }
+  }
+
   install() {
     this._install();
   }
