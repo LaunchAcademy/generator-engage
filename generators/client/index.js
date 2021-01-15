@@ -20,7 +20,6 @@ const reactDependencies = {
   react: "~16.13",
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
-  "react-router-dom": "~5.2",
   "file-loader": "^6.2.0",
   "html-webpack-plugin": "^4.5.0",
   "css-loader": "^5.0.0",
@@ -94,7 +93,9 @@ class ClientGenerator extends EngageGenerator {
   }
 
   reactRouter() {
-    this._addDependencies(["react-router-dom", "@types/react-router-dom"]);
+    if (this.options.reactRouter) {
+      this._addDependencies(["react-router-dom@5.2", "@types/react-router-dom"]);
+    }
   }
 
   foundation() {
