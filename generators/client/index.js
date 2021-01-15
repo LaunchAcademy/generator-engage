@@ -98,6 +98,23 @@ class ClientGenerator extends EngageGenerator {
     }
   }
 
+  passport() {
+    if (this.options.authentication === "passport") {
+      [
+        "src/components/authentication/AuthenticatedRoute.js",
+        "src/components/authentication/getCurrentUser.js",
+        "src/components/authentication/SignInForm.js",
+        "src/components/authentication/SignOutButton.js",
+        "src/components/layout/FormError.js",
+        "src/components/layout/TopBar.js",
+        "src/components/registration/RegistrationForm.js",
+        "src/config.js",
+      ].forEach((filePath) => {
+        this._copyTemplate(filePath);
+      });
+    }
+  }
+
   foundation() {
     if (this.options.cssFramework === "foundation") {
       this._addDependencies("foundation-sites");

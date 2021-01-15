@@ -132,5 +132,17 @@ describe("generator-engage:client", () => {
         assert.file("client/src/assets/scss/foundation/_settings.scss");
       });
     });
+
+    describe("authentication with passport", () => {
+      assert.file([
+        "client/src/components/authentication/getCurrentUser.js",
+        "client/src/components/authentication/AuthenticatedRoute.js",
+        "client/src/components/authentication/SignInForm.js",
+        "client/src/components/authentication/SignOutButton.js",
+        "client/src/components/layout/FormError.js",
+        "client/src/components/layout/TopBar.js",
+        "client/src/components/registration/RegistrationForm.js",
+      ]);
+    });
   });
 });

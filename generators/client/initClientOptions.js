@@ -14,6 +14,12 @@ const initClientOptions = (generator) => {
     default: true,
     description: "Configures react router",
   });
+  // this is duplicated on the server side
+  generator.option("authentication", {
+    default: "passport",
+    type: String,
+    description: `Authentication engine to use. Valid values are: passport, none`,
+  });
 };
 
 module.exports = initClientOptions;
