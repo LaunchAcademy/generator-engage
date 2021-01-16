@@ -32,11 +32,14 @@ module.exports = class AppGenerator extends EngageGenerator {
 
   handleDb() {
     if (this.options.dbClient === "objection") {
-      ["cypress/plugins/index.js", "cypress/plugins/db.js", "cypress/support/commands.js"].forEach(
-        (filePath) => {
-          this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath));
-        }
-      );
+      [
+        "cypress/plugins/index.js",
+        "cypress/plugins/db.js",
+        "cypress/support/commands.js",
+        "cypress/support/index.js",
+      ].forEach((filePath) => {
+        this.fs.copyTpl(this.templatePath(filePath), this.generatedPath(filePath));
+      });
     }
   }
 
@@ -47,6 +50,8 @@ module.exports = class AppGenerator extends EngageGenerator {
           this._copyTemplate(filePath);
         }
       );
+
+      this.fs.delete(this.generatedPath("cypress/integration/hello.js"));
     }
   }
 

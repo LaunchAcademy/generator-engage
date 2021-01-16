@@ -4,7 +4,7 @@ import getClientIndexPath from "../config/getClientIndexPath.js";
 const router = new express.Router();
 
 <% if(options["authentication"] === "passport") { -%>
-const clientRoutes = ["/user-sessions/new", "/users/new"];
+const clientRoutes = ["/", "/user-sessions/new", "/users/new"];
 <% } else { -%>
 const clientRoutes = ["/client", "/name"];
 <% } -%>
