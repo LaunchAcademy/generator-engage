@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - create a `gitignore` in client directory
 - update client `outputdir` to consider a standalone client installation
 - set `window.title` in vscode settings [#109](https://github.com/LaunchAcademy/generator-engage/issues/109)
+- provide authentication logic with passport, include e2e tests [#64](https://github.com/LaunchAcademy/generator-engage/issues/64)
 
 ### Changed
 
