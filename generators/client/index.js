@@ -85,15 +85,22 @@ class ClientGenerator extends EngageGenerator {
       this._addDependencies(dep, reactDevDependencies[dep], { dev: true });
     });
 
-    ["src/components/App.js", "src/main.js", "src/config.js", "src/assets/scss/main.scss"].forEach(
-      (filePath) => {
-        this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
-      }
-    );
+    let appPath = "src/components/App.js.ejs";
+    if (this.options.authentication === "passport") {
+      appPath = "src/components/App.authentication.js";
+    }
+
+    this.fs.copyTpl(this.templatePath(appPath), this.generatedPath("src/components/App.js"), {
+      options: this.options,
+    });
+
+    ["src/main.js", "src/config.js", "src/assets/scss/main.scss"].forEach((filePath) => {
+      this._copyTemplate(filePath, { options: this.options });
+    });
   }
 
   reactRouter() {
-    if (this.options.reactRouter) {
+    if (this.options.router) {
       this._addDependencies(["react-router-dom@5.2", "@types/react-router-dom"]);
     }
   }
@@ -102,7 +109,7 @@ class ClientGenerator extends EngageGenerator {
     if (this.options.authentication === "passport") {
       [
         "src/components/authentication/AuthenticatedRoute.js",
-        "src/components/authentication/getCurrentUser.js",
+        "src/services/getCurrentUser.js",
         "src/components/authentication/SignInForm.js",
         "src/components/authentication/SignOutButton.js",
         "src/components/layout/FormError.js",
@@ -110,7 +117,7 @@ class ClientGenerator extends EngageGenerator {
         "src/components/registration/RegistrationForm.js",
         "src/config.js",
       ].forEach((filePath) => {
-        this._copyTemplate(filePath);
+        this._copyTemplate(filePath, { options: this.options });
       });
     }
   }

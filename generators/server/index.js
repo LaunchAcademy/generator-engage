@@ -143,7 +143,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
           "src/config/getClientIndexPath.js",
           "src/middlewares/webpackMiddlewares.js",
         ].forEach((file) => {
-          this.fs.copyTpl(this.templatePath(file), this.generatedPath(file));
+          this._copyTemplate(file, { options: this.options });
         });
 
         insertBefore(

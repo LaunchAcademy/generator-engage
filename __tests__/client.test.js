@@ -134,15 +134,17 @@ describe("generator-engage:client", () => {
     });
 
     describe("authentication with passport", () => {
-      assert.file([
-        "client/src/components/authentication/getCurrentUser.js",
-        "client/src/components/authentication/AuthenticatedRoute.js",
-        "client/src/components/authentication/SignInForm.js",
-        "client/src/components/authentication/SignOutButton.js",
-        "client/src/components/layout/FormError.js",
-        "client/src/components/layout/TopBar.js",
-        "client/src/components/registration/RegistrationForm.js",
-      ]);
+      it("has relevant authentication components", () => {
+        assert.file([
+          "client/src/services/getCurrentUser.js",
+          "client/src/components/authentication/AuthenticatedRoute.js",
+          "client/src/components/authentication/SignInForm.js",
+          "client/src/components/authentication/SignOutButton.js",
+          "client/src/components/layout/FormError.js",
+          "client/src/components/layout/TopBar.js",
+          "client/src/components/registration/RegistrationForm.js",
+        ]);
+      });
     });
   });
 });
