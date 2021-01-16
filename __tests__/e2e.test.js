@@ -43,10 +43,6 @@ describe("e2e", () => {
       assert.file("e2e/.vscode/settings.json");
     });
 
-    it("creates hello.js", () => {
-      assert.file("e2e/cypress/integration/hello.js");
-    });
-
     it("creates a cypress/plugins/index.js", () => {
       assert.file("e2e/cypress/plugins/index.js");
     });
