@@ -5,7 +5,7 @@ const SignOutButton = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const signOut = (event) => {
     event.preventDefault();
-    fetch("/api/v1/user-sessions/current", {
+    fetch("/api/v1/user-sessions", {
       method: "delete",
       headers: new Headers({
         "Content-Type": "application/json",
