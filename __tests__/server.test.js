@@ -334,6 +334,11 @@ describe("generator-engage:server", () => {
       expect(json.dependencies.bcrypt).toBeDefined();
     });
 
+    it("installs objection-unique", () => {
+      json = readPackageJson();
+      expect(json.dependencies["objection-unique"]).toBeDefined();
+    });
+
     it("adds a passport strategy file", () => {
       assert.file("server/src/authentication/passportStrategy.js");
     });

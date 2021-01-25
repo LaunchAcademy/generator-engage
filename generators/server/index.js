@@ -302,7 +302,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         throw new Error("Only the objection database client is supported with passport");
       }
 
-      this._addDependencies(["passport", "passport-local", "bcrypt"]);
+      this._addDependencies(["passport", "passport-local", "bcrypt", "objection-unique"]);
 
       [
         "src/authentication/deserializeUser.js",
