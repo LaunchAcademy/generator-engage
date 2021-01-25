@@ -310,8 +310,6 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "src/middlewares/addPassport.js",
         "src/db/migrations/20210101210207_createUsers.cjs",
         "src/models/User.js",
-        "src/routes/apiRouter.js",
-        "src/routes/api/v1Router.js",
         "src/routes/api/v1/usersRouter.js",
         "src/routes/api/v1/userSessionsRouter.js",
       ].forEach((filePath) => {
