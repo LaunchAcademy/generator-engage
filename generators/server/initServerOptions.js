@@ -27,6 +27,12 @@ const initServerOptions = (generator) => {
     description: `Database "client"/ORM to use. Valid values are: ${supportedDbClients.join(",")}`,
   });
 
+  generator.option("authentication", {
+    default: "passport",
+    type: String,
+    description: `Authentication engine to use. Valid values are: passport, none`,
+  });
+
   generator.option("sessionsEnabled", {
     default: true,
     type: Boolean,

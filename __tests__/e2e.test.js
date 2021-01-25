@@ -43,16 +43,22 @@ describe("e2e", () => {
       assert.file("e2e/.vscode/settings.json");
     });
 
-    it("creates hello.js", () => {
-      assert.file("e2e/cypress/integration/hello.js");
-    });
-
     it("creates a cypress/plugins/index.js", () => {
       assert.file("e2e/cypress/plugins/index.js");
     });
 
     it("creates a cypress/plugins/db.js", () => {
       assert.file("e2e/cypress/plugins/db.js");
+    });
+
+    describe("authentication", () => {
+      it("creates a userSignsIn test file", () => {
+        assert.file("e2e/cypress/integration/userSignsIn.js");
+      });
+
+      it("creates a userRegisters test file", () => {
+        assert.file("e2e/cypress/integration/userRegisters.js");
+      });
     });
   });
 });

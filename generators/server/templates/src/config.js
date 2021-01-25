@@ -1,3 +1,4 @@
+import "./boot.js";
 import getNodeEnv from "./config/getNodeEnv.js";
 <% if(options["dbClient"] !== "") { -%>
 import getDatabaseUrl from "./config/getDatabaseUrl.cjs";

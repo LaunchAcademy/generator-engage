@@ -20,7 +20,6 @@ const reactDependencies = {
   react: "~16.13",
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
-  "react-router-dom": "~5.2",
   "file-loader": "^6.2.0",
   "html-webpack-plugin": "^4.5.0",
   "css-loader": "^5.0.0",
@@ -86,11 +85,41 @@ class ClientGenerator extends EngageGenerator {
       this._addDependencies(dep, reactDevDependencies[dep], { dev: true });
     });
 
-    ["src/components/App.js", "src/main.js", "src/config.js", "src/assets/scss/main.scss"].forEach(
-      (filePath) => {
-        this.fs.copy(this.templatePath(filePath), this.generatedPath(filePath));
-      }
-    );
+    let appPath = "src/components/App.js.ejs";
+    if (this.options.authentication === "passport") {
+      appPath = "src/components/App.authentication.js";
+    }
+
+    this.fs.copyTpl(this.templatePath(appPath), this.generatedPath("src/components/App.js"), {
+      options: this.options,
+    });
+
+    ["src/main.js", "src/config.js", "src/assets/scss/main.scss"].forEach((filePath) => {
+      this._copyTemplate(filePath, { options: this.options });
+    });
+  }
+
+  reactRouter() {
+    if (this.options.router) {
+      this._addDependencies(["react-router-dom@5.2", "@types/react-router-dom"]);
+    }
+  }
+
+  passport() {
+    if (this.options.authentication === "passport") {
+      [
+        "src/components/authentication/AuthenticatedRoute.js",
+        "src/services/getCurrentUser.js",
+        "src/components/authentication/SignInForm.js",
+        "src/components/authentication/SignOutButton.js",
+        "src/components/layout/FormError.js",
+        "src/components/layout/TopBar.js",
+        "src/components/registration/RegistrationForm.js",
+        "src/config.js",
+      ].forEach((filePath) => {
+        this._copyTemplate(filePath, { options: this.options });
+      });
+    }
   }
 
   foundation() {

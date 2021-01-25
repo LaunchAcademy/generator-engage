@@ -1,6 +1,6 @@
 import "./boot/environments/development.js";
 import "./boot/environments/test.js";
-<% if(options["dbClient"] === "cypress") { %>
+<% if(options["e2e"] === "cypress") { %>
 import "./boot/environments/e2e.js"
 <% } %>
 

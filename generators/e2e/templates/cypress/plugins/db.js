@@ -9,7 +9,6 @@ const truncate = async (models) => {
   }
 
   for (const model of modelsToTruncate) {
-    console.log(modelList[model]);
     await truncateModel(modelList[model]);
   }
   await connection.client.pool.release();
