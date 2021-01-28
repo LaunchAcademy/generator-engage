@@ -94,7 +94,13 @@ class ClientGenerator extends EngageGenerator {
       options: this.options,
     });
 
-    ["src/main.js", "src/config.js", "src/assets/scss/main.scss"].forEach((filePath) => {
+    [
+      "src/main.js",
+      "src/config.js",
+      "src/assets/scss/main.scss",
+      "src/components/layout/ErrorList.js",
+      "src/services/translateServerErrors.js",
+    ].forEach((filePath) => {
       this._copyTemplate(filePath, { options: this.options });
     });
   }

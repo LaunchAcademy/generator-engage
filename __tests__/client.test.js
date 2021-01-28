@@ -71,6 +71,14 @@ describe("generator-engage:client", () => {
       assert.file("client/public/index.html");
     });
 
+    it("creates an ErrorList component", () => {
+      assert.file("client/src/components/layout/ErrorList.js");
+    });
+
+    it("creates a translateServerErrors service", () => {
+      assert.file("client/src/services/translateServerErrors.js");
+    });
+
     it("creates a webpack.config.js", () => {
       assert.file("client/webpack.config.js");
     });
