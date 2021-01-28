@@ -193,11 +193,13 @@ module.exports = class ServerGenerator extends EngageGenerator {
       this._addDependencies("objection");
       [
         "knexfile.cjs",
+        "bin/seed.js",
         "src/models/Model.js",
         "src/models/package.json",
         "src/models/index.js",
         "src/boot/model.cjs",
         "src/db/migrations/migration.stub.cjs",
+        "src/db/Seeder.js",
         "test/utils/truncateModel.cjs",
         "src/console.js",
       ].forEach((file) => {
@@ -211,6 +213,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         json.scripts["migrate:latest"] = "knex --knexfile ./knexfile.cjs migrate:latest";
         json.scripts["migrate:rollback"] = "knex --knexfile ./knexfile.cjs migrate:rollback";
         json.scripts["migrate:make"] = "knex --knexfile ./knexfile.cjs migrate:make";
+        json.scripts["db:seed"] = "node ./bin/seed.js";
         json.scripts["db:test:migrate"] = "NODE_ENV='test' yarn run migrate:latest";
         json.scripts["db:e2e:migrate"] = "NODE_ENV='e2e' yarn run migrate:latest";
       });

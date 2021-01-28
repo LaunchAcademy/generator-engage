@@ -392,6 +392,11 @@ describe("generator-engage:server", () => {
     it("creates a knexfile", () => {
       assert.file("server/knexfile.cjs");
     });
+
+    it("creates a server/bin/seed.js file", () => {
+      assert.file("server/bin/seed.js");
+    });
+
     it("creates a src/models/Model.js", () => {
       assert.file("server/src/models/Model.js");
     });
@@ -407,8 +412,13 @@ describe("generator-engage:server", () => {
     it("creates a boot/model.cjs", () => {
       assert.file("server/src/boot/model.cjs");
     });
+
     it("creates a server/src/db/migration directory", () => {
       assert.file("server/src/db/migrations/migration.stub.cjs");
+    });
+
+    it("creates a server/src/db/Seeder file", () => {
+      assert.file("server/src/db/Seeder.js");
     });
 
     it("creates a server/test/utils/truncateModel.cjs", () => {
@@ -424,6 +434,10 @@ describe("generator-engage:server", () => {
 
     it("adds a migrate:make script", () => {
       expect(json.scripts["migrate:make"]).toBeDefined();
+    });
+
+    it("adds a db:seed script", () => {
+      expect(json.scripts["db:seed"]).toBeDefined();
     });
 
     it("adds a db:test:migrate script", () => {
