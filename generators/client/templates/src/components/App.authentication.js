@@ -10,15 +10,19 @@ import TopBar from "./layout/TopBar";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
+  const fetchCurrentUser = async () => {
+    try {
+      const user = await getCurrentUser()
+      setCurrentUser(user)
+    } catch(err) {
+      setCurrentUser(null)
+    }
+  }
+
   useEffect(() => {
-    getCurrentUser()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch(() => {
-        setCurrentUser(null);
-      });
-  }, []);
+    fetchCurrentUser()
+  }, [])
+
   return (
     <Router>
       <TopBar user={currentUser} />
