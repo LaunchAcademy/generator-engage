@@ -1,20 +1,16 @@
-const getCurrentUser = () => {
-  return fetch("/api/v1/user-sessions/current", {
-    method: "get",
+const getCurrentUser = async () => {
+  const response = await fetch("/api/v1/user-sessions/current", {
     headers: new Headers({
       "Content-Type": "application/json",
-    }),
-  }).then((resp) => {
-    if (resp.ok) {
-      return resp.json().then((user) => {
-        return user;
-      });
-    } else {
-      const errorMessage = `${resp.status} (${resp.statusText})`;
-      const error = new Error(errorMessage);
-      throw error;
-    }
-  });
-};
+    })
+  })
+  if(!response.ok) {
+    const errorMessage = `${response.status} (${response.statusText})`
+    const error = new Error(errorMessage)
+    throw(error)
+  }
+  const userData = await response.json()
+  return userData
+}
 
-export default getCurrentUser;
+export default getCurrentUser
