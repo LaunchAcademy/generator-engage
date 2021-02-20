@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+- client now users `config.nodeEnv` instead of `config.env`
+
 ## [0.3.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.3.0)
 
 ## Added

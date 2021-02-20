@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let reactElement = document.getElementById("app");
 
   if (reactElement) {
-    if (config.env === "development") {
+    if (config.nodeEnv === "development") {
       try {
         render(<App />, reactElement);
       } catch (e) {
