@@ -21,7 +21,7 @@ const reactDependencies = {
   "react-dom": "~16.13",
   "react-hot-loader": "^4.12.21",
   "file-loader": "^6.2.0",
-  "html-webpack-plugin": "^4.5.0",
+  "html-webpack-plugin": "^5.2.0",
   "css-loader": "^5.0.0",
   "mini-css-extract-plugin": "^0.9.0",
   "node-sass": "^4.14.1",
