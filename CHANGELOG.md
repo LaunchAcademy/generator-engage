@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - upgraded HTML webpack plugin to 5.2.0[#132](https://github.com/LaunchAcademy/generator-engage/issues/132)
 - client now users `config.nodeEnv` instead of `config.env`[#133](https://github.com/LaunchAcademy/generator-engage/issues/133)
+- fix registration form submit handler [#129](https://github.com/LaunchAcademy/generator-engage/issues/129)
 
 ## [0.3.0](https://github.com/LaunchAcademy/generator-engage/releases/tag/v0.3.0)
 
