@@ -90,7 +90,8 @@ module.exports = class ServerGenerator extends EngageGenerator {
 
   handlebars() {
     if (this.options.viewEngine === "handlebars") {
-      this._addDependencies(["express-handlebars"]);
+      this._addDependencies("express-handlebars", "^5.2.0");
+
       // eslint-disable-next-line no-unused-vars
       insertAfter(
         this,
@@ -249,7 +250,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   dotEnv() {
-    this._addDependencies("dotenv", null, { dev: true });
+    this._addDependencies("dotenv", "^8.2.0", { dev: true });
     [
       ".env.example",
       "src/boot.js",
