@@ -207,6 +207,7 @@ describe("generator-engage:server", () => {
 
     describe("dotenv", () => {
       it("adds dotenv as a dev dependency", () => {
+        json = readPackageJson();
         expect(json.devDependencies.dotenv).toBeDefined();
       });
 
@@ -235,6 +236,7 @@ describe("generator-engage:server", () => {
 
     describe("error handler", () => {
       it("includes errorhandler as a devDependency", () => {
+        json = readPackageJson();
         expect(json.devDependencies.errorhandler).toBeDefined();
       });
 
@@ -370,22 +372,20 @@ describe("generator-engage:server", () => {
           destinationRoot = dir;
         })
         .then(() => {
+          json = readPackageJson();
           done();
         });
     });
 
     it("installs knex", () => {
-      json = readPackageJson();
       expect(json.dependencies.knex).toBeDefined();
     });
 
     it("installs objectionJS", () => {
-      json = readPackageJson();
       expect(json.dependencies.objection).toBeDefined();
     });
 
     it("installs pg", () => {
-      json = readPackageJson();
       expect(json.dependencies.pg).toBeDefined();
     });
 

@@ -3,6 +3,6 @@ module.exports = {
   testPathIgnorePatterns: ["<rootDir>/generators/server/templates"],
   moduleFileExtensions: ["js", "json", "mjs", "node"],
   transform: {
-    "^.+\\.[t|j]sx?$": "babel-jest"
-  }
+    "^.+\\.[t|j]sx?$": "babel-jest",
+  },
 };
