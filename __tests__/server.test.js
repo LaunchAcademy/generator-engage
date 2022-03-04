@@ -110,11 +110,17 @@ describe("generator-engage:server", () => {
 
       it("adds a dev script with nodemon and clean script", () => {
         expect(json.scripts.dev).toBeDefined();
-        expect(json.scripts.dev).toEqual("yarn run clean && nodemon src/app.js");
+        expect(json.scripts.dev).toEqual(
+          "yarn run clean && ./node_modules/.bin/nodemon src/app.js"
+        );
       });
 
       it("adds a dev:debug script", () => {
         expect(json.scripts["dev:debug"]).toBeDefined();
+      });
+
+      it("creates a nodemon.json", () => {
+        assert.file("nodemon.json");
       });
     });
 
