@@ -35,7 +35,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.0.9",
-    "install-peerdeps": "^2.0.1",
+    "install-peerdeps": "^3.0.3",
     "jest": "^26",
     "lint-staged": "^9.4.3",
     "yeoman-assert": "^3.1.0",
