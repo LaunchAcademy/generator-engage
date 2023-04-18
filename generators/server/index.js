@@ -251,7 +251,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
   }
 
   dotEnv() {
-    this._addDependencies("dotenv", "^8.2.0", { dev: true });
+    this._addDependencies("dotenv", "^8.2.0");
     [
       ".env.example",
       "src/boot.js",

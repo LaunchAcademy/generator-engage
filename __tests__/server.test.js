@@ -212,9 +212,9 @@ describe("generator-engage:server", () => {
     });
 
     describe("dotenv", () => {
-      it("adds dotenv as a dev dependency", () => {
+      it("adds dotenv as a dependency", () => {
         json = readPackageJson();
-        expect(json.devDependencies.dotenv).toBeDefined();
+        expect(json.dependencies.dotenv).toBeDefined();
       });
 
       it("creates a src/boot.js", () => {
