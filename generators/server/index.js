@@ -301,13 +301,18 @@ module.exports = class ServerGenerator extends EngageGenerator {
     }
   }
 
+  // this._addDependencies("dotenv", "^8.2.0", { dev: true });
+
   passport() {
     if (this.options.authentication === "passport") {
       if (this.options.dbClient !== "objection") {
         throw new Error("Only the objection database client is supported with passport");
       }
 
-      this._addDependencies(["passport", "passport-local", "bcrypt", "objection-unique"]);
+      // lock to this version due to breaking 0.6 issues
+      // https://github.com/jaredhanson/passport/issues/907
+      this._addDependencies("passport", "~0.5.0");
+      this._addDependencies(["passport-local", "bcrypt", "objection-unique"]);
 
       [
         "src/authentication/deserializeUser.js",
