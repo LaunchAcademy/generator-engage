@@ -18,6 +18,7 @@ const RegistrationForm = () => {
     const { email, password, passwordConfirmation } = payload;
     const emailRegexp = config.validation.email.regexp;
     let newErrors = {};
+
     if (!email.match(emailRegexp)) {
       newErrors = {
         ...newErrors,
@@ -47,30 +48,35 @@ const RegistrationForm = () => {
     }
 
     setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      return true
+    }
+    return false
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    validateInput(userPayload);
-    try {
-      if (Object.keys(errors).length === 0) {
-        const response = await fetch("/api/v1/users", {
-          method: "post",
-          body: JSON.stringify(userPayload),
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-        });
-        if (!response.ok) {
-          const errorMessage = `${response.status} (${response.statusText})`;
-          const error = new Error(errorMessage);
-          throw error;
+    if (validateInput(userPayload)) {
+      try {
+        if (Object.keys(errors).length === 0) {
+          const response = await fetch("/api/v1/users", {
+            method: "post",
+            body: JSON.stringify(userPayload),
+            headers: new Headers({
+              "Content-Type": "application/json",
+            }),
+          });
+          if (!response.ok) {
+            const errorMessage = `${response.status} (${response.statusText})`;
+            const error = new Error(errorMessage);
+            throw error;
+          }
+          const userData = await response.json();
+          setShouldRedirect(true);
         }
-        const userData = await response.json();
-        setShouldRedirect(true);
+      } catch (err) {
+        console.error(`Error in fetch: ${err.message}`);
       }
-    } catch (err) {
-      console.error(`Error in fetch: ${err.message}`);
     }
   };
 
