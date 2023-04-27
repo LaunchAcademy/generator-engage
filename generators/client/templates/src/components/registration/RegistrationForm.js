@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import FormError from "../layout/FormError";
+import ErrorList from "../shared/ErrorList"
+import translateServerErrors from "../../services/translateServerErrors"
 import config from "../../config";
 
 const RegistrationForm = () => {
@@ -10,13 +12,14 @@ const RegistrationForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [serverErrors, setServerErrors] = useState({});
 
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const validateInput = (payload) => {
     setErrors({});
     const { email, password, passwordConfirmation } = payload;
-    const emailRegexp = config.validation.email.regexp;
+    const emailRegexp = config.validation.email.regexp.emailRegexp;
     let newErrors = {};
     if (!email.match(emailRegexp)) {
       newErrors = {
@@ -62,6 +65,11 @@ const RegistrationForm = () => {
           }),
         });
         if (!response.ok) {
+          if (response.status === 422) {
+            const body = await response.json();
+            const newServerErrors = translateServerErrors(body.errors)
+            return setServerErrors(newServerErrors)
+          }
           const errorMessage = `${response.status} (${response.statusText})`;
           const error = new Error(errorMessage);
           throw error;
@@ -88,6 +96,7 @@ const RegistrationForm = () => {
   return (
     <div className="grid-container">
       <h1>Register</h1>
+      <ErrorList errors={serverErrors} />
       <form onSubmit={onSubmit}>
         <div>
           <label>
