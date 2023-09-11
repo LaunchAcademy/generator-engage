@@ -27,13 +27,16 @@ const SignInForm = () => {
     }
 
     setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      return true
+    }
+    return false
   };
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    validateInput(userPayload)
     try {
-      if (Object.keys(errors).length === 0) {
+      if (validateInput(userPayload)) {
         const response = await fetch("/api/v1/user-sessions", {
           method: "post",
           body: JSON.stringify(userPayload),
