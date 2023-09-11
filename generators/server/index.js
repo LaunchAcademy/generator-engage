@@ -124,7 +124,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
         "public/css/vendor/normalize.min.css",
         "public/css/main.css",
         "public/favicon.ico",
-        "views/layouts/default.hbs",
+        "src/views/layouts/default.hbs",
       ].forEach((file) => {
         this.fs.copyTpl(this.templatePath(file), this.generatedPath(file), {
           name: this._getName(),
@@ -132,7 +132,7 @@ module.exports = class ServerGenerator extends EngageGenerator {
       });
 
       if (this.options.clientAppPath !== "") {
-        const clientLayoutPath = "views/layouts/client.hbs";
+        const clientLayoutPath = "src/views/layouts/client.hbs";
         this.fs.copyTpl(this.templatePath(clientLayoutPath), this.generatedPath(clientLayoutPath));
 
         this._addDependencies("webpack", "^5.3.2", { dev: true });

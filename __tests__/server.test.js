@@ -160,7 +160,7 @@ describe("generator-engage:server", () => {
       });
 
       it("adds a default layout", () => {
-        assert.file("server/views/layouts/default.hbs");
+        assert.file("server/src/views/layouts/default.hbs");
       });
 
       it("adds normalize css", () => {
@@ -172,7 +172,7 @@ describe("generator-engage:server", () => {
       });
 
       it("adds a layouts/client.hbs", () => {
-        assert.file("server/views/layouts/client.hbs");
+        assert.file("server/src/views/layouts/client.hbs");
       });
     });
 
