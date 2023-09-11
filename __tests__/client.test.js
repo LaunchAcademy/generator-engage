@@ -87,8 +87,8 @@ describe("generator-engage:client", () => {
       assert.file("client/babel.config.js");
     });
 
-    it("installs node-sass", () => {
-      expect(json.dependencies["node-sass"]).toBeDefined();
+    it("installs sass", () => {
+      expect(json.dependencies["sass"]).toBeDefined();
     });
 
     it("installs css loader", () => {
